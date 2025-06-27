@@ -17,12 +17,15 @@ export class SelectTool {
             for (let i = shapes.length - 1; i >= 0; i--) {
                 if (this.hitTest(shapes[i], worldPos.x, worldPos.y)) {
                     state.selection = shapes[i].id;
+                    console.log('selected', state.selection)
                     return true;
                 }
             }
-            
+
             // Click on empty space clears selection
             state.selection = null;
+            console.log('selected', state.selection)
+            
             return true;
         }
         return false;

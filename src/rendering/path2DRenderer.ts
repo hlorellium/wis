@@ -23,7 +23,7 @@ export class Path2DRenderer {
 
         // Render all shapes using Path2D
         state.scene.shapes.forEach(shape => {
-            this.renderShape(ctx, shape);
+            this.renderShape(ctx, shape, state);
         });
 
         // Draw current drawing preview
@@ -34,7 +34,7 @@ export class Path2DRenderer {
         ctx.restore();
     }
 
-    private renderShape(ctx: CanvasRenderingContext2D, shape: Shape) {
+    private renderShape(ctx: CanvasRenderingContext2D, shape: Shape, state: State) {
         // Get or create Path2D from cache
         let path = this.pathCache.get(shape.id);
         if (!path) {
@@ -50,6 +50,11 @@ export class Path2DRenderer {
             ctx.fill(path);
         } else {
             ctx.stroke(path);
+        }
+
+        // Render selection highlight if this shape is selected
+        if (state.selection === shape.id) {
+            this.renderSelectionHighlight(ctx, shape);
         }
     }
 
@@ -111,6 +116,36 @@ export class Path2DRenderer {
                 ctx.strokeStyle = circleShape.color;
                 ctx.lineWidth = 2;
                 ctx.stroke(path);
+                break;
+        }
+
+        ctx.restore();
+    }
+
+    private renderSelectionHighlight(ctx: CanvasRenderingContext2D, shape: Shape) {
+        ctx.save();
+        ctx.strokeStyle = '#ffaa00';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([3, 3]);
+
+        switch (shape.type) {
+            case 'rectangle':
+                const rect = shape as RectangleShape;
+                ctx.strokeRect(rect.x - 2, rect.y - 2, rect.width + 4, rect.height + 4);
+                break;
+            case 'circle':
+                const circle = shape as CircleShape;
+                ctx.beginPath();
+                ctx.arc(circle.x, circle.y, circle.radius + 3, 0, Math.PI * 2);
+                ctx.stroke();
+                break;
+            case 'line':
+                const line = shape as LineShape;
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(line.x1, line.y1);
+                ctx.lineTo(line.x2, line.y2);
+                ctx.stroke();
                 break;
         }
 
