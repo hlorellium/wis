@@ -1,4 +1,5 @@
 import { initialState, type State } from './state';
+import { createStateProxy } from './stateProxy';
 import { CanvasSetup } from './canvas/setup';
 import { BackgroundRenderer } from './rendering/background';
 import { Path2DRenderer } from './rendering/path2DRenderer';
@@ -15,8 +16,11 @@ class DrawingApp {
     private mouseHandler: MouseHandler;
 
     constructor() {
-        this.state = initialState;
-        
+        this.state = createStateProxy(initialState, () => this.render(), {
+            raf: true,
+            versioning: true
+        });
+
         // Get DOM elements
         const bgCanvas = document.querySelector<HTMLCanvasElement>('#bg-canvas')!;
         const canvas = document.querySelector<HTMLCanvasElement>('#canvas')!;
@@ -27,7 +31,7 @@ class DrawingApp {
         this.bgRenderer = new BackgroundRenderer();
         this.renderer = new Path2DRenderer();
         this.toolManager = new ToolManager(canvas);
-        this.mouseHandler = new MouseHandler(canvas, this.toolManager, () => this.render());
+        this.mouseHandler = new MouseHandler(canvas, this.toolManager);
 
         this.initialize();
     }
@@ -53,6 +57,9 @@ class DrawingApp {
         const ctx = this.canvasSetup.getCanvasContext();
         const bgCanvas = this.canvasSetup.getBgCanvas();
         const canvas = this.canvasSetup.getCanvas();
+
+        // Log version for demonstration (remove in production)
+        console.log('Rendering with state version:', (this.state as any).__v);
 
         this.bgRenderer.render(bgCtx, bgCanvas, this.state);
         this.renderer.render(ctx, canvas, this.state);

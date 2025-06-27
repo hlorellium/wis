@@ -7,17 +7,14 @@ export class MouseHandler {
     private panTool: PanTool;
     private drawingTools: DrawingTools;
     private toolManager: ToolManager;
-    private onStateChange: () => void;
 
     constructor(
         canvas: HTMLCanvasElement,
-        toolManager: ToolManager,
-        onStateChange: () => void
+        toolManager: ToolManager
     ) {
         this.panTool = new PanTool();
         this.drawingTools = new DrawingTools(canvas);
         this.toolManager = toolManager;
-        this.onStateChange = onStateChange;
     }
 
     setupEventListeners(canvas: HTMLCanvasElement, state: State) {
@@ -37,24 +34,16 @@ export class MouseHandler {
     }
 
     private handleMouseMove(e: MouseEvent, state: State) {
-        const panHandled = this.panTool.handleMouseMove(e, state);
-        const drawHandled = this.drawingTools.handleMouseMove(e, state);
-        
-        if (panHandled || drawHandled) {
-            this.onStateChange();
-        }
+        this.panTool.handleMouseMove(e, state);
+        this.drawingTools.handleMouseMove(e, state);
     }
 
     private handleMouseUp(state: State) {
         const panHandled = this.panTool.handleMouseUp();
-        const drawHandled = this.drawingTools.handleMouseUp(state);
+        this.drawingTools.handleMouseUp(state);
         
         if (panHandled) {
             this.toolManager.updateCursorForPanning(false);
-        }
-        
-        if (panHandled || drawHandled) {
-            this.onStateChange();
         }
     }
 
@@ -75,8 +64,6 @@ export class MouseHandler {
             state.view.panX = x - (x - state.view.panX) * scaleFactor;
             state.view.panY = y - (y - state.view.panY) * scaleFactor;
             state.view.zoom = newZoom;
-            
-            this.onStateChange();
         }
     }
 }
