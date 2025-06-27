@@ -13,18 +13,43 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-#bg-canvas {
-  /* position: fixed; */
-  /* top: 0; */
-  /* left: 0; */
-  /* width: 100%; */
-  /* height: 100%; */
-  z-index: -1;
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 #canvas-container {
-  transform-origin: top left;
-  transform: translate(var(--pan-x,0px), var(--pan-y,0px))
-             scale(var(--zoom,1));
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
+#bg-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+#canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  transform-origin: top left;
+  transform: translate(var(--pan-x, 0px), var(--pan-y, 0px))
+             scale(var(--zoom, 1));
+}
+
+#app {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+}
