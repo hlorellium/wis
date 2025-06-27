@@ -7,7 +7,30 @@
     <title>Vite + TS</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="toolbar">
+        <button class="tool-btn active" data-tool="pan">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L8 6h3v6H5V9l-4 4 4 4v-3h6v6H8l4 4 4-4h-3v-6h6v3l4-4-4-4v3h-6V6h3l-4-4z" fill="currentColor"/>
+          </svg>
+        </button>
+        <button class="tool-btn" data-tool="line">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M4 20L20 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="tool-btn" data-tool="rectangle">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="4" y="6" width="16" height="12" stroke="currentColor" stroke-width="2" fill="none"/>
+          </svg>
+        </button>
+        <button class="tool-btn" data-tool="circle">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
+          </svg>
+        </button>
+      </div>
+    </div>
     <div id="canvas-container">
         <canvas id="bg-canvas"></canvas>
         <canvas id="canvas"></canvas>
