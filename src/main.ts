@@ -28,7 +28,6 @@ resizeObserver.observe(canvasContainer);
 resizeCanvases();
 renderBg(bgCtx);
 render(ctx, state);
-updateTransform(state);
 
 function resizeCanvases() {
     // Get container dimensions (source of truth)
@@ -57,20 +56,30 @@ function renderBg(ctx: CanvasRenderingContext2D) {
     ctx.scale(dpr, dpr);
     ctx.clearRect(0, 0, width, height);
 
+    // Apply view transformations (same as main canvas)
+    ctx.translate(state.view.panX, state.view.panY);
+    ctx.scale(state.view.zoom, state.view.zoom);
+
     const gridColor = "#444";
     const gridGap = 50;
 
+    // Calculate visible area to optimize grid rendering
+    const startX = Math.floor(-state.view.panX / state.view.zoom / gridGap) * gridGap;
+    const startY = Math.floor(-state.view.panY / state.view.zoom / gridGap) * gridGap;
+    const endX = startX + (width / state.view.zoom) + gridGap * 2;
+    const endY = startY + (height / state.view.zoom) + gridGap * 2;
+
     ctx.beginPath();
-    for (let x = 0; x <= width; x += gridGap) {
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, height);
+    for (let x = startX; x <= endX; x += gridGap) {
+        ctx.moveTo(x, startY);
+        ctx.lineTo(x, endY);
     }
-    for (let y = 0; y <= height; y += gridGap) {
-        ctx.moveTo(0, y);
-        ctx.lineTo(width, y);
+    for (let y = startY; y <= endY; y += gridGap) {
+        ctx.moveTo(startX, y);
+        ctx.lineTo(endX, y);
     }
     ctx.strokeStyle = gridColor;
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 1 / state.view.zoom; // Keep line width consistent
     ctx.stroke();
     ctx.restore();
 }
@@ -97,11 +106,6 @@ function render(ctx: CanvasRenderingContext2D, state: State) {
     ctx.restore();
 }
 
-function updateTransform(state: State) {
-    canvas.style.setProperty('--pan-x', `${state.view.panX}px`);
-    canvas.style.setProperty('--pan-y', `${state.view.panY}px`);
-    canvas.style.setProperty('--zoom', `${state.view.zoom}`);
-}
 
 // Add basic pan and zoom controls
 let isPanning = false;
@@ -121,7 +125,7 @@ window.addEventListener('mousemove', (e) => {
     if (isPanning) {
         state.view.panX = e.clientX - startX;
         state.view.panY = e.clientY - startY;
-        updateTransform(state);
+        renderBg(bgCtx);
         render(ctx, state);
     }
 });
@@ -149,7 +153,7 @@ canvas.addEventListener('wheel', (e) => {
         state.view.panY = y - (y - state.view.panY) * scaleFactor;
         state.view.zoom = newZoom;
         
-        updateTransform(state);
+        renderBg(bgCtx);
         render(ctx, state);
     }
 });
