@@ -1,32 +1,30 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { CanvasSetup } from "../src/canvas/setup";
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { CanvasSetup } from '../src/canvas/setup';
 
 // Mock ResizeObserver
 class MockResizeObserver {
   private callback: (entries: any[]) => void;
-
+  
   constructor(callback: (entries: any[]) => void) {
     this.callback = callback;
   }
-
+  
   observe(target: Element) {
     // Simulate immediate resize observation
     setTimeout(() => {
-      this.callback([
-        {
-          target,
-          contentRect: { width: 800, height: 600 },
-        },
-      ]);
+      this.callback([{
+        target,
+        contentRect: { width: 800, height: 600 }
+      }]);
     }, 0);
   }
-
+  
   disconnect() {
     // No-op for testing
   }
 }
 
-describe("CanvasSetup", () => {
+describe('CanvasSetup', () => {
   let bgCanvas: HTMLCanvasElement;
   let canvas: HTMLCanvasElement;
   let container: HTMLDivElement;
@@ -36,19 +34,13 @@ describe("CanvasSetup", () => {
 
   beforeEach(() => {
     // Create mock DOM elements
-    bgCanvas = document.createElement("canvas");
-    canvas = document.createElement("canvas");
-    container = document.createElement("div");
-
+    bgCanvas = document.createElement('canvas');
+    canvas = document.createElement('canvas');
+    container = document.createElement('div');
+    
     // Set initial container size
-    Object.defineProperty(container, "clientWidth", {
-      value: 800,
-      configurable: true,
-    });
-    Object.defineProperty(container, "clientHeight", {
-      value: 600,
-      configurable: true,
-    });
+    Object.defineProperty(container, 'clientWidth', { value: 800, configurable: true });
+    Object.defineProperty(container, 'clientHeight', { value: 600, configurable: true });
 
     // Mock ResizeObserver
     originalResizeObserver = globalThis.ResizeObserver;
@@ -56,7 +48,7 @@ describe("CanvasSetup", () => {
 
     // Mock devicePixelRatio
     originalDevicePixelRatio = window.devicePixelRatio;
-    Object.defineProperty(window, "devicePixelRatio", {
+    Object.defineProperty(window, 'devicePixelRatio', {
       writable: true,
       value: 1,
     });
@@ -66,21 +58,21 @@ describe("CanvasSetup", () => {
 
   afterEach(() => {
     globalThis.ResizeObserver = originalResizeObserver;
-    Object.defineProperty(window, "devicePixelRatio", {
+    Object.defineProperty(window, 'devicePixelRatio', {
       writable: true,
       value: originalDevicePixelRatio,
     });
   });
 
-  describe("constructor", () => {
-    it("should initialize with provided canvases and container", () => {
+  describe('constructor', () => {
+    it('should initialize with provided canvases and container', () => {
       expect(canvasSetup.getCanvas()).toBe(canvas);
       expect(canvasSetup.getBgCanvas()).toBe(bgCanvas);
     });
   });
 
-  describe("resizeCanvases", () => {
-    it("should resize canvases to container size times DPR", () => {
+  describe('resizeCanvases', () => {
+    it('should resize canvases to container size times DPR', () => {
       canvasSetup.resizeCanvases();
 
       expect(bgCanvas.width).toBe(800); // 800 * 1
@@ -89,8 +81,8 @@ describe("CanvasSetup", () => {
       expect(canvas.height).toBe(600);
     });
 
-    it("should handle high DPR correctly", () => {
-      Object.defineProperty(window, "devicePixelRatio", {
+    it('should handle high DPR correctly', () => {
+      Object.defineProperty(window, 'devicePixelRatio', {
         writable: true,
         value: 2,
       });
@@ -103,8 +95,8 @@ describe("CanvasSetup", () => {
       expect(canvas.height).toBe(1200);
     });
 
-    it("should handle fractional DPR correctly", () => {
-      Object.defineProperty(window, "devicePixelRatio", {
+    it('should handle fractional DPR correctly', () => {
+      Object.defineProperty(window, 'devicePixelRatio', {
         writable: true,
         value: 1.5,
       });
@@ -117,7 +109,7 @@ describe("CanvasSetup", () => {
       expect(canvas.height).toBe(900);
     });
 
-    it("should only resize when dimensions actually change", () => {
+    it('should only resize when dimensions actually change', () => {
       // Set initial size
       bgCanvas.width = 800;
       bgCanvas.height = 600;
@@ -125,8 +117,8 @@ describe("CanvasSetup", () => {
       canvas.height = 600;
 
       // Spy on width/height setters to detect changes
-      const bgWidthSetter = vi.spyOn(bgCanvas, "width", "set");
-      const canvasWidthSetter = vi.spyOn(canvas, "width", "set");
+      const bgWidthSetter = vi.spyOn(bgCanvas, 'width', 'set');
+      const canvasWidthSetter = vi.spyOn(canvas, 'width', 'set');
 
       canvasSetup.resizeCanvases();
 
@@ -135,15 +127,9 @@ describe("CanvasSetup", () => {
       expect(canvasWidthSetter).not.toHaveBeenCalled();
     });
 
-    it("should handle different container sizes", () => {
-      Object.defineProperty(container, "clientWidth", {
-        value: 1200,
-        configurable: true,
-      });
-      Object.defineProperty(container, "clientHeight", {
-        value: 800,
-        configurable: true,
-      });
+    it('should handle different container sizes', () => {
+      Object.defineProperty(container, 'clientWidth', { value: 1200, configurable: true });
+      Object.defineProperty(container, 'clientHeight', { value: 800, configurable: true });
 
       canvasSetup.resizeCanvases();
 
@@ -154,21 +140,21 @@ describe("CanvasSetup", () => {
     });
   });
 
-  describe("setupResizeObserver", () => {
-    it("should setup ResizeObserver and call callback on resize", async () => {
+  describe('setupResizeObserver', () => {
+    it('should setup ResizeObserver and call callback on resize', async () => {
       const onResize = vi.fn();
-
+      
       canvasSetup.setupResizeObserver(onResize);
 
       // Wait for the mocked ResizeObserver to trigger
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await new Promise(resolve => setTimeout(resolve, 10));
 
       expect(onResize).toHaveBeenCalledTimes(1);
     });
 
-    it("should resize canvases when observer triggers", async () => {
+    it('should resize canvases when observer triggers', async () => {
       const onResize = vi.fn();
-
+      
       // Set different initial canvas sizes
       bgCanvas.width = 100;
       bgCanvas.height = 100;
@@ -178,7 +164,7 @@ describe("CanvasSetup", () => {
       canvasSetup.setupResizeObserver(onResize);
 
       // Wait for the mocked ResizeObserver to trigger
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await new Promise(resolve => setTimeout(resolve, 10));
 
       // Canvases should be resized to container size
       expect(bgCanvas.width).toBe(800);
@@ -188,32 +174,32 @@ describe("CanvasSetup", () => {
     });
   });
 
-  describe("context getters", () => {
-    it("should call getContext on canvas elements", () => {
-      const canvasGetContextSpy = vi.spyOn(canvas, "getContext");
-      const bgCanvasGetContextSpy = vi.spyOn(bgCanvas, "getContext");
+  describe('context getters', () => {
+    it('should call getContext on canvas elements', () => {
+      const canvasGetContextSpy = vi.spyOn(canvas, 'getContext');
+      const bgCanvasGetContextSpy = vi.spyOn(bgCanvas, 'getContext');
 
       canvasSetup.getCanvasContext();
       canvasSetup.getBgCanvasContext();
 
-      expect(canvasGetContextSpy).toHaveBeenCalledWith("2d");
-      expect(bgCanvasGetContextSpy).toHaveBeenCalledWith("2d");
+      expect(canvasGetContextSpy).toHaveBeenCalledWith('2d');
+      expect(bgCanvasGetContextSpy).toHaveBeenCalledWith('2d');
     });
   });
 
-  describe("canvas getters", () => {
-    it("should return the main canvas element", () => {
+  describe('canvas getters', () => {
+    it('should return the main canvas element', () => {
       expect(canvasSetup.getCanvas()).toBe(canvas);
     });
 
-    it("should return the background canvas element", () => {
+    it('should return the background canvas element', () => {
       expect(canvasSetup.getBgCanvas()).toBe(bgCanvas);
     });
   });
 
-  describe("edge cases", () => {
-    it("should handle missing devicePixelRatio", () => {
-      Object.defineProperty(window, "devicePixelRatio", {
+  describe('edge cases', () => {
+    it('should handle missing devicePixelRatio', () => {
+      Object.defineProperty(window, 'devicePixelRatio', {
         writable: true,
         value: undefined,
       });
@@ -225,15 +211,9 @@ describe("CanvasSetup", () => {
       expect(bgCanvas.height).toBe(600);
     });
 
-    it("should handle zero container size", () => {
-      Object.defineProperty(container, "clientWidth", {
-        value: 0,
-        configurable: true,
-      });
-      Object.defineProperty(container, "clientHeight", {
-        value: 0,
-        configurable: true,
-      });
+    it('should handle zero container size', () => {
+      Object.defineProperty(container, 'clientWidth', { value: 0, configurable: true });
+      Object.defineProperty(container, 'clientHeight', { value: 0, configurable: true });
 
       canvasSetup.resizeCanvases();
 

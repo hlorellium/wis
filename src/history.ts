@@ -1,162 +1,158 @@
-import type { State, Shape } from "./state";
-import { HISTORY_CONFIG } from "./constants";
+import type { State, Shape } from './state';
+import { HISTORY_CONFIG } from './constants';
 
 export interface Command {
-  apply(state: State): void; // execute (redo)
-  invert(state: State): void; // undo
-  merge?(other: Command): Command | null; // optional command merging
+    apply(state: State): void;   // execute (redo)
+    invert(state: State): void;  // undo
+    merge?(other: Command): Command | null; // optional command merging
 }
 
 export interface CommandBus {
-  execute(command: Command): void;
+    execute(command: Command): void;
 }
 
 export class AddShapeCommand implements Command {
-  private readonly shape: Shape;
+    private readonly shape: Shape;
 
-  constructor(shape: Shape) {
-    this.shape = shape;
-  }
+    constructor(shape: Shape) {
+        this.shape = shape;
+    }
 
-  apply(state: State): void {
-    state.scene.shapes.push(this.shape);
-  }
+    apply(state: State): void {
+        state.scene.shapes.push(this.shape);
+    }
 
-  invert(state: State): void {
-    state.scene.shapes = state.scene.shapes.filter(
-      (sh) => sh.id !== this.shape.id
-    );
-  }
+    invert(state: State): void {
+        state.scene.shapes = state.scene.shapes.filter(sh => sh.id !== this.shape.id);
+    }
 }
 
 export class RemoveShapeCommand implements Command {
-  private readonly shape: Shape;
+    private readonly shape: Shape;
 
-  constructor(shape: Shape) {
-    this.shape = shape;
-  }
+    constructor(shape: Shape) {
+        this.shape = shape;
+    }
 
-  apply(state: State): void {
-    state.scene.shapes = state.scene.shapes.filter(
-      (sh) => sh.id !== this.shape.id
-    );
-  }
+    apply(state: State): void {
+        state.scene.shapes = state.scene.shapes.filter(sh => sh.id !== this.shape.id);
+    }
 
-  invert(state: State): void {
-    state.scene.shapes.push(this.shape);
-  }
+    invert(state: State): void {
+        state.scene.shapes.push(this.shape);
+    }
 }
 
 export class PanCommand implements Command {
-  private readonly dx: number;
-  private readonly dy: number;
+    private readonly dx: number;
+    private readonly dy: number;
 
-  constructor(dx: number, dy: number) {
-    this.dx = dx;
-    this.dy = dy;
-  }
-
-  apply(state: State): void {
-    state.view.panX += this.dx;
-    state.view.panY += this.dy;
-  }
-
-  invert(state: State): void {
-    state.view.panX -= this.dx;
-    state.view.panY -= this.dy;
-  }
-
-  merge(other: Command): Command | null {
-    if (other instanceof PanCommand) {
-      return new PanCommand(this.dx + other.dx, this.dy + other.dy);
+    constructor(dx: number, dy: number) {
+        this.dx = dx;
+        this.dy = dy;
     }
-    return null;
-  }
+
+    apply(state: State): void {
+        state.view.panX += this.dx;
+        state.view.panY += this.dy;
+    }
+
+    invert(state: State): void {
+        state.view.panX -= this.dx;
+        state.view.panY -= this.dy;
+    }
+
+    merge(other: Command): Command | null {
+        if (other instanceof PanCommand) {
+            return new PanCommand(this.dx + other.dx, this.dy + other.dy);
+        }
+        return null;
+    }
 }
 
 export class HistoryManager implements CommandBus {
-  private past: Command[] = [];
-  private future: Command[] = [];
-  private readonly maxSize: number;
+    private past: Command[] = [];
+    private future: Command[] = [];
+    private readonly maxSize: number;
 
-  constructor(maxSize: number = HISTORY_CONFIG.MAX_STACK_SIZE) {
-    this.maxSize = maxSize;
-  }
-
-  execute(command: Command): void {
-    // This method is for the CommandBus interface
-    // Tools should use this instead of push() to decouple from HistoryManager
-    throw new Error("execute() requires state parameter. Use push() instead.");
-  }
-
-  push(command: Command, state: State): void {
-    // Try to merge with the last command if possible
-    const lastCommand = this.past[this.past.length - 1];
-    if (lastCommand?.merge) {
-      const merged = lastCommand.merge(command);
-      if (merged) {
-        // Replace last command with merged one
-        this.past[this.past.length - 1] = merged;
-        // Revert last command and apply merged
-        lastCommand.invert(state);
-        merged.apply(state);
-        this.future.length = 0; // clear redo chain
-        return;
-      }
+    constructor(maxSize: number = HISTORY_CONFIG.MAX_STACK_SIZE) {
+        this.maxSize = maxSize;
     }
 
-    // Apply the command
-    command.apply(state);
-
-    // Add to history
-    this.past.push(command);
-
-    // Enforce capacity limit
-    if (this.past.length > this.maxSize) {
-      this.past.shift(); // remove oldest command
+    execute(command: Command): void {
+        // This method is for the CommandBus interface
+        // Tools should use this instead of push() to decouple from HistoryManager
+        throw new Error('execute() requires state parameter. Use push() instead.');
     }
 
-    // Clear redo chain
-    this.future.length = 0;
-  }
+    push(command: Command, state: State): void {
+        // Try to merge with the last command if possible
+        const lastCommand = this.past[this.past.length - 1];
+        if (lastCommand?.merge) {
+            const merged = lastCommand.merge(command);
+            if (merged) {
+                // Replace last command with merged one
+                this.past[this.past.length - 1] = merged;
+                // Revert last command and apply merged
+                lastCommand.invert(state);
+                merged.apply(state);
+                this.future.length = 0; // clear redo chain
+                return;
+            }
+        }
 
-  undo(state: State): boolean {
-    const command = this.past.pop();
-    if (command) {
-      command.invert(state);
-      this.future.push(command);
-      return true;
+        // Apply the command
+        command.apply(state);
+        
+        // Add to history
+        this.past.push(command);
+        
+        // Enforce capacity limit
+        if (this.past.length > this.maxSize) {
+            this.past.shift(); // remove oldest command
+        }
+        
+        // Clear redo chain
+        this.future.length = 0;
     }
-    return false;
-  }
 
-  redo(state: State): boolean {
-    const command = this.future.pop();
-    if (command) {
-      command.apply(state);
-      this.past.push(command);
-      return true;
+    undo(state: State): boolean {
+        const command = this.past.pop();
+        if (command) {
+            command.invert(state);
+            this.future.push(command);
+            return true;
+        }
+        return false;
     }
-    return false;
-  }
 
-  canUndo(): boolean {
-    return this.past.length > 0;
-  }
+    redo(state: State): boolean {
+        const command = this.future.pop();
+        if (command) {
+            command.apply(state);
+            this.past.push(command);
+            return true;
+        }
+        return false;
+    }
 
-  canRedo(): boolean {
-    return this.future.length > 0;
-  }
+    canUndo(): boolean {
+        return this.past.length > 0;
+    }
 
-  clear(): void {
-    this.past.length = 0;
-    this.future.length = 0;
-  }
+    canRedo(): boolean {
+        return this.future.length > 0;
+    }
 
-  getHistorySize(): { past: number; future: number } {
-    return {
-      past: this.past.length,
-      future: this.future.length,
-    };
-  }
+    clear(): void {
+        this.past.length = 0;
+        this.future.length = 0;
+    }
+
+    getHistorySize(): { past: number; future: number } {
+        return {
+            past: this.past.length,
+            future: this.future.length
+        };
+    }
 }
