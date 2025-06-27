@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/22</span>
+                <span class='fraction'>22/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/22</span>
+                <span class='fraction'>22/22</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -94,62 +94,62 @@
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { State } from '../state';
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export class CoordinateTransformer {</span>
-<span class="cstat-no" title="statement not covered" >    private canvas: HTMLCanvasElement;</span>
+export class CoordinateTransformer {
+    private canvas: HTMLCanvasElement;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    constructor(canvas: HTMLCanvasElement) {</span>
-<span class="cstat-no" title="statement not covered" >        this.canvas = canvas;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+    constructor(canvas: HTMLCanvasElement) {
+        this.canvas = canvas;
+    }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    screenToWorld(screenX: number, screenY: number, state: State) {</span>
-<span class="cstat-no" title="statement not covered" >        const rect = this.canvas.getBoundingClientRect();</span>
-<span class="cstat-no" title="statement not covered" >        const x = screenX - rect.left;</span>
-<span class="cstat-no" title="statement not covered" >        const y = screenY - rect.top;</span>
+    screenToWorld(screenX: number, screenY: number, state: State) {
+        const rect = this.canvas.getBoundingClientRect();
+        const x = screenX - rect.left;
+        const y = screenY - rect.top;
         
-<span class="cstat-no" title="statement not covered" >        return {</span>
-<span class="cstat-no" title="statement not covered" >            x: (x - state.view.panX) / state.view.zoom,</span>
-<span class="cstat-no" title="statement not covered" >            y: (y - state.view.panY) / state.view.zoom</span>
-<span class="cstat-no" title="statement not covered" >        };</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+        return {
+            x: (x - state.view.panX) / state.view.zoom,
+            y: (y - state.view.panY) / state.view.zoom
+        };
+    }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    worldToScreen(worldX: number, worldY: number, state: State) {</span>
-<span class="cstat-no" title="statement not covered" >        const rect = this.canvas.getBoundingClientRect();</span>
+    worldToScreen(worldX: number, worldY: number, state: State) {
+        const rect = this.canvas.getBoundingClientRect();
         
-<span class="cstat-no" title="statement not covered" >        return {</span>
-<span class="cstat-no" title="statement not covered" >            x: worldX * state.view.zoom + state.view.panX + rect.left,</span>
-<span class="cstat-no" title="statement not covered" >            y: worldY * state.view.zoom + state.view.panY + rect.top</span>
-<span class="cstat-no" title="statement not covered" >        };</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+        return {
+            x: worldX * state.view.zoom + state.view.panX + rect.left,
+            y: worldY * state.view.zoom + state.view.panY + rect.top
+        };
+    }
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -157,7 +157,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-27T13:27:40.842Z
+                at 2025-06-27T13:35:33.253Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
