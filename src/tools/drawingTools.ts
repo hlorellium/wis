@@ -1,15 +1,18 @@
 import type { State, LineShape, RectangleShape, CircleShape } from '../state';
 import { CoordinateTransformer } from '../canvas/coordinates';
 import { generateId } from '../state';
+import { HistoryManager, AddShapeCommand } from '../history';
 
 export class DrawingTools {
     private isDrawing = false;
     private startWorldX = 0;
     private startWorldY = 0;
     private coordinateTransformer: CoordinateTransformer;
+    private history: HistoryManager;
 
-    constructor(canvas: HTMLCanvasElement) {
+    constructor(canvas: HTMLCanvasElement, history: HistoryManager) {
         this.coordinateTransformer = new CoordinateTransformer(canvas);
+        this.history = history;
     }
 
     handleMouseDown(e: MouseEvent, state: State): boolean {
@@ -118,25 +121,26 @@ export class DrawingTools {
     private finalizeDrawing(state: State) {
         if (!state.currentDrawing.shape) return;
 
+        let shouldAdd = false;
+        const shape = state.currentDrawing.shape;
+
         switch (state.currentDrawing.type) {
             case 'line':
-                const lineShape = state.currentDrawing.shape as LineShape;
-                state.scene.shapes.push(lineShape);
+                shouldAdd = true;
                 break;
             case 'rectangle':
-                const rectShape = state.currentDrawing.shape as RectangleShape;
-                // Only add if it has some size
-                if (rectShape.width > 1 || rectShape.height > 1) {
-                    state.scene.shapes.push(rectShape);
-                }
+                const rect = shape as RectangleShape;
+                shouldAdd = rect.width > 1 || rect.height > 1;
                 break;
             case 'circle':
-                const circleShape = state.currentDrawing.shape as CircleShape;
-                // Only add if it has some radius
-                if (circleShape.radius > 1) {
-                    state.scene.shapes.push(circleShape);
-                }
+                const circle = shape as CircleShape;
+                shouldAdd = circle.radius > 1;
                 break;
+        }
+
+        if (shouldAdd) {
+            const command = new AddShapeCommand(shape);
+            this.history.push(command, state);
         }
         
         // Clear current drawing

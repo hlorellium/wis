@@ -5,6 +5,7 @@ import { BackgroundRenderer } from './rendering/background';
 import { Path2DRenderer } from './rendering/path2DRenderer';
 import { ToolManager } from './tools/toolManager';
 import { MouseHandler } from './input/mouse';
+import { HistoryManager } from './history';
 import './style.css';
 
 class DrawingApp {
@@ -14,6 +15,7 @@ class DrawingApp {
     private renderer: Path2DRenderer;
     private toolManager: ToolManager;
     private mouseHandler: MouseHandler;
+    private history: HistoryManager;
     private lastRenderedVersion = -1;
 
     constructor() {
@@ -28,12 +30,15 @@ class DrawingApp {
         const canvas = document.querySelector<HTMLCanvasElement>('#canvas')!;
         const canvasContainer = document.querySelector<HTMLDivElement>('#canvas-container')!;
 
+        // Initialize history
+        this.history = new HistoryManager();
+
         // Initialize modules
         this.canvasSetup = new CanvasSetup(bgCanvas, canvas, canvasContainer);
         this.bgRenderer = new BackgroundRenderer();
         this.renderer = new Path2DRenderer();
-        this.toolManager = new ToolManager(canvas);
-        this.mouseHandler = new MouseHandler(canvas, this.toolManager);
+        this.toolManager = new ToolManager(canvas, this.history);
+        this.mouseHandler = new MouseHandler(canvas, this.toolManager, this.history);
 
         this.initialize();
     }
@@ -50,8 +55,32 @@ class DrawingApp {
         // Setup input handling
         this.mouseHandler.setupEventListeners(this.canvasSetup.getCanvas(), this.state);
 
+        // Setup keyboard shortcuts
+        this.setupKeyboardShortcuts();
+
         // Initial render
         this.render();
+    }
+
+    private setupKeyboardShortcuts() {
+        window.addEventListener('keydown', (e) => {
+            // Check for Ctrl+Z (Windows/Linux) or Cmd+Z (Mac)
+            if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+                e.preventDefault();
+                if (e.shiftKey) {
+                    // Ctrl+Shift+Z or Cmd+Shift+Z for redo
+                    this.history.redo(this.state);
+                } else {
+                    // Ctrl+Z or Cmd+Z for undo
+                    this.history.undo(this.state);
+                }
+            }
+            // Alternative redo shortcut: Ctrl+Y or Cmd+Y
+            else if ((e.ctrlKey || e.metaKey) && e.key === 'y') {
+                e.preventDefault();
+                this.history.redo(this.state);
+            }
+        });
     }
 
     private render() {
