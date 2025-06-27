@@ -122,12 +122,16 @@ export class DrawingTools {
             case 'line':
                 const lineShape = state.currentDrawing.shape as LineShape;
                 state.scene.shapes.push(lineShape);
+                // Force state update for shallow proxy
+                state.scene.shapes = [...state.scene.shapes];
                 break;
             case 'rectangle':
                 const rectShape = state.currentDrawing.shape as RectangleShape;
                 // Only add if it has some size
                 if (rectShape.width > 1 || rectShape.height > 1) {
                     state.scene.shapes.push(rectShape);
+                    // Force state update for shallow proxy
+                    state.scene.shapes = [...state.scene.shapes];
                 }
                 break;
             case 'circle':
@@ -135,6 +139,8 @@ export class DrawingTools {
                 // Only add if it has some radius
                 if (circleShape.radius > 1) {
                     state.scene.shapes.push(circleShape);
+                    // Force state update for shallow proxy
+                    state.scene.shapes = [...state.scene.shapes];
                 }
                 break;
         }

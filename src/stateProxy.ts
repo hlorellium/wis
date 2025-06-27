@@ -23,6 +23,7 @@ export function createStateProxy<S>(
 
     let dirty = false;
     let version = 0;
+    const proxyCache = new WeakMap<object, any>();
 
     const trigger = () => {
         if (versioning) {
@@ -57,7 +58,12 @@ export function createStateProxy<S>(
             // If the value is an object/array and we're doing deep proxying,
             // wrap it in a proxy as well
             if (typeof value === 'object' && value !== null && !shallow) {
-                return new Proxy(value, handler);
+                const cached = proxyCache.get(value);
+                if (cached) return cached;
+                
+                const proxied = new Proxy(value, handler);
+                proxyCache.set(value, proxied);
+                return proxied;
             }
 
             return value;
@@ -68,8 +74,6 @@ export function createStateProxy<S>(
 
             // Trigger onChange callback when any property is set
             if (result) {
-                // Optional: Add logging for debugging (remove in production)
-                // console.log('State changed:', prop, value, versioning ? `(v${version + 1})` : '');
                 schedule();
             }
 

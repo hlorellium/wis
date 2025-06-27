@@ -14,11 +14,13 @@ class DrawingApp {
     private renderer: Path2DRenderer;
     private toolManager: ToolManager;
     private mouseHandler: MouseHandler;
+    private lastRenderedVersion = -1;
 
     constructor() {
         this.state = createStateProxy(initialState, () => this.render(), {
             raf: true,
-            versioning: true
+            versioning: true,
+            shallow: true
         });
 
         // Get DOM elements
@@ -53,13 +55,19 @@ class DrawingApp {
     }
 
     private render() {
+        const currentVersion = (this.state as any).__v;
+        
+        // Skip render if version hasn't changed
+        if (currentVersion === this.lastRenderedVersion) {
+            return;
+        }
+        
+        this.lastRenderedVersion = currentVersion;
+
         const bgCtx = this.canvasSetup.getBgCanvasContext();
         const ctx = this.canvasSetup.getCanvasContext();
         const bgCanvas = this.canvasSetup.getBgCanvas();
         const canvas = this.canvasSetup.getCanvas();
-
-        // Log version for demonstration (remove in production)
-        console.log('Rendering with state version:', (this.state as any).__v);
 
         this.bgRenderer.render(bgCtx, bgCanvas, this.state);
         this.renderer.render(ctx, canvas, this.state);
