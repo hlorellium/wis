@@ -1,12 +1,18 @@
 import type { State, Shape } from './state';
+import { HISTORY_CONFIG } from './constants';
 
 export interface Command {
     apply(state: State): void;   // execute (redo)
     invert(state: State): void;  // undo
+    merge?(other: Command): Command | null; // optional command merging
+}
+
+export interface CommandBus {
+    execute(command: Command): void;
 }
 
 export class AddShapeCommand implements Command {
-    private shape: Shape;
+    private readonly shape: Shape;
 
     constructor(shape: Shape) {
         this.shape = shape;
@@ -22,7 +28,7 @@ export class AddShapeCommand implements Command {
 }
 
 export class RemoveShapeCommand implements Command {
-    private shape: Shape;
+    private readonly shape: Shape;
 
     constructor(shape: Shape) {
         this.shape = shape;
@@ -38,8 +44,8 @@ export class RemoveShapeCommand implements Command {
 }
 
 export class PanCommand implements Command {
-    private dx: number;
-    private dy: number;
+    private readonly dx: number;
+    private readonly dy: number;
 
     constructor(dx: number, dy: number) {
         this.dx = dx;
@@ -55,16 +61,59 @@ export class PanCommand implements Command {
         state.view.panX -= this.dx;
         state.view.panY -= this.dy;
     }
+
+    merge(other: Command): Command | null {
+        if (other instanceof PanCommand) {
+            return new PanCommand(this.dx + other.dx, this.dy + other.dy);
+        }
+        return null;
+    }
 }
 
-export class HistoryManager {
+export class HistoryManager implements CommandBus {
     private past: Command[] = [];
     private future: Command[] = [];
+    private readonly maxSize: number;
+
+    constructor(maxSize: number = HISTORY_CONFIG.MAX_STACK_SIZE) {
+        this.maxSize = maxSize;
+    }
+
+    execute(command: Command): void {
+        // This method is for the CommandBus interface
+        // Tools should use this instead of push() to decouple from HistoryManager
+        throw new Error('execute() requires state parameter. Use push() instead.');
+    }
 
     push(command: Command, state: State): void {
+        // Try to merge with the last command if possible
+        const lastCommand = this.past[this.past.length - 1];
+        if (lastCommand?.merge) {
+            const merged = lastCommand.merge(command);
+            if (merged) {
+                // Replace last command with merged one
+                this.past[this.past.length - 1] = merged;
+                // Revert last command and apply merged
+                lastCommand.invert(state);
+                merged.apply(state);
+                this.future.length = 0; // clear redo chain
+                return;
+            }
+        }
+
+        // Apply the command
         command.apply(state);
+        
+        // Add to history
         this.past.push(command);
-        this.future.length = 0; // clear redo chain
+        
+        // Enforce capacity limit
+        if (this.past.length > this.maxSize) {
+            this.past.shift(); // remove oldest command
+        }
+        
+        // Clear redo chain
+        this.future.length = 0;
     }
 
     undo(state: State): boolean {
@@ -93,5 +142,17 @@ export class HistoryManager {
 
     canRedo(): boolean {
         return this.future.length > 0;
+    }
+
+    clear(): void {
+        this.past.length = 0;
+        this.future.length = 0;
+    }
+
+    getHistorySize(): { past: number; future: number } {
+        return {
+            past: this.past.length,
+            future: this.future.length
+        };
     }
 }

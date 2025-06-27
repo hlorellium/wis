@@ -3,6 +3,8 @@ import { HistoryManager } from '../history';
 
 export class ToolManager {
     private toolButtons: NodeListOf<HTMLButtonElement>;
+    private undoButton: HTMLButtonElement | null;
+    private redoButton: HTMLButtonElement | null;
     private canvas: HTMLCanvasElement;
     private history: HistoryManager;
 
@@ -10,6 +12,8 @@ export class ToolManager {
         this.canvas = canvas;
         this.history = history;
         this.toolButtons = document.querySelectorAll<HTMLButtonElement>('.tool-btn');
+        this.undoButton = document.querySelector<HTMLButtonElement>('[data-action="undo"]');
+        this.redoButton = document.querySelector<HTMLButtonElement>('[data-action="redo"]');
     }
 
     setupToolButtons(state: State) {
@@ -23,26 +27,35 @@ export class ToolManager {
                 }
             });
         });
+
+        // Initial button state update
+        this.updateHistoryButtons();
     }
 
     private handleAction(action: string, state: State) {
         switch (action) {
             case 'undo':
-                this.history.undo(state);
+                if (this.history.canUndo()) {
+                    this.history.undo(state);
+                    this.updateHistoryButtons();
+                }
                 break;
             case 'redo':
-                this.history.redo(state);
+                if (this.history.canRedo()) {
+                    this.history.redo(state);
+                    this.updateHistoryButtons();
+                }
                 break;
         }
     }
 
     setActiveTool(tool: Tool, state?: State) {
-        // Update UI
+        // Update UI and ARIA attributes
         this.toolButtons.forEach(btn => {
-            if (btn.dataset.tool === tool) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
+            if (btn.dataset.tool) {
+                const isActive = btn.dataset.tool === tool;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-pressed', isActive.toString());
             }
         });
 
@@ -52,6 +65,15 @@ export class ToolManager {
         // Update state if provided
         if (state) {
             state.tool = tool;
+        }
+    }
+
+    updateHistoryButtons(): void {
+        if (this.undoButton) {
+            this.undoButton.disabled = !this.history.canUndo();
+        }
+        if (this.redoButton) {
+            this.redoButton.disabled = !this.history.canRedo();
         }
     }
 

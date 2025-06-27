@@ -1,5 +1,6 @@
 import type { State } from '../state';
 import { HistoryManager, PanCommand } from '../history';
+import { HISTORY_CONFIG } from '../constants';
 
 export class PanTool {
     private isPanning = false;
@@ -8,9 +9,12 @@ export class PanTool {
     private startPanX = 0;
     private startPanY = 0;
     private history: HistoryManager;
+    private onHistoryChange?: () => void;
+    private rafId: number | null = null;
 
-    constructor(history: HistoryManager) {
+    constructor(history: HistoryManager, onHistoryChange?: () => void) {
         this.history = history;
+        this.onHistoryChange = onHistoryChange;
     }
 
     handleMouseDown(e: MouseEvent, state: State): boolean {
@@ -42,7 +46,7 @@ export class PanTool {
             const deltaX = state.view.panX - this.startPanX;
             const deltaY = state.view.panY - this.startPanY;
             
-            if (Math.abs(deltaX) > 1 || Math.abs(deltaY) > 1) {
+            if (Math.abs(deltaX) > HISTORY_CONFIG.PAN_THRESHOLD || Math.abs(deltaY) > HISTORY_CONFIG.PAN_THRESHOLD) {
                 // Reset to start position first
                 state.view.panX = this.startPanX;
                 state.view.panY = this.startPanY;
@@ -50,6 +54,7 @@ export class PanTool {
                 // Then apply the pan command
                 const command = new PanCommand(deltaX, deltaY);
                 this.history.push(command, state);
+                this.onHistoryChange?.();
             }
             
             return true;

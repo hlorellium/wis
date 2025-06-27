@@ -70,15 +70,18 @@ class DrawingApp {
                 if (e.shiftKey) {
                     // Ctrl+Shift+Z or Cmd+Shift+Z for redo
                     this.history.redo(this.state);
+                    this.toolManager.updateHistoryButtons();
                 } else {
                     // Ctrl+Z or Cmd+Z for undo
                     this.history.undo(this.state);
+                    this.toolManager.updateHistoryButtons();
                 }
             }
             // Alternative redo shortcut: Ctrl+Y or Cmd+Y
             else if ((e.ctrlKey || e.metaKey) && e.key === 'y') {
                 e.preventDefault();
                 this.history.redo(this.state);
+                this.toolManager.updateHistoryButtons();
             }
         });
     }

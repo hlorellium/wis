@@ -2,6 +2,7 @@ import type { State, LineShape, RectangleShape, CircleShape } from '../state';
 import { CoordinateTransformer } from '../canvas/coordinates';
 import { generateId } from '../state';
 import { HistoryManager, AddShapeCommand } from '../history';
+import { PALETTE } from '../constants';
 
 export class DrawingTools {
     private isDrawing = false;
@@ -9,10 +10,12 @@ export class DrawingTools {
     private startWorldY = 0;
     private coordinateTransformer: CoordinateTransformer;
     private history: HistoryManager;
+    private onHistoryChange?: () => void;
 
-    constructor(canvas: HTMLCanvasElement, history: HistoryManager) {
+    constructor(canvas: HTMLCanvasElement, history: HistoryManager, onHistoryChange?: () => void) {
         this.coordinateTransformer = new CoordinateTransformer(canvas);
         this.history = history;
+        this.onHistoryChange = onHistoryChange;
     }
 
     handleMouseDown(e: MouseEvent, state: State): boolean {
@@ -48,18 +51,12 @@ export class DrawingTools {
     }
 
     private initializeDrawing(state: State) {
-        const colorMap = {
-            'line': '#0080ff',
-            'rectangle': '#f00',
-            'circle': '#00ff80'
-        };
-
         switch (state.tool) {
             case 'line':
                 state.currentDrawing.shape = {
                     id: generateId(),
                     type: 'line',
-                    color: colorMap.line,
+                    color: PALETTE.LINE,
                     x1: this.startWorldX,
                     y1: this.startWorldY,
                     x2: this.startWorldX,
@@ -71,7 +68,7 @@ export class DrawingTools {
                 state.currentDrawing.shape = {
                     id: generateId(),
                     type: 'rectangle',
-                    color: colorMap.rectangle,
+                    color: PALETTE.RECTANGLE,
                     x: this.startWorldX,
                     y: this.startWorldY,
                     width: 0,
@@ -83,7 +80,7 @@ export class DrawingTools {
                 state.currentDrawing.shape = {
                     id: generateId(),
                     type: 'circle',
-                    color: colorMap.circle,
+                    color: PALETTE.CIRCLE,
                     x: this.startWorldX,
                     y: this.startWorldY,
                     radius: 0
@@ -141,6 +138,7 @@ export class DrawingTools {
         if (shouldAdd) {
             const command = new AddShapeCommand(shape);
             this.history.push(command, state);
+            this.onHistoryChange?.();
         }
         
         // Clear current drawing

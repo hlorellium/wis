@@ -36,7 +36,10 @@ export type Rectangle = Omit<RectangleShape, 'id' | 'color' | 'type'>;
 export type Line = Omit<LineShape, 'id' | 'color' | 'type'>;
 export type Circle = Omit<CircleShape, 'id' | 'color' | 'type'>;
 
-export type Tool = 'pan' | 'line' | 'rectangle' | 'circle' | 'select';
+import type { Tool } from './constants';
+import { generateId } from './constants';
+
+export type { Tool };
 
 export type State = {
     scene: {
@@ -54,10 +57,6 @@ export type State = {
     };
     selection: string | null;
 };
-
-function generateId(): string {
-    return Math.random().toString(36).substr(2, 9);
-}
 
 export const initialState: State = {
     scene: {

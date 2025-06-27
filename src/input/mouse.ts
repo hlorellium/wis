@@ -16,8 +16,9 @@ export class MouseHandler {
         toolManager: ToolManager,
         history: HistoryManager
     ) {
-        this.panTool = new PanTool(history);
-        this.drawingTools = new DrawingTools(canvas, history);
+        const onHistoryChange = () => toolManager.updateHistoryButtons();
+        this.panTool = new PanTool(history, onHistoryChange);
+        this.drawingTools = new DrawingTools(canvas, history, onHistoryChange);
         this.selectTool = new SelectTool(canvas);
         this.toolManager = toolManager;
     }

@@ -94,6 +94,17 @@ body {
   color: rgba(255, 255, 255, 1);
 }
 
+.tool-btn:disabled {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
+}
+
+.tool-btn:disabled:hover {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.3);
+}
+
 .tool-btn svg {
   width: 24px;
   height: 24px;
