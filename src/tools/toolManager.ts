@@ -38,7 +38,17 @@ export class ToolManager {
     }
 
     private updateCursor(tool: Tool) {
-        this.canvas.style.cursor = tool === 'pan' ? 'grab' : 'crosshair';
+        switch (tool) {
+            case 'pan':
+                this.canvas.style.cursor = 'grab';
+                break;
+            case 'select':
+                this.canvas.style.cursor = 'default';
+                break;
+            default:
+                this.canvas.style.cursor = 'crosshair';
+                break;
+        }
     }
 
     updateCursorForPanning(isPanning: boolean) {

@@ -36,7 +36,7 @@ export type Rectangle = Omit<RectangleShape, 'id' | 'color' | 'type'>;
 export type Line = Omit<LineShape, 'id' | 'color' | 'type'>;
 export type Circle = Omit<CircleShape, 'id' | 'color' | 'type'>;
 
-export type Tool = 'pan' | 'line' | 'rectangle' | 'circle';
+export type Tool = 'pan' | 'line' | 'rectangle' | 'circle' | 'select';
 
 export type State = {
     scene: {
@@ -52,6 +52,7 @@ export type State = {
         shape: Shape | null;
         type: Tool | null;
     };
+    selection: string | null;
 };
 
 function generateId(): string {
@@ -75,7 +76,8 @@ export const initialState: State = {
     currentDrawing: {
         shape: null,
         type: null
-    }
+    },
+    selection: null
 };
 
 export { generateId };

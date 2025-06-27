@@ -1,11 +1,13 @@
 import type { State } from '../state';
 import { PanTool } from '../tools/panTool';
 import { DrawingTools } from '../tools/drawingTools';
+import { SelectTool } from '../tools/selectTool';
 import { ToolManager } from '../tools/toolManager';
 
 export class MouseHandler {
     private panTool: PanTool;
     private drawingTools: DrawingTools;
+    private selectTool: SelectTool;
     private toolManager: ToolManager;
 
     constructor(
@@ -14,6 +16,7 @@ export class MouseHandler {
     ) {
         this.panTool = new PanTool();
         this.drawingTools = new DrawingTools(canvas);
+        this.selectTool = new SelectTool(canvas);
         this.toolManager = toolManager;
     }
 
@@ -25,6 +28,9 @@ export class MouseHandler {
     }
 
     private handleMouseDown(e: MouseEvent, state: State) {
+        // Handle select tool first to allow selection before other tools
+        this.selectTool.handleMouseDown(e, state);
+        
         const panHandled = this.panTool.handleMouseDown(e, state);
         this.drawingTools.handleMouseDown(e, state);
         

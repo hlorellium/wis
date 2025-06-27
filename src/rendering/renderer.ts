@@ -23,7 +23,7 @@ export class Renderer {
 
         // Draw all shapes using discriminated union
         state.scene.shapes.forEach(shape => {
-            this.shapeRenderer.renderShape(ctx, shape);
+            this.shapeRenderer.renderShape(ctx, shape, state);
         });
 
         // Draw current drawing preview
