@@ -14,7 +14,7 @@ export interface ProxyOptions {
  * Creates a reactive proxy wrapper around a state object that triggers
  * a callback whenever any property is modified (including nested properties).
  */
-export function createStateProxy<S>(
+export function createStateProxy<S extends object>(
     target: S,
     onChange: () => void,
     options: ProxyOptions = {}
@@ -47,7 +47,7 @@ export function createStateProxy<S>(
         }
     };
 
-    const handler: ProxyHandler<any> = {
+    const handler: ProxyHandler<object> = {
         get(obj, prop, recv) {
             // Expose version if versioning is enabled
             if (versioning && prop === '__v') {
