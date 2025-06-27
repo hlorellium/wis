@@ -160,4 +160,14 @@ export class Path2DRenderer {
             this.pathCache.clear();
         }
     }
+
+    // Public method to check if a shape is cached (for testing)
+    isCached(shapeId: string): boolean {
+        return this.pathCache.has(shapeId);
+    }
+
+    // Public method to get cache size (for testing)
+    getCacheSize(): number {
+        return this.pathCache.size;
+    }
 }

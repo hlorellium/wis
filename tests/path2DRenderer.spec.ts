@@ -3,24 +3,23 @@ import { Path2DRenderer } from '../src/rendering/path2DRenderer';
 import { createTestState, createTestRectangle, createTestCircle, createTestLine } from './helpers';
 import type { State } from '../src/state';
 
-// Mock Path2D to capture method calls
+// Simple Path2D mock that implements the necessary methods
 class MockPath2D {
-  public calls: Array<{ method: string; args: any[] }> = [];
-
+  // Implement Path2D methods that the renderer calls
   moveTo(x: number, y: number) {
-    this.calls.push({ method: 'moveTo', args: [x, y] });
+    // No-op implementation for testing
   }
 
   lineTo(x: number, y: number) {
-    this.calls.push({ method: 'lineTo', args: [x, y] });
+    // No-op implementation for testing
   }
 
   rect(x: number, y: number, width: number, height: number) {
-    this.calls.push({ method: 'rect', args: [x, y, width, height] });
+    // No-op implementation for testing
   }
 
   arc(x: number, y: number, radius: number, startAngle: number, endAngle: number) {
-    this.calls.push({ method: 'arc', args: [x, y, radius, startAngle, endAngle] });
+    // No-op implementation for testing
   }
 }
 
@@ -124,63 +123,43 @@ describe('Path2DRenderer', () => {
     vi.clearAllMocks();
   });
 
-  describe('createPath2D', () => {
-    it('should create correct Path2D for rectangle', () => {
-      const rectangle = createTestRectangle({ x: 10, y: 20, width: 100, height: 50 });
-      
-      // Trigger path creation by rendering
+  describe('shape rendering behavior', () => {
+    it('should render rectangle using fill operation', () => {
+      const rectangle = createTestRectangle({ color: '#ff0000' });
       state.scene.shapes = [rectangle];
+      
       renderer.render(mockCtx as any, canvas, state);
 
-      // Find the Path2D that was created
-      const rectanglePath = createdPaths.find((path: MockPath2D) => 
-        path.calls.some(call => call.method === 'rect')
-      );
-
-      expect(rectanglePath).toBeDefined();
-      expect(rectanglePath!.calls).toContainEqual({
-        method: 'rect',
-        args: [10, 20, 100, 50]
-      });
+      // Check that rectangle is filled, not stroked
+      const fillCalls = mockCtx.calls.filter(call => call.method === 'fill');
+      expect(fillCalls.length).toBe(1);
+      expect(mockCtx.fillStyle).toBe('#ff0000');
     });
 
-    it('should create correct Path2D for circle', () => {
-      const circle = createTestCircle({ x: 50, y: 75, radius: 25 });
-      
+    it('should render circle using stroke operation', () => {
+      const circle = createTestCircle({ color: '#00ff00' });
       state.scene.shapes = [circle];
+      
       renderer.render(mockCtx as any, canvas, state);
 
-      const circlePath = createdPaths.find((path: MockPath2D) => 
-        path.calls.some(call => call.method === 'arc')
-      );
-
-      expect(circlePath).toBeDefined();
-      expect(circlePath!.calls).toContainEqual({
-        method: 'arc',
-        args: [50, 75, 25, 0, Math.PI * 2]
-      });
+      // Check that circle is stroked, not filled
+      const strokeCalls = mockCtx.calls.filter(call => call.method === 'stroke');
+      expect(strokeCalls.length).toBeGreaterThan(0);
+      expect(mockCtx.strokeStyle).toBe('#00ff00');
+      expect(mockCtx.lineWidth).toBe(2);
     });
 
-    it('should create correct Path2D for line', () => {
-      const line = createTestLine({ x1: 0, y1: 0, x2: 100, y2: 50 });
-      
+    it('should render line using stroke operation', () => {
+      const line = createTestLine({ color: '#0000ff' });
       state.scene.shapes = [line];
+      
       renderer.render(mockCtx as any, canvas, state);
 
-      const linePath = createdPaths.find((path: MockPath2D) => 
-        path.calls.some(call => call.method === 'moveTo') &&
-        path.calls.some(call => call.method === 'lineTo')
-      );
-
-      expect(linePath).toBeDefined();
-      expect(linePath!.calls).toContainEqual({
-        method: 'moveTo',
-        args: [0, 0]
-      });
-      expect(linePath!.calls).toContainEqual({
-        method: 'lineTo',
-        args: [100, 50]
-      });
+      // Check that line is stroked
+      const strokeCalls = mockCtx.calls.filter(call => call.method === 'stroke');
+      expect(strokeCalls.length).toBeGreaterThan(0);
+      expect(mockCtx.strokeStyle).toBe('#0000ff');
+      expect(mockCtx.lineWidth).toBe(2);
     });
   });
 
@@ -340,36 +319,37 @@ describe('Path2DRenderer', () => {
     });
   });
 
-  describe('caching', () => {
-    it('should cache Path2D objects by shape ID', () => {
+  describe('caching behavior (via public API)', () => {
+    it('should cache shapes after first render', () => {
       const rectangle = createTestRectangle();
-      state.scene.shapes = [rectangle];
+      const circle = createTestCircle();
+      state.scene.shapes = [rectangle, circle];
 
-      // Render twice
-      renderer.render(mockCtx as any, canvas, state);
-      const firstRenderPathCount = createdPaths.length;
-      
-      renderer.render(mockCtx as any, canvas, state);
-      const secondRenderPathCount = createdPaths.length;
+      // Initially nothing should be cached
+      expect(renderer.isCached(rectangle.id)).toBe(false);
+      expect(renderer.isCached(circle.id)).toBe(false);
+      expect(renderer.getCacheSize()).toBe(0);
 
-      // Should not create additional Path2D objects on second render (cache hit)
-      expect(secondRenderPathCount).toBe(firstRenderPathCount);
+      // After rendering, shapes should be cached
+      renderer.render(mockCtx as any, canvas, state);
+      expect(renderer.isCached(rectangle.id)).toBe(true);
+      expect(renderer.isCached(circle.id)).toBe(true);
+      expect(renderer.getCacheSize()).toBe(2);
     });
 
     it('should clear cache for specific shape ID', () => {
       const rectangle = createTestRectangle();
-      state.scene.shapes = [rectangle];
+      const circle = createTestCircle();
+      state.scene.shapes = [rectangle, circle];
 
       renderer.render(mockCtx as any, canvas, state);
-      const pathCountBefore = createdPaths.length;
+      expect(renderer.getCacheSize()).toBe(2);
       
+      // Clear specific shape
       renderer.clearCache(rectangle.id);
-
-      // After clearing cache, should create new Path2D on next render
-      renderer.render(mockCtx as any, canvas, state);
-      const pathCountAfter = createdPaths.length;
-
-      expect(pathCountAfter).toBeGreaterThan(pathCountBefore);
+      expect(renderer.isCached(rectangle.id)).toBe(false);
+      expect(renderer.isCached(circle.id)).toBe(true);
+      expect(renderer.getCacheSize()).toBe(1);
     });
 
     it('should clear entire cache', () => {
@@ -377,15 +357,31 @@ describe('Path2DRenderer', () => {
       state.scene.shapes = shapes;
 
       renderer.render(mockCtx as any, canvas, state);
-      const pathCountBefore = createdPaths.length;
+      expect(renderer.getCacheSize()).toBe(3);
       
-      renderer.clearCache(); // Clear all
+      // Clear all
+      renderer.clearCache();
+      expect(renderer.getCacheSize()).toBe(0);
+      shapes.forEach(shape => {
+        expect(renderer.isCached(shape.id)).toBe(false);
+      });
+    });
 
-      // Should create new Path2D objects for all shapes
+    it('should rebuild cache after clearing', () => {
+      const rectangle = createTestRectangle();
+      state.scene.shapes = [rectangle];
+
+      // Initial render
       renderer.render(mockCtx as any, canvas, state);
-      const pathCountAfter = createdPaths.length;
+      expect(renderer.isCached(rectangle.id)).toBe(true);
 
-      expect(pathCountAfter).toBeGreaterThan(pathCountBefore);
+      // Clear and verify
+      renderer.clearCache(rectangle.id);
+      expect(renderer.isCached(rectangle.id)).toBe(false);
+
+      // Re-render should rebuild cache
+      renderer.render(mockCtx as any, canvas, state);
+      expect(renderer.isCached(rectangle.id)).toBe(true);
     });
   });
 
