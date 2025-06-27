@@ -26,13 +26,14 @@ export function createStateProxy<S>(
     const proxyCache = new WeakMap<object, any>();
 
     const trigger = () => {
-        if (versioning) {
-            version++;
-        }
         onChange();
     };
 
     const schedule = () => {
+        if (versioning) {
+            version++;
+        }
+        
         if (raf) {
             if (!dirty) {
                 dirty = true;
@@ -75,6 +76,18 @@ export function createStateProxy<S>(
 
             // Trigger onChange callback only when value actually changes
             if (result && oldValue !== value) {
+                schedule();
+            }
+
+            return result;
+        },
+
+        deleteProperty(obj, prop) {
+            const hadProperty = Reflect.has(obj, prop);
+            const result = Reflect.deleteProperty(obj, prop);
+
+            // Trigger onChange callback only when property was actually deleted
+            if (result && hadProperty) {
                 schedule();
             }
 
