@@ -70,10 +70,11 @@ export function createStateProxy<S>(
         },
 
         set(obj, prop, value, recv) {
+            const oldValue = Reflect.get(obj, prop, recv);
             const result = Reflect.set(obj, prop, value, recv);
 
-            // Trigger onChange callback when any property is set
-            if (result) {
+            // Trigger onChange callback only when value actually changes
+            if (result && oldValue !== value) {
                 schedule();
             }
 

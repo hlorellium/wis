@@ -20,7 +20,7 @@ class DrawingApp {
         this.state = createStateProxy(initialState, () => this.render(), {
             raf: true,
             versioning: true,
-            shallow: true
+            shallow: false
         });
 
         // Get DOM elements
