@@ -1,4 +1,4 @@
-import type { State, Shape, Rectangle, Line, Circle } from '../state';
+import type { State, Shape, LineShape, RectangleShape, CircleShape } from '../state';
 
 export class Path2DRenderer {
     private pathCache = new Map<string, Path2D>();
@@ -58,17 +58,14 @@ export class Path2DRenderer {
 
         switch (shape.type) {
             case 'line':
-                const line = shape as Shape & Line;
-                path.moveTo(line.x1, line.y1);
-                path.lineTo(line.x2, line.y2);
+                path.moveTo(shape.x1, shape.y1);
+                path.lineTo(shape.x2, shape.y2);
                 break;
             case 'rectangle':
-                const rect = shape as Shape & Rectangle;
-                path.rect(rect.x, rect.y, rect.width, rect.height);
+                path.rect(shape.x, shape.y, shape.width, shape.height);
                 break;
             case 'circle':
-                const circle = shape as Shape & Circle;
-                path.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+                path.arc(shape.x, shape.y, shape.radius, 0, Math.PI * 2);
                 break;
         }
 
@@ -86,7 +83,7 @@ export class Path2DRenderer {
         }
     }
 
-    private renderPreview(ctx: CanvasRenderingContext2D, shape: Rectangle | Line | Circle, type: string) {
+    private renderPreview(ctx: CanvasRenderingContext2D, shape: Shape, type: string) {
         ctx.save();
         ctx.setLineDash([5, 5]);
         ctx.globalAlpha = 0.6;
@@ -95,23 +92,23 @@ export class Path2DRenderer {
 
         switch (type) {
             case 'line':
-                const line = shape as Line;
-                path.moveTo(line.x1, line.y1);
-                path.lineTo(line.x2, line.y2);
-                ctx.strokeStyle = this.colorMap.line;
+                const lineShape = shape as LineShape;
+                path.moveTo(lineShape.x1, lineShape.y1);
+                path.lineTo(lineShape.x2, lineShape.y2);
+                ctx.strokeStyle = lineShape.color;
                 ctx.lineWidth = 2;
                 ctx.stroke(path);
                 break;
             case 'rectangle':
-                const rect = shape as Rectangle;
-                path.rect(rect.x, rect.y, rect.width, rect.height);
-                ctx.fillStyle = this.colorMap.rectangle;
+                const rectShape = shape as RectangleShape;
+                path.rect(rectShape.x, rectShape.y, rectShape.width, rectShape.height);
+                ctx.fillStyle = rectShape.color;
                 ctx.fill(path);
                 break;
             case 'circle':
-                const circle = shape as Circle;
-                path.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
-                ctx.strokeStyle = this.colorMap.circle;
+                const circleShape = shape as CircleShape;
+                path.arc(circleShape.x, circleShape.y, circleShape.radius, 0, Math.PI * 2);
+                ctx.strokeStyle = circleShape.color;
                 ctx.lineWidth = 2;
                 ctx.stroke(path);
                 break;

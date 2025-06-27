@@ -29,7 +29,7 @@ export class MouseHandler {
 
     private handleMouseDown(e: MouseEvent, state: State) {
         const panHandled = this.panTool.handleMouseDown(e, state);
-        const drawHandled = this.drawingTools.handleMouseDown(e, state);
+        this.drawingTools.handleMouseDown(e, state);
         
         if (panHandled) {
             this.toolManager.updateCursorForPanning(true);

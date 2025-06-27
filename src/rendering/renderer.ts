@@ -21,17 +21,9 @@ export class Renderer {
         ctx.translate(state.view.panX, state.view.panY);
         ctx.scale(state.view.zoom, state.view.zoom);
 
-        // Draw all shapes
-        state.scene.lines.forEach(line => {
-            this.shapeRenderer.renderLine(ctx, line);
-        });
-
-        state.scene.rectangles.forEach(rect => {
-            this.shapeRenderer.renderRectangle(ctx, rect);
-        });
-
-        state.scene.circles.forEach(circle => {
-            this.shapeRenderer.renderCircle(ctx, circle);
+        // Draw all shapes using discriminated union
+        state.scene.shapes.forEach(shape => {
+            this.shapeRenderer.renderShape(ctx, shape);
         });
 
         // Draw current drawing preview

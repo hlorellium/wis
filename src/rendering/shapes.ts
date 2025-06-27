@@ -1,13 +1,24 @@
-import type { Rectangle, Line, Circle } from '../state';
+import type { Shape, LineShape, RectangleShape, CircleShape } from '../state';
 
 export class ShapeRenderer {
-    private lineColor = '#0080ff';
-    private rectangleColor = '#f00';
-    private circleColor = '#00ff80';
     private lineWidth = 2;
 
-    renderLine(ctx: CanvasRenderingContext2D, line: Line) {
-        ctx.strokeStyle = this.lineColor;
+    renderShape(ctx: CanvasRenderingContext2D, shape: Shape) {
+        switch (shape.type) {
+            case 'line':
+                this.renderLine(ctx, shape);
+                break;
+            case 'rectangle':
+                this.renderRectangle(ctx, shape);
+                break;
+            case 'circle':
+                this.renderCircle(ctx, shape);
+                break;
+        }
+    }
+
+    renderLine(ctx: CanvasRenderingContext2D, line: LineShape) {
+        ctx.strokeStyle = line.color;
         ctx.lineWidth = this.lineWidth;
         ctx.beginPath();
         ctx.moveTo(line.x1, line.y1);
@@ -15,13 +26,13 @@ export class ShapeRenderer {
         ctx.stroke();
     }
 
-    renderRectangle(ctx: CanvasRenderingContext2D, rect: Rectangle) {
-        ctx.fillStyle = this.rectangleColor;
+    renderRectangle(ctx: CanvasRenderingContext2D, rect: RectangleShape) {
+        ctx.fillStyle = rect.color;
         ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
     }
 
-    renderCircle(ctx: CanvasRenderingContext2D, circle: Circle) {
-        ctx.strokeStyle = this.circleColor;
+    renderCircle(ctx: CanvasRenderingContext2D, circle: CircleShape) {
+        ctx.strokeStyle = circle.color;
         ctx.fillStyle = 'transparent';
         ctx.lineWidth = this.lineWidth;
         ctx.beginPath();
@@ -29,20 +40,20 @@ export class ShapeRenderer {
         ctx.stroke();
     }
 
-    renderPreview(ctx: CanvasRenderingContext2D, shape: Rectangle | Line | Circle, type: string) {
+    renderPreview(ctx: CanvasRenderingContext2D, shape: Shape, type: string) {
         ctx.save();
         ctx.setLineDash([5, 5]);
         ctx.globalAlpha = 0.6;
 
         switch (type) {
             case 'line':
-                this.renderLine(ctx, shape as Line);
+                this.renderLine(ctx, shape as LineShape);
                 break;
             case 'rectangle':
-                this.renderRectangle(ctx, shape as Rectangle);
+                this.renderRectangle(ctx, shape as RectangleShape);
                 break;
             case 'circle':
-                this.renderCircle(ctx, shape as Circle);
+                this.renderCircle(ctx, shape as CircleShape);
                 break;
         }
         

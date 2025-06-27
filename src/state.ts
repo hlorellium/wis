@@ -1,28 +1,40 @@
-export type Rectangle = {
+// Base shape interface with common properties
+type BaseShape = {
+    id: string;
+    color: string;
+};
+
+// Discriminated union types for each shape
+export type RectangleShape = BaseShape & {
+    type: 'rectangle';
     x: number;
     y: number;
     width: number;
     height: number;
 };
 
-export type Line = {
+export type LineShape = BaseShape & {
+    type: 'line';
     x1: number;
     y1: number;
     x2: number;
     y2: number;
 };
 
-export type Circle = {
+export type CircleShape = BaseShape & {
+    type: 'circle';
     x: number;
     y: number;
     radius: number;
 };
 
-export type Shape = {
-    id: string;
-    type: 'rectangle' | 'line' | 'circle';
-    color: string;
-} & (Rectangle | Line | Circle);
+// Main Shape discriminated union
+export type Shape = RectangleShape | LineShape | CircleShape;
+
+// Legacy type exports for backward compatibility (if needed)
+export type Rectangle = Omit<RectangleShape, 'id' | 'color' | 'type'>;
+export type Line = Omit<LineShape, 'id' | 'color' | 'type'>;
+export type Circle = Omit<CircleShape, 'id' | 'color' | 'type'>;
 
 export type Tool = 'pan' | 'line' | 'rectangle' | 'circle';
 
@@ -37,7 +49,7 @@ export type State = {
     },
     tool: Tool;
     currentDrawing: {
-        shape: Rectangle | Line | Circle | null;
+        shape: Shape | null;
         type: Tool | null;
     };
 };
@@ -49,10 +61,10 @@ function generateId(): string {
 export const initialState: State = {
     scene: {
         shapes: [
-            { id: generateId(), type: 'rectangle', color: '#f00', x: 10, y: 10, width: 20, height: 20 },
-            { id: generateId(), type: 'rectangle', color: '#f00', x: 30, y: 30, width: 20, height: 20 },
-            { id: generateId(), type: 'rectangle', color: '#f00', x: 50, y: 50, width: 20, height: 20 },
-            { id: generateId(), type: 'rectangle', color: '#f00', x: 70, y: 70, width: 20, height: 20 },
+            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 10, y: 10, width: 20, height: 20 },
+            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 30, y: 30, width: 20, height: 20 },
+            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 50, y: 50, width: 20, height: 20 },
+            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 70, y: 70, width: 20, height: 20 },
         ]
     },
     view: {

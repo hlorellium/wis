@@ -3,7 +3,6 @@ import type { State, Tool } from '../state';
 export class ToolManager {
     private toolButtons: NodeListOf<HTMLButtonElement>;
     private canvas: HTMLCanvasElement;
-    private state?: State;
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
@@ -11,7 +10,6 @@ export class ToolManager {
     }
 
     setupToolButtons(state: State) {
-        this.state = state;
         this.toolButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 const tool = btn.dataset.tool as Tool;
