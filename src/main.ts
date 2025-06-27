@@ -1,7 +1,7 @@
 import { initialState, type State } from './state';
 import { CanvasSetup } from './canvas/setup';
 import { BackgroundRenderer } from './rendering/background';
-import { Renderer } from './rendering/renderer';
+import { Path2DRenderer } from './rendering/path2DRenderer';
 import { ToolManager } from './tools/toolManager';
 import { MouseHandler } from './input/mouse';
 import './style.css';
@@ -10,7 +10,7 @@ class DrawingApp {
     private state: State;
     private canvasSetup: CanvasSetup;
     private bgRenderer: BackgroundRenderer;
-    private renderer: Renderer;
+    private renderer: Path2DRenderer;
     private toolManager: ToolManager;
     private mouseHandler: MouseHandler;
 
@@ -25,7 +25,7 @@ class DrawingApp {
         // Initialize modules
         this.canvasSetup = new CanvasSetup(bgCanvas, canvas, canvasContainer);
         this.bgRenderer = new BackgroundRenderer();
-        this.renderer = new Renderer();
+        this.renderer = new Path2DRenderer();
         this.toolManager = new ToolManager(canvas);
         this.mouseHandler = new MouseHandler(canvas, this.toolManager, () => this.render());
 

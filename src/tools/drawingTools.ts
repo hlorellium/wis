@@ -1,5 +1,6 @@
-import type { State, Rectangle, Line, Circle } from '../state';
+import type { State, Rectangle, Line, Circle, Shape } from '../state';
 import { CoordinateTransformer } from '../canvas/coordinates';
+import { generateId } from '../state';
 
 export class DrawingTools {
     private isDrawing = false;
@@ -98,22 +99,46 @@ export class DrawingTools {
     }
 
     private finalizeDrawing(state: State) {
+        const colorMap = {
+            'line': '#0080ff',
+            'rectangle': '#f00',
+            'circle': '#00ff80'
+        };
+
         switch (state.currentDrawing.type) {
             case 'line':
-                state.scene.lines.push(state.currentDrawing.shape as Line);
+                const lineShape: Shape = {
+                    id: generateId(),
+                    type: 'line',
+                    color: colorMap.line,
+                    ...(state.currentDrawing.shape as Line)
+                };
+                state.scene.shapes.push(lineShape);
                 break;
             case 'rectangle':
                 const rect = state.currentDrawing.shape as Rectangle;
                 // Only add if it has some size
                 if (rect.width > 1 || rect.height > 1) {
-                    state.scene.rectangles.push(rect);
+                    const rectShape: Shape = {
+                        id: generateId(),
+                        type: 'rectangle',
+                        color: colorMap.rectangle,
+                        ...rect
+                    };
+                    state.scene.shapes.push(rectShape);
                 }
                 break;
             case 'circle':
                 const circle = state.currentDrawing.shape as Circle;
                 // Only add if it has some radius
                 if (circle.radius > 1) {
-                    state.scene.circles.push(circle);
+                    const circleShape: Shape = {
+                        id: generateId(),
+                        type: 'circle',
+                        color: colorMap.circle,
+                        ...circle
+                    };
+                    state.scene.shapes.push(circleShape);
                 }
                 break;
         }

@@ -18,13 +18,17 @@ export type Circle = {
     radius: number;
 };
 
+export type Shape = {
+    id: string;
+    type: 'rectangle' | 'line' | 'circle';
+    color: string;
+} & (Rectangle | Line | Circle);
+
 export type Tool = 'pan' | 'line' | 'rectangle' | 'circle';
 
 export type State = {
     scene: {
-        rectangles: Rectangle[];
-        lines: Line[];
-        circles: Circle[];
+        shapes: Shape[];
     },
     view: {
         panX: number;
@@ -38,16 +42,18 @@ export type State = {
     };
 };
 
+function generateId(): string {
+    return Math.random().toString(36).substr(2, 9);
+}
+
 export const initialState: State = {
     scene: {
-        rectangles: [
-            { x: 10, y: 10, width: 20, height: 20 },
-            { x: 30, y: 30, width: 20, height: 20 },
-            { x: 50, y: 50, width: 20, height: 20 },
-            { x: 70, y: 70, width: 20, height: 20 },
-        ],
-        lines: [],
-        circles: []
+        shapes: [
+            { id: generateId(), type: 'rectangle', color: '#f00', x: 10, y: 10, width: 20, height: 20 },
+            { id: generateId(), type: 'rectangle', color: '#f00', x: 30, y: 30, width: 20, height: 20 },
+            { id: generateId(), type: 'rectangle', color: '#f00', x: 50, y: 50, width: 20, height: 20 },
+            { id: generateId(), type: 'rectangle', color: '#f00', x: 70, y: 70, width: 20, height: 20 },
+        ]
     },
     view: {
         panX: 0, panY: 0,   // in CSS px
@@ -59,3 +65,5 @@ export const initialState: State = {
         type: null
     }
 };
+
+export { generateId };
