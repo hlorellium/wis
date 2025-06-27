@@ -14,19 +14,23 @@ A TypeScript + Vite canvas drawing application with an advanced command-pattern 
 ## Architecture
 
 ### State Management
+
 - **Reactive Proxy**: `src/stateProxy.ts` - Deep reactivity with optional RAF throttling and versioning
 - **State Types**: `src/state.ts` - Discriminated union types for shapes and application state
 
 ### Command Pattern
+
 - **History System**: `src/history.ts` - Command pattern with undo/redo, merge support, and capacity limits
 - **Commands**: AddShapeCommand, RemoveShapeCommand, PanCommand (with merge capability)
 
 ### Rendering
+
 - **Layered Canvas**: Background grid + shapes on separate canvases
 - **Path2D Caching**: Optimized shape rendering with Path2D objects
 - **Coordinate System**: Screen-to-canvas coordinate transformation
 
 ### Tools
+
 - **Tool Manager**: `src/tools/toolManager.ts` - Centralized tool management with ARIA support
 - **Drawing Tools**: `src/tools/drawingTools.ts` - Shape creation tools
 - **Pan Tool**: `src/tools/panTool.ts` - Canvas navigation with command merging
@@ -34,6 +38,7 @@ A TypeScript + Vite canvas drawing application with an advanced command-pattern 
 ## Development
 
 ### Prerequisites
+
 - Node.js 18+
 - npm or similar package manager
 
@@ -72,7 +77,8 @@ npm run test -- --coverage
 
 The test suite focuses on the most encapsulated and critical components:
 
-- **History System** (`tests/history.spec.ts`): 
+- **History System** (`tests/history.spec.ts`):
+
   - Command pattern implementation
   - Undo/redo functionality
   - Command merging (PanCommand)
@@ -80,6 +86,7 @@ The test suite focuses on the most encapsulated and critical components:
   - All command types (Add/Remove/Pan)
 
 - **State Proxy** (`tests/stateProxy.spec.ts`):
+
   - Deep reactivity
   - Versioning system
   - RAF throttling

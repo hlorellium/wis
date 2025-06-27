@@ -1,101 +1,106 @@
-import type { State, Tool } from '../state';
-import { HistoryManager } from '../history';
+import type { State, Tool } from "../state";
+import { HistoryManager } from "../history";
 
 export class ToolManager {
-    private toolButtons: NodeListOf<HTMLButtonElement>;
-    private undoButton: HTMLButtonElement | null;
-    private redoButton: HTMLButtonElement | null;
-    private canvas: HTMLCanvasElement;
-    private history: HistoryManager;
+  private toolButtons: NodeListOf<HTMLButtonElement>;
+  private undoButton: HTMLButtonElement | null;
+  private redoButton: HTMLButtonElement | null;
+  private canvas: HTMLCanvasElement;
+  private history: HistoryManager;
 
-    constructor(canvas: HTMLCanvasElement, history: HistoryManager) {
-        this.canvas = canvas;
-        this.history = history;
-        this.toolButtons = document.querySelectorAll<HTMLButtonElement>('.tool-btn');
-        this.undoButton = document.querySelector<HTMLButtonElement>('[data-action="undo"]');
-        this.redoButton = document.querySelector<HTMLButtonElement>('[data-action="redo"]');
-    }
+  constructor(canvas: HTMLCanvasElement, history: HistoryManager) {
+    this.canvas = canvas;
+    this.history = history;
+    this.toolButtons =
+      document.querySelectorAll<HTMLButtonElement>(".tool-btn");
+    this.undoButton = document.querySelector<HTMLButtonElement>(
+      '[data-action="undo"]'
+    );
+    this.redoButton = document.querySelector<HTMLButtonElement>(
+      '[data-action="redo"]'
+    );
+  }
 
-    setupToolButtons(state: State) {
-        this.toolButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (btn.dataset.tool) {
-                    const tool = btn.dataset.tool as Tool;
-                    this.setActiveTool(tool, state);
-                } else if (btn.dataset.action) {
-                    this.handleAction(btn.dataset.action, state);
-                }
-            });
-        });
-
-        // Initial button state update
-        this.updateHistoryButtons();
-    }
-
-    private handleAction(action: string, state: State) {
-        switch (action) {
-            case 'undo':
-                if (this.history.canUndo()) {
-                    this.history.undo(state);
-                    this.updateHistoryButtons();
-                }
-                break;
-            case 'redo':
-                if (this.history.canRedo()) {
-                    this.history.redo(state);
-                    this.updateHistoryButtons();
-                }
-                break;
+  setupToolButtons(state: State) {
+    this.toolButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (btn.dataset.tool) {
+          const tool = btn.dataset.tool as Tool;
+          this.setActiveTool(tool, state);
+        } else if (btn.dataset.action) {
+          this.handleAction(btn.dataset.action, state);
         }
-    }
+      });
+    });
 
-    setActiveTool(tool: Tool, state?: State) {
-        // Update UI and ARIA attributes
-        this.toolButtons.forEach(btn => {
-            if (btn.dataset.tool) {
-                const isActive = btn.dataset.tool === tool;
-                btn.classList.toggle('active', isActive);
-                btn.setAttribute('aria-pressed', isActive.toString());
-            }
-        });
+    // Initial button state update
+    this.updateHistoryButtons();
+  }
 
-        // Update cursor
-        this.updateCursor(tool);
-
-        // Update state if provided
-        if (state) {
-            state.tool = tool;
+  private handleAction(action: string, state: State) {
+    switch (action) {
+      case "undo":
+        if (this.history.canUndo()) {
+          this.history.undo(state);
+          this.updateHistoryButtons();
         }
+        break;
+      case "redo":
+        if (this.history.canRedo()) {
+          this.history.redo(state);
+          this.updateHistoryButtons();
+        }
+        break;
     }
+  }
 
-    updateHistoryButtons(): void {
-        if (this.undoButton) {
-            this.undoButton.disabled = !this.history.canUndo();
-        }
-        if (this.redoButton) {
-            this.redoButton.disabled = !this.history.canRedo();
-        }
-    }
+  setActiveTool(tool: Tool, state?: State) {
+    // Update UI and ARIA attributes
+    this.toolButtons.forEach((btn) => {
+      if (btn.dataset.tool) {
+        const isActive = btn.dataset.tool === tool;
+        btn.classList.toggle("active", isActive);
+        btn.setAttribute("aria-pressed", isActive.toString());
+      }
+    });
 
-    private updateCursor(tool: Tool) {
-        switch (tool) {
-            case 'pan':
-                this.canvas.style.cursor = 'grab';
-                break;
-            case 'select':
-                this.canvas.style.cursor = 'default';
-                break;
-            default:
-                this.canvas.style.cursor = 'crosshair';
-                break;
-        }
-    }
+    // Update cursor
+    this.updateCursor(tool);
 
-    updateCursorForPanning(isPanning: boolean) {
-        if (isPanning) {
-            this.canvas.style.cursor = 'grabbing';
-        } else {
-            this.canvas.style.cursor = 'grab';
-        }
+    // Update state if provided
+    if (state) {
+      state.tool = tool;
     }
+  }
+
+  updateHistoryButtons(): void {
+    if (this.undoButton) {
+      this.undoButton.disabled = !this.history.canUndo();
+    }
+    if (this.redoButton) {
+      this.redoButton.disabled = !this.history.canRedo();
+    }
+  }
+
+  private updateCursor(tool: Tool) {
+    switch (tool) {
+      case "pan":
+        this.canvas.style.cursor = "grab";
+        break;
+      case "select":
+        this.canvas.style.cursor = "default";
+        break;
+      default:
+        this.canvas.style.cursor = "crosshair";
+        break;
+    }
+  }
+
+  updateCursorForPanning(isPanning: boolean) {
+    if (isPanning) {
+      this.canvas.style.cursor = "grabbing";
+    } else {
+      this.canvas.style.cursor = "grab";
+    }
+  }
 }
