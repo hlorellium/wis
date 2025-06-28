@@ -42,8 +42,11 @@ class DrawingApp {
         this.syncManager = new SyncManager(this.executor, this.state);
 
         // Setup history to listen to command executor
+        // Only record local commands to prevent cross-tab undo interference
         this.executor.subscribe((command, source) => {
-            this.history.record(command);
+            if (source === 'local') {
+                this.history.record(command);
+            }
         });
 
         // Initialize modules

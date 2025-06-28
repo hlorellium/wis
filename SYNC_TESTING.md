@@ -34,6 +34,7 @@
 - Canvas zoom
 - Tool selection
 - Current drawing in progress
+- Undo/redo operations (each tab has independent history)
 
 ## Technical Details
 
@@ -51,6 +52,22 @@ If sync isn't working:
 2. **Verify BroadcastChannel support** (modern browsers only)
 3. **Ensure same origin** (same protocol, host, port)
 4. **Check network tab** - no external requests needed for local sync
+
+## Undo/Redo Behavior
+
+Each tab maintains its **own independent undo/redo history**:
+
+- **Undo** only affects commands that were executed locally in that tab
+- **Remote commands** from other tabs are applied to state but not recorded in history
+- This prevents confusing behavior where undoing in one tab would revert another tab's work
+
+### Example:
+1. Tab A draws a rectangle → both tabs see it
+2. Tab B draws a circle → both tabs see it  
+3. Tab A presses Undo → only Tab A's rectangle is removed
+4. Tab B still sees the circle and can undo it independently
+
+This design ensures predictable undo behavior while maintaining real-time collaboration.
 
 ## Architecture
 
