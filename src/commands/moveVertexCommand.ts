@@ -84,16 +84,10 @@ export class MoveVertexCommand implements Command {
 
             case 'circle':
                 const circleShape = shape as CircleShape;
-                if (vertexIndex === 0) {
-                    // Move center
-                    circleShape.x = pos.x;
-                    circleShape.y = pos.y;
-                } else if (vertexIndex === 1) {
-                    // Resize radius (pos represents a point on the circle)
-                    const dx = pos.x - circleShape.x;
-                    const dy = pos.y - circleShape.y;
-                    circleShape.radius = Math.sqrt(dx * dx + dy * dy);
-                }
+                // For all 4 handles (East, South, West, North), calculate distance from center and update radius
+                const dx = pos.x - circleShape.x;
+                const dy = pos.y - circleShape.y;
+                circleShape.radius = Math.sqrt(dx * dx + dy * dy);
                 break;
 
             case 'bezier':

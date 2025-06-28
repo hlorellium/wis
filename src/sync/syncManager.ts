@@ -93,6 +93,7 @@ export class SyncManager {
         };
 
         try {
+            logger.info(`Broadcasting command: ${serialized.type}`, 'SyncManager', serialized.data);
             this.channel.postMessage(message);
         } catch (error) {
             logger.warn('Failed to broadcast command', 'SyncManager', error);
@@ -104,9 +105,11 @@ export class SyncManager {
      */
     private handleRemoteCommand(serialized: SerializedCommand): void {
         try {
+            logger.info(`Received remote command: ${serialized.type}`, 'SyncManager', serialized.data);
             const command = this.deserializeCommand(serialized);
             // Execute as remote command to avoid re-broadcasting
             this.executor.execute(command, this.state, 'remote');
+            logger.info(`Applied remote command: ${serialized.type}`, 'SyncManager');
         } catch (error) {
             logger.warn('Failed to apply remote command', 'SyncManager', error);
         }

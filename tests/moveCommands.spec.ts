@@ -102,16 +102,17 @@ describe('Move Commands', () => {
             expect(rect.height).toBe(15); // adjusted
         });
 
-        it('should move circle center', () => {
+        it('should resize circle radius with vertex 0 (East handle)', () => {
             const circle = createTestCircle({ id: 'circle1', x: 25, y: 25, radius: 15 });
             state.scene.shapes.push(circle);
 
-            const command = new MoveVertexCommand('circle1', 0, { x: 25, y: 25 }, { x: 30, y: 30 });
+            // Move East handle (vertex 0) from (40, 25) to (30, 25)
+            const command = new MoveVertexCommand('circle1', 0, { x: 40, y: 25 }, { x: 30, y: 25 });
             command.apply(state);
 
-            expect(circle.x).toBe(30);
-            expect(circle.y).toBe(30);
-            expect(circle.radius).toBe(15); // unchanged
+            expect(circle.x).toBe(25); // unchanged
+            expect(circle.y).toBe(25); // unchanged
+            expect(circle.radius).toBe(5); // distance from center (25,25) to new point (30,25)
         });
 
         it('should resize circle radius', () => {

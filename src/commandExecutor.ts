@@ -1,6 +1,7 @@
 import type { Command } from './commands';
 import { UndoCommand, RedoCommand } from './commands';
 import type { State } from './state';
+import { logger } from './utils/logger';
 
 export type CommandSource = 'local' | 'remote';
 
@@ -50,9 +51,12 @@ export class CommandExecutor {
 
         // For regular commands, check if already executed
         if (this.executedCommands.has(command.id)) {
+            logger.info(`Skipping already executed command: ${command.constructor.name} (${command.id})`, 'CommandExecutor');
             return; // Skip already executed commands
         }
 
+        logger.info(`Executing ${source} command: ${command.constructor.name} (${command.id})`, 'CommandExecutor');
+        
         // Apply regular commands to state
         command.apply(state);
         this.executedCommands.add(command.id);
