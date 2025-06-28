@@ -8,25 +8,39 @@ import { MouseHandler } from './input/mouse';
 import { HistoryManager } from './history';
 import { CommandExecutor } from './commandExecutor';
 import { SyncManager } from './sync/syncManager';
+import { PersistenceManager } from './persistence/persistenceManager';
 import { getRequiredElement } from './utils/dom';
+import { logger } from './utils/logger';
 // Import CommandRegistry to ensure command factories are registered
 import './sync/commandRegistry';
 import './style.css';
 
 class DrawingApp {
-    private state: State;
-    private canvasSetup: CanvasSetup;
-    private bgRenderer: BackgroundRenderer;
-    private renderer: Path2DRenderer;
-    private toolManager: ToolManager;
-    private mouseHandler: MouseHandler;
-    private history: HistoryManager;
-    private executor: CommandExecutor;
-    private syncManager: SyncManager;
+    private state!: State;
+    private canvasSetup!: CanvasSetup;
+    private bgRenderer!: BackgroundRenderer;
+    private renderer!: Path2DRenderer;
+    private toolManager!: ToolManager;
+    private mouseHandler!: MouseHandler;
+    private history!: HistoryManager;
+    private executor!: CommandExecutor;
+    private syncManager!: SyncManager;
+    private persistence: PersistenceManager;
     private lastRenderedVersion = -1;
 
     constructor() {
-        this.state = createStateProxy(initialState, () => this.render(), {
+        this.persistence = new PersistenceManager();
+        this.initializeAsync();
+    }
+
+    private async initializeAsync() {
+        // Try to load persisted state
+        const persistedState = await this.persistence.loadState();
+        const stateToUse = persistedState || initialState;
+        
+        logger.info(persistedState ? 'Restored state from IndexedDB' : 'Using initial state', 'DrawingApp');
+
+        this.state = createStateProxy(stateToUse, () => this.render(), {
             raf: true,
             versioning: true,
             shallow: false
@@ -81,8 +95,30 @@ class DrawingApp {
         // Setup keyboard shortcuts
         this.setupKeyboardShortcuts();
 
+        // Setup persistence
+        this.setupPersistence();
+
         // Initial render
         this.render();
+    }
+
+    private setupPersistence() {
+        // Periodic saving every 30 seconds
+        setInterval(() => {
+            this.persistence.saveState(this.state);
+        }, 30000);
+
+        // Save on tab close/refresh
+        window.addEventListener('beforeunload', () => {
+            this.persistence.saveStateSync(this.state);
+        });
+
+        // Save on visibility change (when tab becomes hidden)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                this.persistence.saveState(this.state);
+            }
+        });
     }
 
     private setupKeyboardShortcuts() {
