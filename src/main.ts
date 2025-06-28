@@ -8,6 +8,8 @@ import { MouseHandler } from './input/mouse';
 import { HistoryManager } from './history';
 import { CommandExecutor } from './commandExecutor';
 import { SyncManager } from './sync/syncManager';
+// Import CommandRegistry to ensure command factories are registered
+import './sync/commandRegistry';
 import './style.css';
 
 class DrawingApp {

@@ -1,6 +1,7 @@
 import { CommandExecutor } from '../commandExecutor';
 import type { CommandSource } from '../commandExecutor';
 import type { Command } from '../history';
+import { PanCommand } from '../history';
 import type { State } from '../state';
 import { CommandRegistry } from './commandRegistry';
 
@@ -44,11 +45,24 @@ export class SyncManager {
      */
     private setupCommandListener(): () => void {
         return this.executor.subscribe((command, source) => {
-            // Only broadcast commands that originated locally
-            if (source === 'local') {
+            // Only broadcast commands that originated locally and should be synced
+            if (source === 'local' && this.shouldSync(command)) {
                 this.broadcastCommand(command);
             }
         });
+    }
+
+    /**
+     * Determine if a command should be synced across tabs
+     */
+    private shouldSync(command: Command): boolean {
+        // Don't sync pan commands - these should remain local to each tab
+        if (command instanceof PanCommand) {
+            return false;
+        }
+        
+        // Sync all other commands (AddShape, RemoveShape, etc.)
+        return true;
     }
 
     /**

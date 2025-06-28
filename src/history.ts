@@ -12,7 +12,8 @@ export class AddShapeCommand implements Command {
     private readonly shape: Shape;
 
     constructor(shape: Shape) {
-        this.shape = shape;
+        // Clone the shape to remove any proxy wrappers that can't be serialized
+        this.shape = JSON.parse(JSON.stringify(shape));
     }
 
     apply(state: State): void {
@@ -32,7 +33,8 @@ export class RemoveShapeCommand implements Command {
     private readonly shape: Shape;
 
     constructor(shape: Shape) {
-        this.shape = shape;
+        // Clone the shape to remove any proxy wrappers that can't be serialized
+        this.shape = JSON.parse(JSON.stringify(shape));
     }
 
     apply(state: State): void {

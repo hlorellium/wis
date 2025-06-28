@@ -1,28 +1,32 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { SyncManager } from '../src/sync/syncManager';
 import { CommandExecutor } from '../src/commandExecutor';
-import { AddShapeCommand } from '../src/history';
+import { AddShapeCommand, PanCommand } from '../src/history';
 import { initialState } from '../src/state';
+// Import to register command factories
+import '../src/sync/commandRegistry';
 
 // Mock BroadcastChannel
+const mockPostMessage = vi.fn();
+const mockClose = vi.fn();
+
 global.BroadcastChannel = vi.fn().mockImplementation((name: string) => ({
     name,
-    postMessage: vi.fn(),
+    postMessage: mockPostMessage,
     onmessage: null,
-    close: vi.fn()
+    close: mockClose
 }));
 
 describe('SyncManager', () => {
     let syncManager: SyncManager;
     let executor: CommandExecutor;
     let state: any;
-    let mockChannel: any;
 
     beforeEach(() => {
+        vi.clearAllMocks();
         executor = new CommandExecutor();
         state = { ...initialState };
         syncManager = new SyncManager(executor, state, 'test-channel');
-        mockChannel = (BroadcastChannel as any).mock.results[0].value;
     });
 
     it('should create a BroadcastChannel with the specified name', () => {
@@ -30,7 +34,7 @@ describe('SyncManager', () => {
         expect(syncManager.getChannelName()).toBe('test-channel');
     });
 
-    it('should broadcast local commands', () => {
+    it('should broadcast local AddShape commands', () => {
         const shape = {
             id: 'test-shape',
             type: 'rectangle' as const,
@@ -47,12 +51,22 @@ describe('SyncManager', () => {
         executor.execute(command, state, 'local');
 
         // Verify that postMessage was called
-        expect(mockChannel.postMessage).toHaveBeenCalledTimes(1);
+        expect(mockPostMessage).toHaveBeenCalledTimes(1);
         
-        const sentMessage = mockChannel.postMessage.mock.calls[0][0];
+        const sentMessage = mockPostMessage.mock.calls[0][0];
         expect(sentMessage.type).toBe('command');
         expect(sentMessage.command.type).toBe('AddShapeCommand');
         expect(sentMessage.command.data.shape).toEqual(shape);
+    });
+
+    it('should not broadcast PanCommands', () => {
+        const command = new PanCommand(10, 10);
+        
+        // Execute a local pan command
+        executor.execute(command, state, 'local');
+
+        // Verify that postMessage was not called for pan commands
+        expect(mockPostMessage).not.toHaveBeenCalled();
     });
 
     it('should not broadcast remote commands', () => {
@@ -72,11 +86,11 @@ describe('SyncManager', () => {
         executor.execute(command, state, 'remote');
 
         // Verify that postMessage was not called for remote commands
-        expect(mockChannel.postMessage).not.toHaveBeenCalled();
+        expect(mockPostMessage).not.toHaveBeenCalled();
     });
 
     it('should clean up resources when destroyed', () => {
         syncManager.destroy();
-        expect(mockChannel.close).toHaveBeenCalled();
+        expect(mockClose).toHaveBeenCalled();
     });
 });
