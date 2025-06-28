@@ -2,14 +2,17 @@ import type { State } from '../state';
 import { PanTool } from '../tools/panTool';
 import { DrawingTools } from '../tools/drawingTools';
 import { SelectTool } from '../tools/selectTool';
+import { EditTool } from '../tools/editTool';
 import { ToolManager } from '../tools/toolManager';
 import { CommandExecutor } from '../commandExecutor';
 import { DeleteShapeCommand } from '../commands';
+import { getBoundingBox } from '../utils/geometry';
 
 export class MouseHandler {
     private panTool: PanTool;
     private drawingTools: DrawingTools;
     private selectTool: SelectTool;
+    private editTool: EditTool;
     private toolManager: ToolManager;
     private executor: CommandExecutor;
     private forceRenderCallback?: () => void;
@@ -23,6 +26,7 @@ export class MouseHandler {
         this.panTool = new PanTool(executor, onHistoryChange);
         this.drawingTools = new DrawingTools(canvas, executor, onHistoryChange);
         this.selectTool = new SelectTool(canvas);
+        this.editTool = new EditTool(canvas, executor, onHistoryChange);
         this.toolManager = toolManager;
         this.executor = executor;
     }
@@ -34,6 +38,7 @@ export class MouseHandler {
 
     setupEventListeners(canvas: HTMLCanvasElement, state: State) {
         canvas.addEventListener('mousedown', (e) => this.handleMouseDown(e, state));
+        canvas.addEventListener('dblclick', (e) => this.handleDoubleClick(e, state));
         window.addEventListener('mousemove', (e) => this.handleMouseMove(e, state));
         window.addEventListener('mouseup', () => this.handleMouseUp(state));
         canvas.addEventListener('wheel', (e) => this.handleWheel(e, state));
@@ -41,6 +46,14 @@ export class MouseHandler {
     }
 
     private handleMouseDown(e: MouseEvent, state: State) {
+        // Handle edit tool first when in edit mode
+        if (state.tool === 'edit') {
+            const editHandled = this.editTool.handleMouseDown(e, state);
+            if (editHandled) {
+                return;
+            }
+        }
+        
         // Handle select tool first to allow selection before other tools
         this.selectTool.handleMouseDown(e, state);
         
@@ -52,18 +65,59 @@ export class MouseHandler {
         }
     }
 
+    private handleDoubleClick(e: MouseEvent, state: State) {
+        // Double-click on a selected shape to enter edit mode
+        if (state.tool === 'select' && state.selection.length > 0) {
+            // Check if double-click is on a selected shape
+            const canvas = e.target as HTMLCanvasElement;
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Transform to world coordinates
+            const worldX = (x - state.view.panX) / state.view.zoom;
+            const worldY = (y - state.view.panY) / state.view.zoom;
+            
+            // Check if click is on any selected shape
+            const selectedShapes = state.scene.shapes.filter(s => state.selection.includes(s.id));
+            for (const shape of selectedShapes) {
+                if (this.isPointInsideShape(shape, worldX, worldY)) {
+                    // Switch to edit mode
+                    state.tool = 'edit';
+                    console.log('Entered edit mode for shape:', shape.id);
+                    return;
+                }
+            }
+        }
+    }
+
     private handleMouseMove(e: MouseEvent, state: State) {
+        let shouldForceRender = false;
+        
+        // Handle edit tool first when in edit mode
+        if (state.tool === 'edit') {
+            const editHandled = this.editTool.handleMouseMove(e, state);
+            if (editHandled) {
+                shouldForceRender = true;
+            }
+        }
+        
         const selectToolHandled = this.selectTool.handleMouseMove(e, state);
         this.panTool.handleMouseMove(e, state);
         this.drawingTools.handleMouseMove(e, state);
         
-        // Force re-render if SelectTool is dragging to show selection rectangle
-        if (selectToolHandled && this.forceRenderCallback) {
+        // Force re-render if SelectTool or EditTool is dragging
+        if ((selectToolHandled || shouldForceRender) && this.forceRenderCallback) {
             this.forceRenderCallback();
         }
     }
 
     private handleMouseUp(state: State) {
+        // Handle edit tool first when in edit mode
+        if (state.tool === 'edit') {
+            this.editTool.handleMouseUp(state);
+        }
+        
         this.selectTool.handleMouseUp(state);
         const panHandled = this.panTool.handleMouseUp(state);
         this.drawingTools.handleMouseUp(state);
@@ -110,5 +164,18 @@ export class MouseHandler {
     // Getter for SelectTool to access drag state
     getSelectTool(): SelectTool {
         return this.selectTool;
+    }
+
+    // Getter for EditTool to access from main renderer
+    getEditTool(): EditTool {
+        return this.editTool;
+    }
+
+    private isPointInsideShape(shape: any, x: number, y: number): boolean {
+        const bounds = getBoundingBox(shape);
+        return x >= bounds.x && 
+               x <= bounds.x + bounds.width && 
+               y >= bounds.y && 
+               y <= bounds.y + bounds.height;
     }
 }

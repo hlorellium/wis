@@ -61,6 +61,13 @@ export type State = {
         type: Tool | null;
     };
     selection: string[];
+    currentEditing: {
+        shapeId: string | null;
+        vertexIndex: number | null;
+        isDragging: boolean;
+        isGroupMove: boolean;
+        dragStart: { x: number; y: number } | null;
+    };
 };
 
 export const initialState: State = {
@@ -81,7 +88,14 @@ export const initialState: State = {
         shape: null,
         type: null
     },
-    selection: []
+    selection: [],
+    currentEditing: {
+        shapeId: null,
+        vertexIndex: null,
+        isDragging: false,
+        isGroupMove: false,
+        dragStart: null
+    }
 };
 
 export { generateId };

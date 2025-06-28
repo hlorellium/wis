@@ -166,7 +166,7 @@ class DrawingApp {
         const canvas = this.canvasSetup.getCanvas();
 
         this.bgRenderer.render(bgCtx, bgCanvas, this.state);
-        this.renderer.render(ctx, canvas, this.state, this.mouseHandler?.getSelectTool());
+        this.renderer.render(ctx, canvas, this.state, this.mouseHandler?.getSelectTool(), this.mouseHandler?.getEditTool());
     }
 }
 

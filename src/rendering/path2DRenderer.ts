@@ -1,5 +1,6 @@
 import type { State, Shape, LineShape, RectangleShape, CircleShape, BezierCurveShape } from '../state';
 import type { SelectTool } from '../tools/selectTool';
+import type { EditTool } from '../tools/editTool';
 
 export class Path2DRenderer {
     private pathCache = new Map<string, Path2D>();
@@ -10,7 +11,7 @@ export class Path2DRenderer {
         'bezier': '#ff00ff'
     };
 
-    render(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, state: State, selectTool?: SelectTool) {
+    render(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, state: State, selectTool?: SelectTool, editTool?: EditTool) {
         const dpr = window.devicePixelRatio || 1;
         const width = canvas.width / dpr;
         const height = canvas.height / dpr;
@@ -35,6 +36,11 @@ export class Path2DRenderer {
 
         // Draw selection rectangle preview (for drag selection)
         this.renderSelectionRectPreview(ctx, state, selectTool);
+
+        // Draw handles when in edit mode
+        if (state.tool === 'edit' && editTool && state.selection.length > 0) {
+            this.renderHandles(ctx, state, editTool);
+        }
 
         ctx.restore();
     }
@@ -242,6 +248,28 @@ export class Path2DRenderer {
         // Draw border
         ctx.strokeRect(x, y, width, height);
 
+        ctx.restore();
+    }
+
+    private renderHandles(ctx: CanvasRenderingContext2D, state: State, editTool: EditTool) {
+        const handles = editTool.getHandles(state);
+        
+        ctx.save();
+        
+        // Set handle style
+        ctx.fillStyle = '#ffffff';
+        ctx.strokeStyle = '#0066cc';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([]);
+        
+        const handleSize = 6; // 6px handles
+        
+        handles.forEach(handle => {
+            // Draw handle as a filled square with border
+            ctx.fillRect(handle.x - handleSize/2, handle.y - handleSize/2, handleSize, handleSize);
+            ctx.strokeRect(handle.x - handleSize/2, handle.y - handleSize/2, handleSize, handleSize);
+        });
+        
         ctx.restore();
     }
 

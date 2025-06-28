@@ -5,7 +5,8 @@ export const TOOL_TYPES = {
     RECTANGLE: 'rectangle',
     CIRCLE: 'circle',
     CURVE: 'curve',
-    SELECT: 'select'
+    SELECT: 'select',
+    EDIT: 'edit'
 } as const;
 
 export type Tool = typeof TOOL_TYPES[keyof typeof TOOL_TYPES];

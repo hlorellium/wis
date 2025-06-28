@@ -9,6 +9,8 @@ export interface Command {
 }
 
 export { DeleteShapeCommand } from './deleteShapeCommand';
+export { MoveShapesCommand } from './moveShapesCommand';
+export { MoveVertexCommand } from './moveVertexCommand';
 
 export class AddShapeCommand implements Command {
     public readonly id: string;
