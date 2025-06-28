@@ -103,15 +103,15 @@ export class HistoryManager implements CommandBus {
 
         // Apply the command
         command.apply(state);
-        
+
         // Add to history
         this.past.push(command);
-        
+
         // Enforce capacity limit
         if (this.past.length > this.maxSize) {
             this.past.shift(); // remove oldest command
         }
-        
+
         // Clear redo chain
         this.future.length = 0;
     }
@@ -154,5 +154,9 @@ export class HistoryManager implements CommandBus {
             past: this.past.length,
             future: this.future.length
         };
+    }
+
+    subscribeToHistory(callback: () => void) {
+        callback();
     }
 }
