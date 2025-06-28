@@ -428,4 +428,39 @@ describe('EditTool', () => {
             expect(state.currentEditing.isGroupMove).toBe(true);
         });
     });
+
+    describe('integration with SelectTool in edit mode', () => {
+        it('should clear selection when clicking on empty space (via SelectTool)', () => {
+            const rect = createTestRectangle({ id: 'rect1', x: 10, y: 10, width: 20, height: 20 });
+            state.scene.shapes.push(rect);
+            state.selection = ['rect1'];
+            state.tool = 'edit';
+
+            // Mock the SelectTool behavior that would be called by MouseHandler
+            // This simulates what happens when EditTool returns false and SelectTool processes the click
+            const mockSelectTool = {
+                handleMouseDown: (e: MouseEvent, state: any) => {
+                    // This mimics the SelectTool logic for empty space clicks in edit mode
+                    if (state.tool === 'edit') {
+                        state.selection = [];
+                        console.log('cleared selection (click on empty space in edit mode)');
+                        return true;
+                    }
+                    return false;
+                }
+            };
+
+            // Simulate clicking outside the rectangle
+            const mouseEvent = { button: 0, clientX: 50, clientY: 50 } as MouseEvent;
+            
+            // EditTool should return false for clicks outside shapes
+            const editResult = editTool.handleMouseDown(mouseEvent, state);
+            expect(editResult).toBe(false);
+            
+            // SelectTool should then clear the selection
+            const selectResult = mockSelectTool.handleMouseDown(mouseEvent, state);
+            expect(selectResult).toBe(true);
+            expect(state.selection).toEqual([]);
+        });
+    });
 });

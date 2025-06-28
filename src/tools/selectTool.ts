@@ -36,6 +36,16 @@ export class SelectTool {
                 }
             }
             
+            // If in edit mode and no shape was hit, clear selection immediately
+            if (state.tool === 'edit') {
+                state.selection = [];
+                console.log('cleared selection (click on empty space in edit mode)');
+                this.isDragging = false;
+                this.dragStart = null;
+                this.dragCurrent = null;
+                return true;
+            }
+            
             return true;
         }
         return false;
