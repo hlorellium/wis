@@ -54,12 +54,19 @@ export class EditTool {
                 const isInsideAnyShape = selectedShapes.some(shape => this.isPointInsideShape(shape, worldPos.x, worldPos.y));
                 
                 if (isInsideAnyShape) {
-                    // Start group move
+                    // Start group move - store original positions
                     state.currentEditing.shapeId = null;
                     state.currentEditing.vertexIndex = null;
                     state.currentEditing.isDragging = true;
                     state.currentEditing.isGroupMove = true;
                     state.currentEditing.dragStart = { x: worldPos.x, y: worldPos.y };
+                    
+                    // Store original positions of all selected shapes
+                    (state.currentEditing as any).originalPositions = new Map();
+                    selectedShapes.forEach(shape => {
+                        (state.currentEditing as any).originalPositions.set(shape.id, this.getShapePosition(shape));
+                    });
+                    
                     return true;
                 }
             }
@@ -72,27 +79,26 @@ export class EditTool {
             const worldPos = this.coordinateTransformer.screenToWorld(e.clientX, e.clientY, state);
             
             if (state.currentEditing.isGroupMove) {
-                // Group move: apply delta to all selected shapes
-                if (state.currentEditing.dragStart) {
-                    const dx = worldPos.x - state.currentEditing.dragStart.x;
-                    const dy = worldPos.y - state.currentEditing.dragStart.y;
+                // Group move: calculate total delta from original drag start
+                if (state.currentEditing.dragStart && (state.currentEditing as any).originalPositions) {
+                    const totalDx = worldPos.x - state.currentEditing.dragStart.x;
+                    const totalDy = worldPos.y - state.currentEditing.dragStart.y;
                     
-                    // Apply live movement
+                    // Set shapes to their original positions + total delta
+                    const originalPositions = (state.currentEditing as any).originalPositions as Map<string, any>;
                     state.scene.shapes.forEach(shape => {
                         if (state.selection.includes(shape.id)) {
-                            this.moveShapeBy(shape, dx, dy);
+                            const originalPos = originalPositions.get(shape.id);
+                            if (originalPos) {
+                                this.setShapeToPosition(shape, originalPos, totalDx, totalDy);
+                                // Clear cache since shape was moved
+                                this.renderer.clearCache(shape.id);
+                            }
                         }
                     });
                     
-                    // Track total movement for command creation
-                    if (!(state.currentEditing as any).totalDelta) {
-                        (state.currentEditing as any).totalDelta = { x: 0, y: 0 };
-                    }
-                    (state.currentEditing as any).totalDelta.x += dx;
-                    (state.currentEditing as any).totalDelta.y += dy;
-                    
-                    // Update drag start for next frame
-                    state.currentEditing.dragStart = { x: worldPos.x, y: worldPos.y };
+                    // Store total delta for command creation
+                    (state.currentEditing as any).totalDelta = { x: totalDx, y: totalDy };
                 }
             } else if (state.currentEditing.shapeId && state.currentEditing.vertexIndex !== null) {
                 // Vertex move: update the specific vertex
@@ -350,6 +356,57 @@ export class EditTool {
         
         // Clear the cache for this shape since its geometry has changed
         this.renderer.clearCache(shape.id);
+    }
+
+    private getShapePosition(shape: Shape): any {
+        switch (shape.type) {
+            case 'rectangle':
+                const rectShape = shape as RectangleShape;
+                return { x: rectShape.x, y: rectShape.y, width: rectShape.width, height: rectShape.height };
+            case 'circle':
+                const circleShape = shape as CircleShape;
+                return { x: circleShape.x, y: circleShape.y, radius: circleShape.radius };
+            case 'line':
+                const lineShape = shape as LineShape;
+                return { x1: lineShape.x1, y1: lineShape.y1, x2: lineShape.x2, y2: lineShape.y2 };
+            case 'bezier':
+                const bezierShape = shape as BezierCurveShape;
+                return { points: bezierShape.points.map(p => ({ x: p.x, y: p.y })) };
+            default:
+                return {};
+        }
+    }
+
+    private setShapeToPosition(shape: Shape, originalPos: any, dx: number, dy: number): void {
+        switch (shape.type) {
+            case 'rectangle':
+                const rectShape = shape as RectangleShape;
+                rectShape.x = originalPos.x + dx;
+                rectShape.y = originalPos.y + dy;
+                rectShape.width = originalPos.width;
+                rectShape.height = originalPos.height;
+                break;
+            case 'circle':
+                const circleShape = shape as CircleShape;
+                circleShape.x = originalPos.x + dx;
+                circleShape.y = originalPos.y + dy;
+                circleShape.radius = originalPos.radius;
+                break;
+            case 'line':
+                const lineShape = shape as LineShape;
+                lineShape.x1 = originalPos.x1 + dx;
+                lineShape.y1 = originalPos.y1 + dy;
+                lineShape.x2 = originalPos.x2 + dx;
+                lineShape.y2 = originalPos.y2 + dy;
+                break;
+            case 'bezier':
+                const bezierShape = shape as BezierCurveShape;
+                bezierShape.points = originalPos.points.map((p: any) => ({
+                    x: p.x + dx,
+                    y: p.y + dy
+                }));
+                break;
+        }
     }
 
     private isPointInsideShape(shape: Shape, x: number, y: number): boolean {
