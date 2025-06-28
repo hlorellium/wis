@@ -81,6 +81,13 @@ export class EditTool {
                         }
                     });
                     
+                    // Track total movement for command creation
+                    if (!(state.currentEditing as any).totalDelta) {
+                        (state.currentEditing as any).totalDelta = { x: 0, y: 0 };
+                    }
+                    (state.currentEditing as any).totalDelta.x += dx;
+                    (state.currentEditing as any).totalDelta.y += dy;
+                    
                     // Update drag start for next frame
                     state.currentEditing.dragStart = { x: worldPos.x, y: worldPos.y };
                 }
@@ -100,13 +107,13 @@ export class EditTool {
     handleMouseUp(state: State): boolean {
         if (state.currentEditing.isDragging && state.tool === 'edit') {
             if (state.currentEditing.isGroupMove && state.currentEditing.dragStart) {
-                // Create MoveShapesCommand - but we need to calculate total delta from start
-                // Since we've been applying incremental moves, we need to reset and apply the total
-                // For simplicity, we'll create a command with dx=0, dy=0 since we already applied the movement
-                // In a production app, you'd want to track the total delta more carefully
-                const command = new MoveShapesCommand([...state.selection], 0, 0);
-                this.executor.execute(command, state);
-                this.onHistoryChange();
+                // Create MoveShapesCommand with the total movement delta
+                const totalDelta = (state.currentEditing as any).totalDelta || { x: 0, y: 0 };
+                if (totalDelta.x !== 0 || totalDelta.y !== 0) {
+                    const command = new MoveShapesCommand([...state.selection], totalDelta.x, totalDelta.y);
+                    this.executor.execute(command, state);
+                    this.onHistoryChange();
+                }
             } else if (state.currentEditing.shapeId && state.currentEditing.vertexIndex !== null) {
                 // Create MoveVertexCommand
                 const shape = state.scene.shapes.find(s => s.id === state.currentEditing.shapeId!);
@@ -135,6 +142,7 @@ export class EditTool {
             state.currentEditing.isGroupMove = false;
             state.currentEditing.dragStart = null;
             (state.currentEditing as any).originalPos = null;
+            (state.currentEditing as any).totalDelta = null;
             
             return true;
         }

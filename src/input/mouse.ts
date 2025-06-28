@@ -46,20 +46,39 @@ export class MouseHandler {
     }
 
     private handleMouseDown(e: MouseEvent, state: State) {
-        // Handle edit tool first when in edit mode
+        const { detail } = e;
+
+        // Double-click mousedown: enter edit mode and start editing immediately
+        if (detail === 2 && state.tool === 'select' && state.selection.length > 0) {
+            // Check if click is inside any selected shape
+            const canvas = e.currentTarget as HTMLCanvasElement;
+            const rect = canvas.getBoundingClientRect();
+            const wx = (e.clientX - rect.left - state.view.panX) / state.view.zoom;
+            const wy = (e.clientY - rect.top - state.view.panY) / state.view.zoom;
+            const hit = state.scene.shapes
+                .filter(s => state.selection.includes(s.id))
+                .some(s => {
+                    const b = getBoundingBox(s);
+                    return wx >= b.x && wx <= b.x + b.width && wy >= b.y && wy <= b.y + b.height;
+                });
+            if (hit) {
+                this.toolManager.setActiveTool('edit', state);
+                // fall through to edit handler
+            }
+        }
+
+        // Edit-mode drag handling
         if (state.tool === 'edit') {
             const editHandled = this.editTool.handleMouseDown(e, state);
             if (editHandled) {
                 return;
             }
         }
-        
-        // Handle select tool first to allow selection before other tools
+
+        // Selection / pan / draw
         this.selectTool.handleMouseDown(e, state);
-        
         const panHandled = this.panTool.handleMouseDown(e, state);
         this.drawingTools.handleMouseDown(e, state);
-        
         if (panHandled) {
             this.toolManager.updateCursorForPanning(true);
         }
@@ -83,7 +102,7 @@ export class MouseHandler {
             for (const shape of selectedShapes) {
                 if (this.isPointInsideShape(shape, worldX, worldY)) {
                     // Switch to edit mode
-                    state.tool = 'edit';
+                    this.toolManager.setActiveTool('edit', state);
                     console.log('Entered edit mode for shape:', shape.id);
                     return;
                 }
