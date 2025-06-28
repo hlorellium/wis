@@ -165,10 +165,22 @@ export class Path2DRenderer {
             case 'bezier':
                 const bezier = shape as BezierCurveShape;
                 const [p0, cp1, cp2, p1] = bezier.points;
+                
+                // Draw thick outline of the curve
                 ctx.lineWidth = 4;
                 ctx.beginPath();
                 ctx.moveTo(p0.x, p0.y);
                 ctx.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, p1.x, p1.y);
+                ctx.stroke();
+                
+                // Draw dotted helper lines showing control points
+                ctx.lineWidth = 1;
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.moveTo(p0.x, p0.y);
+                ctx.lineTo(cp1.x, cp1.y);
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(cp2.x, cp2.y);
                 ctx.stroke();
                 break;
         }

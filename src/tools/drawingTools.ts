@@ -131,16 +131,35 @@ export class DrawingTools {
                 const curve = state.currentDrawing.shape as BezierCurveShape;
                 // Update end point
                 curve.points[3] = { x: currentX, y: currentY };
-                // Set control points to create a straight line initially
-                const t1 = 1/3, t2 = 2/3;
-                curve.points[1] = {
-                    x: this.startWorldX + (currentX - this.startWorldX) * t1,
-                    y: this.startWorldY + (currentY - this.startWorldY) * t1
-                };
-                curve.points[2] = {
-                    x: this.startWorldX + (currentX - this.startWorldX) * t2,
-                    y: this.startWorldY + (currentY - this.startWorldY) * t2
-                };
+                
+                // Calculate direction vector and perpendicular offset for visible curve
+                const vx = currentX - this.startWorldX;
+                const vy = currentY - this.startWorldY;
+                const length = Math.sqrt(vx * vx + vy * vy);
+                
+                if (length > 0) {
+                    // Perpendicular vector (normalized)
+                    const px = -vy / length;
+                    const py = vx / length;
+                    
+                    // Offset distance for curve visibility
+                    const offset = length / 4;
+                    
+                    // Control points at 1/3 and 2/3 along the line, offset perpendicularly
+                    const t1 = 1/3, t2 = 2/3;
+                    curve.points[1] = {
+                        x: this.startWorldX + vx * t1 + px * offset,
+                        y: this.startWorldY + vy * t1 + py * offset
+                    };
+                    curve.points[2] = {
+                        x: this.startWorldX + vx * t2 + px * offset,
+                        y: this.startWorldY + vy * t2 + py * offset
+                    };
+                } else {
+                    // Fallback for zero-length case
+                    curve.points[1] = { x: this.startWorldX, y: this.startWorldY };
+                    curve.points[2] = { x: currentX, y: currentY };
+                }
                 break;
         }
     }
