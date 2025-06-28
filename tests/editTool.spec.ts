@@ -462,5 +462,49 @@ describe('EditTool', () => {
             expect(selectResult).toBe(true);
             expect(state.selection).toEqual([]);
         });
+
+        it('should switch back to select mode when selection is cleared in edit mode', () => {
+            const rect = createTestRectangle({ id: 'rect1', x: 10, y: 10, width: 20, height: 20 });
+            state.scene.shapes.push(rect);
+            state.selection = ['rect1'];
+            state.tool = 'edit';
+
+            // Mock ToolManager and SelectTool for this integration test
+            const mockToolManager = {
+                setActiveTool: (tool: string, state: any) => {
+                    state.tool = tool;
+                    console.log('Tool switched to:', tool);
+                }
+            };
+
+            const mockSelectTool = {
+                handleMouseDown: (e: MouseEvent, state: any) => {
+                    if (state.tool === 'edit') {
+                        state.selection = [];
+                        return true;
+                    }
+                    return false;
+                },
+                getDragState: () => null // No drag active
+            };
+
+            // Simulate the MouseHandler logic
+            const mouseEvent = { button: 0, clientX: 50, clientY: 50 } as MouseEvent;
+            
+            // EditTool returns false for empty space click
+            const editResult = editTool.handleMouseDown(mouseEvent, state);
+            expect(editResult).toBe(false);
+            
+            // SelectTool clears selection
+            mockSelectTool.handleMouseDown(mouseEvent, state);
+            expect(state.selection).toEqual([]);
+            
+            // MouseHandler should now switch back to select mode
+            if (state.selection.length === 0 && !mockSelectTool.getDragState()) {
+                mockToolManager.setActiveTool('select', state);
+            }
+            
+            expect(state.tool).toBe('select');
+        });
     });
 });

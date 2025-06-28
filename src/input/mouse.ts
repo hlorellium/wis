@@ -79,6 +79,12 @@ export class MouseHandler {
             }
             // If edit tool didn't handle the click, allow selection changes in edit mode
             this.selectTool.handleMouseDown(e, state);
+            
+            // If we're in edit mode and selection is now empty (cleared by SelectTool),
+            // automatically switch back to select mode to enable drag-select
+            if (state.selection.length === 0 && !this.selectTool.getDragState()) {
+                this.toolManager.setActiveTool('select', state);
+            }
             return;
         }
 
