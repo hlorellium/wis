@@ -13,7 +13,7 @@ export class SelectTool {
     }
 
     handleMouseDown(e: MouseEvent, state: State): boolean {
-        if (e.button === 0 && state.tool === 'select') {
+        if (e.button === 0 && (state.tool === 'select' || state.tool === 'edit')) {
             const worldPos = this.coordinateTransformer.screenToWorld(e.clientX, e.clientY, state);
             
             // Start drag operation
@@ -42,17 +42,31 @@ export class SelectTool {
     }
 
     handleMouseMove(e: MouseEvent, state: State): boolean {
-        if (this.isDragging && state.tool === 'select') {
+        if (this.isDragging && (state.tool === 'select' || state.tool === 'edit')) {
             const worldPos = this.coordinateTransformer.screenToWorld(e.clientX, e.clientY, state);
             this.dragCurrent = { x: worldPos.x, y: worldPos.y };
-            return true;
+            return state.tool === 'select'; // Only return true for select mode to show drag preview
         }
         return false;
     }
 
     handleMouseUp(state: State): boolean {
-        if (this.isDragging && state.tool === 'select') {
-            this.performDragSelection(state);
+        if (this.isDragging && (state.tool === 'select' || state.tool === 'edit')) {
+            // Only perform drag selection in select mode, not in edit mode
+            if (state.tool === 'select') {
+                this.performDragSelection(state);
+            } else if (state.tool === 'edit') {
+                // In edit mode, if there was a significant drag, clear selection
+                if (this.dragStart && this.dragCurrent) {
+                    const dragDistance = Math.abs(this.dragCurrent.x - this.dragStart.x) + 
+                                       Math.abs(this.dragCurrent.y - this.dragStart.y);
+                    if (dragDistance > 5) {
+                        state.selection = [];
+                        console.log('cleared selection (drag in edit mode)');
+                    }
+                }
+            }
+            
             this.isDragging = false;
             this.dragStart = null;
             this.dragCurrent = null;
