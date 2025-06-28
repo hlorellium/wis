@@ -1,9 +1,10 @@
 import { CommandExecutor } from '../commandExecutor';
 import type { CommandSource } from '../commandExecutor';
-import type { Command } from '../history';
-import { PanCommand } from '../history';
+import type { Command } from '../commands';
+import { PanCommand } from '../commands';
 import type { State } from '../state';
 import { CommandRegistry } from './commandRegistry';
+import { logger } from '../utils/logger';
 
 interface SerializedCommand {
     type: string;
@@ -89,7 +90,7 @@ export class SyncManager {
         try {
             this.channel.postMessage(message);
         } catch (error) {
-            console.warn('Failed to broadcast command:', error);
+            logger.warn('Failed to broadcast command', 'SyncManager', error);
         }
     }
 
@@ -102,7 +103,7 @@ export class SyncManager {
             // Execute as remote command to avoid re-broadcasting
             this.executor.execute(command, this.state, 'remote');
         } catch (error) {
-            console.warn('Failed to apply remote command:', error);
+            logger.warn('Failed to apply remote command', 'SyncManager', error);
         }
     }
 

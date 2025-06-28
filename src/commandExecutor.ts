@@ -1,4 +1,4 @@
-import type { Command } from './history';
+import type { Command } from './commands';
 import type { State } from './state';
 
 export type CommandSource = 'local' | 'remote';

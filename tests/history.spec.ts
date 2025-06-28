@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { HistoryManager, AddShapeCommand, RemoveShapeCommand, PanCommand } from '../src/history';
-import { resetIdCounter } from '../src/constants';
-import type { State } from '../src/state';
+import { resetIdCounter, generateId } from '../src/constants';
+import type { State, Shape } from '../src/state';
 import { createTestState, createTestRectangle, createTestCircle } from './helpers';
 
 describe('HistoryManager', () => {
@@ -70,42 +70,66 @@ describe('HistoryManager', () => {
 
   describe('command types', () => {
     it('should handle AddShapeCommand correctly', () => {
-      const shape = createTestRectangle();
+      const shape: Shape = {
+        id: generateId(),
+        type: 'rectangle',
+        color: '#ff0000',
+        x: 10,
+        y: 20,
+        width: 30,
+        height: 40
+      };
+
       const command = new AddShapeCommand(shape);
+      const initialLength = state.scene.shapes.length;
 
       command.apply(state);
-      expect(state.scene.shapes).toContain(shape);
+      expect(state.scene.shapes.length).toBe(initialLength + 1);
+      expect(state.scene.shapes.some(s => s.id === shape.id)).toBe(true);
 
       command.invert(state);
-      expect(state.scene.shapes).not.toContain(shape);
+      expect(state.scene.shapes.length).toBe(initialLength);
+      expect(state.scene.shapes.some(s => s.id === shape.id)).toBe(false);
     });
 
     it('should handle RemoveShapeCommand correctly', () => {
-      const shape = createTestRectangle();
+      const shape: Shape = {
+        id: generateId(),
+        type: 'circle',
+        color: '#00ff00',
+        x: 50,
+        y: 60,
+        radius: 25
+      };
+
       state.scene.shapes.push(shape);
-      
+      const initialLength = state.scene.shapes.length;
       const command = new RemoveShapeCommand(shape);
 
       command.apply(state);
-      expect(state.scene.shapes).not.toContain(shape);
+      expect(state.scene.shapes.length).toBe(initialLength - 1);
+      expect(state.scene.shapes.some(s => s.id === shape.id)).toBe(false);
 
       command.invert(state);
-      expect(state.scene.shapes).toContain(shape);
+      expect(state.scene.shapes.length).toBe(initialLength);
+      expect(state.scene.shapes.some(s => s.id === shape.id)).toBe(true);
     });
 
     it('should handle PanCommand correctly', () => {
-      const command = new PanCommand(10, 5);
+      const dx = 15;
+      const dy = 25;
+      const command = new PanCommand(dx, dy);
 
-      expect(state.view.panX).toBe(0);
-      expect(state.view.panY).toBe(0);
+      const initialPanX = state.view.panX;
+      const initialPanY = state.view.panY;
 
       command.apply(state);
-      expect(state.view.panX).toBe(10);
-      expect(state.view.panY).toBe(5);
+      expect(state.view.panX).toBe(initialPanX + dx);
+      expect(state.view.panY).toBe(initialPanY + dy);
 
       command.invert(state);
-      expect(state.view.panX).toBe(0);
-      expect(state.view.panY).toBe(0);
+      expect(state.view.panX).toBe(initialPanX);
+      expect(state.view.panY).toBe(initialPanY);
     });
   });
 

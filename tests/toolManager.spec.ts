@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { ToolManager } from '../src/tools/toolManager';
 import { HistoryManager } from '../src/history';
+import { CommandExecutor } from '../src/commandExecutor';
 import { createTestState } from './helpers';
 import type { State, Tool } from '../src/state';
 
@@ -22,6 +23,7 @@ function createToolbarHTML(): HTMLElement {
 describe('ToolManager', () => {
   let toolManager: ToolManager;
   let historyManager: HistoryManager;
+  let commandExecutor: CommandExecutor;
   let canvas: HTMLCanvasElement;
   let state: State;
   let toolbar: HTMLElement;
@@ -39,8 +41,11 @@ describe('ToolManager', () => {
     vi.spyOn(historyManager, 'undo');
     vi.spyOn(historyManager, 'redo');
 
+    // Create command executor
+    commandExecutor = new CommandExecutor();
+
     // Create tool manager
-    toolManager = new ToolManager(canvas, historyManager);
+    toolManager = new ToolManager(canvas, commandExecutor, historyManager);
     state = createTestState();
   });
 
@@ -50,7 +55,7 @@ describe('ToolManager', () => {
   });
 
   describe('constructor', () => {
-    it('should initialize with canvas and history manager', () => {
+    it('should initialize with canvas, executor, and history manager', () => {
       expect(toolManager).toBeDefined();
     });
 
@@ -207,7 +212,7 @@ describe('ToolManager', () => {
       redoButton?.remove();
 
       // Create new tool manager
-      const newToolManager = new ToolManager(canvas, historyManager);
+      const newToolManager = new ToolManager(canvas, commandExecutor, historyManager);
       
       // Should not throw error
       expect(() => newToolManager.updateHistoryButtons()).not.toThrow();

@@ -1,6 +1,8 @@
 import type { State, Tool } from '../state';
 import { CommandExecutor } from '../commandExecutor';
 import { HistoryManager } from '../history';
+import { getElements, getOptionalElement } from '../utils/dom';
+import { UI_CONFIG } from '../constants';
 
 export class ToolManager {
     private toolButtons: NodeListOf<HTMLButtonElement>;
@@ -8,18 +10,15 @@ export class ToolManager {
     private redoButton: HTMLButtonElement | null;
     private canvas: HTMLCanvasElement;
     private executor: CommandExecutor;
-    private history: HistoryManager | null = null;
+    private history: HistoryManager;
 
-    constructor(canvas: HTMLCanvasElement, executor: CommandExecutor) {
+    constructor(canvas: HTMLCanvasElement, executor: CommandExecutor, history: HistoryManager) {
         this.canvas = canvas;
         this.executor = executor;
-        this.toolButtons = document.querySelectorAll<HTMLButtonElement>('.tool-btn');
-        this.undoButton = document.querySelector<HTMLButtonElement>('[data-action="undo"]');
-        this.redoButton = document.querySelector<HTMLButtonElement>('[data-action="redo"]');
-    }
-
-    setHistoryManager(history: HistoryManager): void {
         this.history = history;
+        this.toolButtons = getElements<HTMLButtonElement>('.tool-btn');
+        this.undoButton = getOptionalElement<HTMLButtonElement>('[data-action="undo"]');
+        this.redoButton = getOptionalElement<HTMLButtonElement>('[data-action="redo"]');
     }
 
     setupToolButtons(state: State) {
@@ -39,8 +38,6 @@ export class ToolManager {
     }
 
     private handleAction(action: string, state: State) {
-        if (!this.history) return;
-        
         switch (action) {
             case 'undo':
                 if (this.history.canUndo()) {
@@ -77,8 +74,6 @@ export class ToolManager {
     }
 
     updateHistoryButtons(): void {
-        if (!this.history) return;
-        
         if (this.undoButton) {
             this.undoButton.disabled = !this.history.canUndo();
         }
@@ -90,22 +85,22 @@ export class ToolManager {
     private updateCursor(tool: Tool) {
         switch (tool) {
             case 'pan':
-                this.canvas.style.cursor = 'grab';
+                this.canvas.style.cursor = UI_CONFIG.PAN_CURSOR;
                 break;
             case 'select':
-                this.canvas.style.cursor = 'default';
+                this.canvas.style.cursor = UI_CONFIG.DEFAULT_CURSOR;
                 break;
             default:
-                this.canvas.style.cursor = 'crosshair';
+                this.canvas.style.cursor = UI_CONFIG.DRAWING_CURSOR;
                 break;
         }
     }
 
     updateCursorForPanning(isPanning: boolean) {
         if (isPanning) {
-            this.canvas.style.cursor = 'grabbing';
+            this.canvas.style.cursor = UI_CONFIG.PANNING_CURSOR;
         } else {
-            this.canvas.style.cursor = 'grab';
+            this.canvas.style.cursor = UI_CONFIG.PAN_CURSOR;
         }
     }
 }

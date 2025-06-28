@@ -1,5 +1,5 @@
-import type { Command } from '../history';
-import { AddShapeCommand, RemoveShapeCommand, PanCommand } from '../history';
+import type { Command } from '../commands';
+import { AddShapeCommand, RemoveShapeCommand, PanCommand } from '../commands';
 import type { Shape } from '../state';
 
 export interface SerializableCommand {

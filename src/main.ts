@@ -8,6 +8,7 @@ import { MouseHandler } from './input/mouse';
 import { HistoryManager } from './history';
 import { CommandExecutor } from './commandExecutor';
 import { SyncManager } from './sync/syncManager';
+import { getRequiredElement } from './utils/dom';
 // Import CommandRegistry to ensure command factories are registered
 import './sync/commandRegistry';
 import './style.css';
@@ -32,9 +33,9 @@ class DrawingApp {
         });
 
         // Get DOM elements
-        const bgCanvas = document.querySelector<HTMLCanvasElement>('#bg-canvas')!;
-        const canvas = document.querySelector<HTMLCanvasElement>('#canvas')!;
-        const canvasContainer = document.querySelector<HTMLDivElement>('#canvas-container')!;
+        const bgCanvas = getRequiredElement<HTMLCanvasElement>('#bg-canvas');
+        const canvas = getRequiredElement<HTMLCanvasElement>('#canvas');
+        const canvasContainer = getRequiredElement<HTMLDivElement>('#canvas-container');
 
         // Initialize command system
         this.executor = new CommandExecutor();
@@ -53,8 +54,7 @@ class DrawingApp {
         this.canvasSetup = new CanvasSetup(bgCanvas, canvas, canvasContainer);
         this.bgRenderer = new BackgroundRenderer();
         this.renderer = new Path2DRenderer();
-        this.toolManager = new ToolManager(canvas, this.executor);
-        this.toolManager.setHistoryManager(this.history);
+        this.toolManager = new ToolManager(canvas, this.executor, this.history);
         this.mouseHandler = new MouseHandler(canvas, this.toolManager, this.executor);
 
         this.initialize();
