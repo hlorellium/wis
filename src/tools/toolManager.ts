@@ -1,4 +1,5 @@
 import type { State, Tool } from '../state';
+import { CommandExecutor } from '../commandExecutor';
 import { HistoryManager } from '../history';
 
 export class ToolManager {
@@ -6,14 +7,19 @@ export class ToolManager {
     private undoButton: HTMLButtonElement | null;
     private redoButton: HTMLButtonElement | null;
     private canvas: HTMLCanvasElement;
-    private history: HistoryManager;
+    private executor: CommandExecutor;
+    private history: HistoryManager | null = null;
 
-    constructor(canvas: HTMLCanvasElement, history: HistoryManager) {
+    constructor(canvas: HTMLCanvasElement, executor: CommandExecutor) {
         this.canvas = canvas;
-        this.history = history;
+        this.executor = executor;
         this.toolButtons = document.querySelectorAll<HTMLButtonElement>('.tool-btn');
         this.undoButton = document.querySelector<HTMLButtonElement>('[data-action="undo"]');
         this.redoButton = document.querySelector<HTMLButtonElement>('[data-action="redo"]');
+    }
+
+    setHistoryManager(history: HistoryManager): void {
+        this.history = history;
     }
 
     setupToolButtons(state: State) {
@@ -33,6 +39,8 @@ export class ToolManager {
     }
 
     private handleAction(action: string, state: State) {
+        if (!this.history) return;
+        
         switch (action) {
             case 'undo':
                 if (this.history.canUndo()) {
@@ -69,6 +77,8 @@ export class ToolManager {
     }
 
     updateHistoryButtons(): void {
+        if (!this.history) return;
+        
         if (this.undoButton) {
             this.undoButton.disabled = !this.history.canUndo();
         }

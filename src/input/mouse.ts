@@ -3,7 +3,7 @@ import { PanTool } from '../tools/panTool';
 import { DrawingTools } from '../tools/drawingTools';
 import { SelectTool } from '../tools/selectTool';
 import { ToolManager } from '../tools/toolManager';
-import { HistoryManager } from '../history';
+import { CommandExecutor } from '../commandExecutor';
 
 export class MouseHandler {
     private panTool: PanTool;
@@ -14,11 +14,11 @@ export class MouseHandler {
     constructor(
         canvas: HTMLCanvasElement,
         toolManager: ToolManager,
-        history: HistoryManager
+        executor: CommandExecutor
     ) {
         const onHistoryChange = () => toolManager.updateHistoryButtons();
-        this.panTool = new PanTool(history, onHistoryChange);
-        this.drawingTools = new DrawingTools(canvas, history, onHistoryChange);
+        this.panTool = new PanTool(executor, onHistoryChange);
+        this.drawingTools = new DrawingTools(canvas, executor, onHistoryChange);
         this.selectTool = new SelectTool(canvas);
         this.toolManager = toolManager;
     }

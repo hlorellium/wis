@@ -6,6 +6,8 @@ import { Path2DRenderer } from './rendering/path2DRenderer';
 import { ToolManager } from './tools/toolManager';
 import { MouseHandler } from './input/mouse';
 import { HistoryManager } from './history';
+import { CommandExecutor } from './commandExecutor';
+import { SyncManager } from './sync/syncManager';
 import './style.css';
 
 class DrawingApp {
@@ -16,6 +18,8 @@ class DrawingApp {
     private toolManager: ToolManager;
     private mouseHandler: MouseHandler;
     private history: HistoryManager;
+    private executor: CommandExecutor;
+    private syncManager: SyncManager;
     private lastRenderedVersion = -1;
 
     constructor() {
@@ -30,15 +34,23 @@ class DrawingApp {
         const canvas = document.querySelector<HTMLCanvasElement>('#canvas')!;
         const canvasContainer = document.querySelector<HTMLDivElement>('#canvas-container')!;
 
-        // Initialize history
+        // Initialize command system
+        this.executor = new CommandExecutor();
         this.history = new HistoryManager();
+        this.syncManager = new SyncManager(this.executor, this.state);
+
+        // Setup history to listen to command executor
+        this.executor.subscribe((command, source) => {
+            this.history.record(command);
+        });
 
         // Initialize modules
         this.canvasSetup = new CanvasSetup(bgCanvas, canvas, canvasContainer);
         this.bgRenderer = new BackgroundRenderer();
         this.renderer = new Path2DRenderer();
-        this.toolManager = new ToolManager(canvas, this.history);
-        this.mouseHandler = new MouseHandler(canvas, this.toolManager, this.history);
+        this.toolManager = new ToolManager(canvas, this.executor);
+        this.toolManager.setHistoryManager(this.history);
+        this.mouseHandler = new MouseHandler(canvas, this.toolManager, this.executor);
 
         this.initialize();
     }

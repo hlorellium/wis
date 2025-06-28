@@ -7,9 +7,6 @@ export interface Command {
     merge?(other: Command): Command | null; // optional command merging
 }
 
-export interface CommandBus {
-    execute(command: Command): void;
-}
 
 export class AddShapeCommand implements Command {
     private readonly shape: Shape;
@@ -24,6 +21,10 @@ export class AddShapeCommand implements Command {
 
     invert(state: State): void {
         state.scene.shapes = state.scene.shapes.filter(sh => sh.id !== this.shape.id);
+    }
+
+    serialize(): { shape: Shape } {
+        return { shape: this.shape };
     }
 }
 
@@ -40,6 +41,10 @@ export class RemoveShapeCommand implements Command {
 
     invert(state: State): void {
         state.scene.shapes.push(this.shape);
+    }
+
+    serialize(): { shape: Shape } {
+        return { shape: this.shape };
     }
 }
 
@@ -68,9 +73,13 @@ export class PanCommand implements Command {
         }
         return null;
     }
+
+    serialize(): { dx: number; dy: number } {
+        return { dx: this.dx, dy: this.dy };
+    }
 }
 
-export class HistoryManager implements CommandBus {
+export class HistoryManager {
     private past: Command[] = [];
     private future: Command[] = [];
     private readonly maxSize: number;
@@ -79,10 +88,17 @@ export class HistoryManager implements CommandBus {
         this.maxSize = maxSize;
     }
 
-    execute(command: Command): void {
-        // This method is for the CommandBus interface
-        // Tools should use this instead of push() to decouple from HistoryManager
-        throw new Error('execute() requires state parameter. Use push() instead.');
+    record(command: Command): void {
+        // Record a command that has already been executed
+        this.past.push(command);
+        
+        // Enforce capacity limit
+        if (this.past.length > this.maxSize) {
+            this.past.shift(); // remove oldest command
+        }
+        
+        // Clear redo chain
+        this.future.length = 0;
     }
 
     push(command: Command, state: State): void {

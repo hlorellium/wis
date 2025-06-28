@@ -1,7 +1,8 @@
 import type { State, LineShape, RectangleShape, CircleShape } from '../state';
 import { CoordinateTransformer } from '../canvas/coordinates';
 import { generateId } from '../state';
-import { HistoryManager, AddShapeCommand } from '../history';
+import { AddShapeCommand } from '../history';
+import { CommandExecutor } from '../commandExecutor';
 import { PALETTE } from '../constants';
 
 export class DrawingTools {
@@ -9,12 +10,12 @@ export class DrawingTools {
     private startWorldX = 0;
     private startWorldY = 0;
     private coordinateTransformer: CoordinateTransformer;
-    private history: HistoryManager;
+    private executor: CommandExecutor;
     private onHistoryChange?: () => void;
 
-    constructor(canvas: HTMLCanvasElement, history: HistoryManager, onHistoryChange?: () => void) {
+    constructor(canvas: HTMLCanvasElement, executor: CommandExecutor, onHistoryChange?: () => void) {
         this.coordinateTransformer = new CoordinateTransformer(canvas);
-        this.history = history;
+        this.executor = executor;
         this.onHistoryChange = onHistoryChange;
     }
 
@@ -137,7 +138,7 @@ export class DrawingTools {
 
         if (shouldAdd) {
             const command = new AddShapeCommand(shape);
-            this.history.push(command, state);
+            this.executor.execute(command, state);
             this.onHistoryChange?.();
         }
         

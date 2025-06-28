@@ -1,5 +1,6 @@
 import type { State } from '../state';
-import { HistoryManager, PanCommand } from '../history';
+import { PanCommand } from '../history';
+import { CommandExecutor } from '../commandExecutor';
 import { HISTORY_CONFIG } from '../constants';
 
 export class PanTool {
@@ -8,12 +9,12 @@ export class PanTool {
     private startY = 0;
     private startPanX = 0;
     private startPanY = 0;
-    private history: HistoryManager;
+    private executor: CommandExecutor;
     private onHistoryChange?: () => void;
     private rafId: number | null = null;
 
-    constructor(history: HistoryManager, onHistoryChange?: () => void) {
-        this.history = history;
+    constructor(executor: CommandExecutor, onHistoryChange?: () => void) {
+        this.executor = executor;
         this.onHistoryChange = onHistoryChange;
     }
 
@@ -53,7 +54,7 @@ export class PanTool {
                 
                 // Then apply the pan command
                 const command = new PanCommand(deltaX, deltaY);
-                this.history.push(command, state);
+                this.executor.execute(command, state);
                 this.onHistoryChange?.();
             }
             
