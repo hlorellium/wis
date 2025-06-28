@@ -74,6 +74,10 @@ class DrawingApp {
         this.canvasSetup = new CanvasSetup(bgCanvas, canvas, canvasContainer);
         this.bgRenderer = new BackgroundRenderer();
         this.renderer = new Path2DRenderer();
+        
+        // Connect renderer to executor for cache clearing
+        this.executor.setRenderer(this.renderer);
+        
         this.toolManager = new ToolManager(canvas, this.executor, this.history);
         this.mouseHandler = new MouseHandler(canvas, this.toolManager, this.executor, this.renderer);
 

@@ -2,15 +2,15 @@
 
 ## Issues Addressed
 
-### 1. Edit Commands Not Syncing Properly
-**Problem**: Edit commands (MoveVertexCommand and MoveShapesCommand) were being broadcast but not properly updating shapes in other tabs.
+### 1. Edit Commands Not Syncing Visually
+**Problem**: Edit commands (MoveVertexCommand and MoveShapesCommand) were being broadcast and received correctly, but visual changes weren't appearing in other tabs.
 
-**Root Cause**: The sync system was working correctly - commands were being broadcast and received, but there was a mismatch in circle vertex handling between EditTool and MoveVertexCommand.
+**Root Cause**: The renderer cache wasn't being cleared when remote commands were executed, so the cached graphics continued to display the old shapes even though the state was updated.
 
 **Solution**: 
-- Added comprehensive logging to track command execution flow
+- Added renderer cache clearing to the CommandExecutor for all command types
+- Enhanced debugging to track both command execution and cache clearing
 - Fixed circle vertex handling in MoveVertexCommand to match EditTool's 4-handle approach
-- Updated tests to reflect the new circle editing behavior
 
 ### 2. Circle Vertex Editing Inconsistency
 **Problem**: EditTool provided 4 handles for circles (East, South, West, North for radius adjustment), but MoveVertexCommand only handled 2 vertices (center move and radius resize).
@@ -60,7 +60,13 @@ case 'circle':
 - Updated circle test to reflect new behavior where vertex 0 adjusts radius instead of moving center
 - Test now correctly validates the 4-handle radius adjustment system
 
-### 5. Added Comprehensive Sync Tests
+### 5. Added Renderer Cache Clearing (`src/commandExecutor.ts` and `src/main.ts`)
+- Added `setRenderer()` method to CommandExecutor to receive renderer reference
+- Added `clearCacheForCommand()` method that clears cache for affected shapes after command execution
+- Connected renderer to CommandExecutor in main.ts initialization
+- Added logging to track cache clearing operations
+
+### 6. Added Comprehensive Sync Tests
 - `tests/editCommandSync.spec.ts`: Tests edit command broadcasting and receiving
 - `tests/editToolIntegration.spec.ts`: Tests EditTool command execution with correct source parameters
 

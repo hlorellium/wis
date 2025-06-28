@@ -14,6 +14,7 @@ export type CommandListener = (command: Command, source: CommandSource) => void;
 export class CommandExecutor {
     private listeners = new Set<CommandListener>();
     private historyManager?: any; // Will be set by main.ts
+    private renderer?: any; // Will be set by main.ts
     private executedCommands = new Set<string>(); // Track executed command IDs
 
     /**
@@ -21,6 +22,13 @@ export class CommandExecutor {
      */
     setHistoryManager(historyManager: any): void {
         this.historyManager = historyManager;
+    }
+
+    /**
+     * Set the renderer for cache clearing when shapes are modified
+     */
+    setRenderer(renderer: any): void {
+        this.renderer = renderer;
     }
 
     /**
@@ -61,6 +69,9 @@ export class CommandExecutor {
         command.apply(state);
         this.executedCommands.add(command.id);
         
+        // Clear renderer cache for affected shapes
+        this.clearCacheForCommand(command);
+        
         // Notify all listeners
         this.listeners.forEach(listener => listener(command, source));
     }
@@ -80,5 +91,42 @@ export class CommandExecutor {
      */
     getListenerCount(): number {
         return this.listeners.size;
+    }
+
+    /**
+     * Clear renderer cache for shapes affected by a command
+     */
+    private clearCacheForCommand(command: Command): void {
+        if (!this.renderer || !this.renderer.clearCache) {
+            return;
+        }
+
+        // Import the command types to check instanceof
+        const { MoveShapesCommand, MoveVertexCommand, DeleteShapeCommand } = require('./commands');
+
+        if (command instanceof MoveShapesCommand) {
+            // Clear cache for all moved shapes
+            const serialized = (command as any).serialize();
+            serialized.shapeIds.forEach((shapeId: string) => {
+                this.renderer.clearCache(shapeId);
+                logger.info(`Cleared cache for moved shape: ${shapeId}`, 'CommandExecutor');
+            });
+        } else if (command instanceof MoveVertexCommand) {
+            // Clear cache for the modified shape
+            const serialized = (command as any).serialize();
+            this.renderer.clearCache(serialized.shapeId);
+            logger.info(`Cleared cache for vertex-modified shape: ${serialized.shapeId}`, 'CommandExecutor');
+        } else if (command instanceof DeleteShapeCommand) {
+            // Clear cache for deleted shapes
+            const serialized = (command as any).serialize();
+            serialized.shapeIds.forEach((shapeId: string) => {
+                this.renderer.clearCache(shapeId);
+                logger.info(`Cleared cache for deleted shape: ${shapeId}`, 'CommandExecutor');
+            });
+        } else {
+            // For other commands (AddShape, etc.), clear all cache to be safe
+            this.renderer.clearCache();
+            logger.info(`Cleared all cache for command: ${command.constructor.name}`, 'CommandExecutor');
+        }
     }
 }
