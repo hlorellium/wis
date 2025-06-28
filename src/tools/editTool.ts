@@ -119,6 +119,21 @@ export class EditTool {
                 // Create MoveShapesCommand with the total movement delta
                 const totalDelta = (state.currentEditing as any).totalDelta || { x: 0, y: 0 };
                 if (totalDelta.x !== 0 || totalDelta.y !== 0) {
+                    // Reset shapes to their original positions before applying the command
+                    // This prevents double-application of the movement delta
+                    const originalPositions = (state.currentEditing as any).originalPositions as Record<string, any>;
+                    if (originalPositions) {
+                        state.scene.shapes.forEach(shape => {
+                            if (state.selection.includes(shape.id)) {
+                                const originalPos = originalPositions[shape.id];
+                                if (originalPos) {
+                                    this.setShapeToPosition(shape, originalPos, 0, 0);
+                                    this.renderer.clearCache(shape.id);
+                                }
+                            }
+                        });
+                    }
+                    
                     const command = new MoveShapesCommand([...state.selection], totalDelta.x, totalDelta.y);
                     this.executor.execute(command, state);
                     this.onHistoryChange();
