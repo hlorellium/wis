@@ -1,5 +1,5 @@
 import type { Command } from './commands';
-import { UndoCommand, RedoCommand } from './commands';
+import { UndoCommand, RedoCommand, MoveShapesCommand, MoveVertexCommand, DeleteShapeCommand } from './commands';
 import type { State } from './state';
 import { logger } from './utils/logger';
 
@@ -100,9 +100,6 @@ export class CommandExecutor {
         if (!this.renderer || !this.renderer.clearCache) {
             return;
         }
-
-        // Import the command types to check instanceof
-        const { MoveShapesCommand, MoveVertexCommand, DeleteShapeCommand } = require('./commands');
 
         if (command instanceof MoveShapesCommand) {
             // Clear cache for all moved shapes

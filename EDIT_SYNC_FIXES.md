@@ -99,6 +99,8 @@ Example log output:
 - ✅ Circle editing behavior consistent between EditTool and MoveVertexCommand
 - ✅ Command deduplication working properly
 - ✅ Proper source parameter handling (local vs remote)
+- ✅ Fixed browser compatibility issue (`require is not defined` error)
+- ✅ Renderer cache clearing now works properly in browser environment
 
 ## Next Steps for User Testing
 1. Open the app in multiple browser tabs
