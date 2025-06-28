@@ -8,7 +8,7 @@ const STORE_NAME = 'state';
 const STATE_KEY = 'snapshot';
 
 // Schema versioning
-const CURRENT_SCHEMA_VERSION = 2;
+const CURRENT_SCHEMA_VERSION = 3;
 
 type PersistedState = {
     schemaVersion: number;
@@ -150,7 +150,10 @@ export class PersistenceManager {
     private migrateState(persistedState: PersistedState): PersistedState | null {
         try {
             if (persistedState.schemaVersion === 1) {
-                return this.migrateV1toV2(persistedState);
+                const v2State = this.migrateV1toV2(persistedState);
+                return v2State ? this.migrateV2toV3(v2State) : null;
+            } else if (persistedState.schemaVersion === 2) {
+                return this.migrateV2toV3(persistedState);
             }
             // Add more migrations here as needed
             logger.warn(`No migration path from version ${persistedState.schemaVersion} to ${CURRENT_SCHEMA_VERSION}`, 'PersistenceManager');
@@ -171,7 +174,8 @@ export class PersistenceManager {
                 schemaVersion: 1,
                 data: legacyState
             };
-            return this.migrateV1toV2(v1State);
+            const v2State = this.migrateV1toV2(v1State);
+            return v2State ? this.migrateV2toV3(v2State) : null;
         } catch (error) {
             logger.warn('Legacy state migration failed', 'PersistenceManager', error);
             return null;
@@ -202,12 +206,46 @@ export class PersistenceManager {
     }
 
     /**
+     * Migrate from version 2 to version 3
+     * Main change: add currentEditing field
+     */
+    private migrateV2toV3(v2State: PersistedState): PersistedState {
+        const state = JSON.parse(JSON.stringify(v2State.data));
+        
+        // Add currentEditing field with defaults
+        state.currentEditing = {
+            shapeId: null,
+            vertexIndex: null,
+            isDragging: false,
+            isGroupMove: false,
+            dragStart: null
+        };
+
+        logger.info('Migrated state from v2 to v3', 'PersistenceManager');
+        return {
+            schemaVersion: 3,
+            data: state
+        };
+    }
+
+    /**
      * Normalize state to ensure runtime invariants
      */
     private normalizeState(state: any): State {
         // Ensure selection is always an array
         if (!Array.isArray(state.selection)) {
             state.selection = state.selection ? [state.selection] : [];
+        }
+
+        // Ensure currentEditing exists with defaults
+        if (!state.currentEditing || typeof state.currentEditing !== 'object') {
+            state.currentEditing = {
+                shapeId: null,
+                vertexIndex: null,
+                isDragging: false,
+                isGroupMove: false,
+                dragStart: null
+            };
         }
 
         // Add more normalization rules here as needed
