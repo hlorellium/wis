@@ -7,14 +7,24 @@ const DB_NAME = 'drawing-app';
 const STORE_NAME = 'state';
 const STATE_KEY = 'snapshot';
 
+// Schema versioning
+const CURRENT_SCHEMA_VERSION = 2;
+
+type PersistedState = {
+    schemaVersion: number;
+    data: State;
+};
+
+type MigrationFunction = (oldState: any) => PersistedState;
+
 /**
  * Manages persistence of application state to IndexedDB
  */
 export class PersistenceManager {
-    private store: IndexedDbStore<State>;
+    private store: IndexedDbStore<PersistedState | State>;
 
     constructor() {
-        this.store = new IndexedDbStore<State>(DB_NAME, STORE_NAME);
+        this.store = new IndexedDbStore<PersistedState | State>(DB_NAME, STORE_NAME);
     }
 
     /**
@@ -23,20 +33,31 @@ export class PersistenceManager {
      */
     async loadState(): Promise<State | undefined> {
         try {
-            const state = await this.store.get(STATE_KEY);
-            if (state) {
-                // Validate that the loaded state has the expected structure
-                if (this.isValidState(state)) {
-                    logger.info('State loaded from IndexedDB', 'PersistenceManager');
-                    return state;
-                } else {
-                    logger.warn('Invalid state structure found, using initial state', 'PersistenceManager');
-                    // Clean up invalid data
-                    await this.store.delete(STATE_KEY);
-                    return undefined;
-                }
+            const rawData = await this.store.get(STATE_KEY);
+            if (!rawData) {
+                return undefined;
             }
-            return undefined;
+
+            // Handle schema versioning
+            const persistedState = this.handleSchemaVersion(rawData);
+            if (!persistedState) {
+                logger.warn('Could not migrate persisted state, using initial state', 'PersistenceManager');
+                await this.store.delete(STATE_KEY);
+                return undefined;
+            }
+
+            // Normalize the state to ensure runtime invariants
+            const normalizedState = this.normalizeState(persistedState.data);
+
+            // Validate that the loaded state has the expected structure
+            if (this.isValidState(normalizedState)) {
+                logger.info('State loaded from IndexedDB', 'PersistenceManager');
+                return normalizedState;
+            } else {
+                logger.warn('Invalid state structure found, using initial state', 'PersistenceManager');
+                await this.store.delete(STATE_KEY);
+                return undefined;
+            }
         } catch (error) {
             logger.warn('Failed to load state from IndexedDB', 'PersistenceManager', error);
             return undefined;
@@ -50,7 +71,11 @@ export class PersistenceManager {
         try {
             // Create a deep clone to remove any proxy wrappers and ensure serialization
             const cleanState = this.cleanState(state);
-            await this.store.put(STATE_KEY, cleanState);
+            const persistedState: PersistedState = {
+                schemaVersion: CURRENT_SCHEMA_VERSION,
+                data: cleanState
+            };
+            await this.store.put(STATE_KEY, persistedState);
             logger.debug('State saved to IndexedDB', 'PersistenceManager');
         } catch (error) {
             logger.warn('Failed to save state to IndexedDB', 'PersistenceManager', error);
@@ -64,7 +89,11 @@ export class PersistenceManager {
     saveStateSync(state: State): void {
         try {
             const cleanState = this.cleanState(state);
-            this.store.putSync(STATE_KEY, cleanState);
+            const persistedState: PersistedState = {
+                schemaVersion: CURRENT_SCHEMA_VERSION,
+                data: cleanState
+            };
+            this.store.putSync(STATE_KEY, persistedState);
         } catch (error) {
             // Silently fail during unload events
         }
@@ -91,6 +120,103 @@ export class PersistenceManager {
     }
 
     /**
+     * Handle schema versioning and migrations
+     */
+    private handleSchemaVersion(rawData: any): PersistedState | null {
+        // Check if this is already a versioned state
+        if (rawData && typeof rawData === 'object' && typeof rawData.schemaVersion === 'number') {
+            const persistedState = rawData as PersistedState;
+            
+            if (persistedState.schemaVersion === CURRENT_SCHEMA_VERSION) {
+                // Current version, use as-is
+                return persistedState;
+            } else if (persistedState.schemaVersion < CURRENT_SCHEMA_VERSION) {
+                // Older version, migrate
+                return this.migrateState(persistedState);
+            } else {
+                // Future version we don't understand
+                logger.warn(`Unknown schema version ${persistedState.schemaVersion}, expected ${CURRENT_SCHEMA_VERSION}`, 'PersistenceManager');
+                return null;
+            }
+        }
+
+        // Legacy state without version (assume version 1)
+        return this.migrateLegacyState(rawData);
+    }
+
+    /**
+     * Migrate state from older versions
+     */
+    private migrateState(persistedState: PersistedState): PersistedState | null {
+        try {
+            if (persistedState.schemaVersion === 1) {
+                return this.migrateV1toV2(persistedState);
+            }
+            // Add more migrations here as needed
+            logger.warn(`No migration path from version ${persistedState.schemaVersion} to ${CURRENT_SCHEMA_VERSION}`, 'PersistenceManager');
+            return null;
+        } catch (error) {
+            logger.warn('Migration failed', 'PersistenceManager', error);
+            return null;
+        }
+    }
+
+    /**
+     * Migrate legacy state (no version) to current version
+     */
+    private migrateLegacyState(legacyState: any): PersistedState | null {
+        try {
+            // Legacy state is assumed to be version 1
+            const v1State: PersistedState = {
+                schemaVersion: 1,
+                data: legacyState
+            };
+            return this.migrateV1toV2(v1State);
+        } catch (error) {
+            logger.warn('Legacy state migration failed', 'PersistenceManager', error);
+            return null;
+        }
+    }
+
+    /**
+     * Migrate from version 1 to version 2
+     * Main change: selection from string|null to string[]
+     */
+    private migrateV1toV2(v1State: PersistedState): PersistedState {
+        const state = JSON.parse(JSON.stringify(v1State.data));
+        
+        // Convert selection from string|null to string[]
+        if (state.selection === null || state.selection === undefined) {
+            state.selection = [];
+        } else if (typeof state.selection === 'string') {
+            state.selection = [state.selection];
+        } else if (!Array.isArray(state.selection)) {
+            state.selection = [];
+        }
+
+        logger.info('Migrated state from v1 to v2', 'PersistenceManager');
+        return {
+            schemaVersion: 2,
+            data: state
+        };
+    }
+
+    /**
+     * Normalize state to ensure runtime invariants
+     */
+    private normalizeState(state: any): State {
+        // Ensure selection is always an array
+        if (!Array.isArray(state.selection)) {
+            state.selection = state.selection ? [state.selection] : [];
+        }
+
+        // Add more normalization rules here as needed
+        // For example: ensure shapes have required properties, etc.
+
+        return state;
+    }
+
+    /**
      * Validate that a loaded state has the expected structure
      */
     private isValidState(state: any): state is State {
@@ -105,7 +231,8 @@ export class PersistenceManager {
             typeof state.view.zoom === 'number' &&
             typeof state.tool === 'string' &&
             state.currentDrawing &&
-            state.hasOwnProperty('selection')
+            state.hasOwnProperty('selection') &&
+            Array.isArray(state.selection)
         );
     }
 }

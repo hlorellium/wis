@@ -57,7 +57,7 @@ export class Path2DRenderer {
         }
 
         // Render selection highlight if this shape is selected
-        if (state.selection.includes(shape.id)) {
+        if (Array.isArray(state.selection) && state.selection.includes(shape.id)) {
             this.renderSelectionHighlight(ctx, shape);
         }
     }
