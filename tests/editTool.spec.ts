@@ -306,4 +306,126 @@ describe('EditTool', () => {
             expect(rect.y).toBe(10.3);
         });
     });
+
+    describe('selection changes in edit mode', () => {
+        it('should return false when clicking outside selected shapes', () => {
+            const rect = createTestRectangle({ id: 'rect1', x: 10, y: 10, width: 20, height: 20 });
+            state.scene.shapes.push(rect);
+            state.selection = ['rect1'];
+            state.tool = 'edit';
+
+            // Click outside the rectangle (which is at 10,10 with size 20x20)
+            const mouseEvent = { button: 0, clientX: 50, clientY: 50 } as MouseEvent;
+            const result = editTool.handleMouseDown(mouseEvent, state);
+
+            // Should return false since click is not on handles or inside shape
+            expect(result).toBe(false);
+            
+            // Should not start any drag operation
+            expect(state.currentEditing.isDragging).toBe(false);
+            expect(state.currentEditing.isGroupMove).toBe(false);
+        });
+
+        it('should return false when clicking on unselected shape', () => {
+            const rect1 = createTestRectangle({ id: 'rect1', x: 10, y: 10, width: 20, height: 20 });
+            const rect2 = createTestRectangle({ id: 'rect2', x: 50, y: 50, width: 20, height: 20 });
+            state.scene.shapes.push(rect1, rect2);
+            state.selection = ['rect1']; // Only rect1 is selected
+            state.tool = 'edit';
+
+            // Click on rect2 (unselected shape)
+            const mouseEvent = { button: 0, clientX: 60, clientY: 60 } as MouseEvent;
+            const result = editTool.handleMouseDown(mouseEvent, state);
+
+            // Should return false since clicking on unselected shape
+            expect(result).toBe(false);
+            
+            // Should not start any drag operation
+            expect(state.currentEditing.isDragging).toBe(false);
+            expect(state.currentEditing.isGroupMove).toBe(false);
+        });
+
+        it('should still allow editing when clicking on selected shape', () => {
+            const rect = createTestRectangle({ id: 'rect1', x: 10, y: 10, width: 20, height: 20 });
+            state.scene.shapes.push(rect);
+            state.selection = ['rect1'];
+            state.tool = 'edit';
+
+            // Click inside the selected rectangle
+            const mouseEvent = { button: 0, clientX: 20, clientY: 20 } as MouseEvent;
+            const result = editTool.handleMouseDown(mouseEvent, state);
+
+            // Should return true and start group move
+            expect(result).toBe(true);
+            expect(state.currentEditing.isDragging).toBe(true);
+            expect(state.currentEditing.isGroupMove).toBe(true);
+        });
+
+        it('should still allow vertex editing when clicking on handles', () => {
+            const rect = createTestRectangle({ id: 'rect1', x: 10, y: 10, width: 20, height: 20 });
+            state.scene.shapes.push(rect);
+            state.selection = ['rect1'];
+            state.tool = 'edit';
+
+            // Click exactly on a handle (top-left corner)
+            const mouseEvent = { button: 0, clientX: 10, clientY: 10 } as MouseEvent;
+            const result = editTool.handleMouseDown(mouseEvent, state);
+
+            // Should return true and start vertex editing
+            expect(result).toBe(true);
+            expect(state.currentEditing.isDragging).toBe(true);
+            expect(state.currentEditing.isGroupMove).toBe(false);
+            expect(state.currentEditing.shapeId).toBe('rect1');
+            expect(state.currentEditing.vertexIndex).toBe(0);
+        });
+
+        it('should return false for empty selection in edit mode', () => {
+            const rect = createTestRectangle({ id: 'rect1', x: 10, y: 10, width: 20, height: 20 });
+            state.scene.shapes.push(rect);
+            state.selection = []; // No selection
+            state.tool = 'edit';
+
+            // Click anywhere
+            const mouseEvent = { button: 0, clientX: 20, clientY: 20 } as MouseEvent;
+            const result = editTool.handleMouseDown(mouseEvent, state);
+
+            // Should return false since no shapes are selected
+            expect(result).toBe(false);
+            expect(state.currentEditing.isDragging).toBe(false);
+        });
+
+        it('should return false for right-click even on selected shapes', () => {
+            const rect = createTestRectangle({ id: 'rect1', x: 10, y: 10, width: 20, height: 20 });
+            state.scene.shapes.push(rect);
+            state.selection = ['rect1'];
+            state.tool = 'edit';
+
+            // Right-click inside the selected rectangle
+            const mouseEvent = { button: 2, clientX: 20, clientY: 20 } as MouseEvent;
+            const result = editTool.handleMouseDown(mouseEvent, state);
+
+            // Should return false for right-click
+            expect(result).toBe(false);
+            expect(state.currentEditing.isDragging).toBe(false);
+        });
+
+        it('should maintain edit mode functionality after returning false', () => {
+            const rect = createTestRectangle({ id: 'rect1', x: 10, y: 10, width: 20, height: 20 });
+            state.scene.shapes.push(rect);
+            state.selection = ['rect1'];
+            state.tool = 'edit';
+
+            // First click outside (should return false)
+            let mouseEvent = { button: 0, clientX: 50, clientY: 50 } as MouseEvent;
+            let result = editTool.handleMouseDown(mouseEvent, state);
+            expect(result).toBe(false);
+
+            // Second click inside selected shape (should still work)
+            mouseEvent = { button: 0, clientX: 20, clientY: 20 } as MouseEvent;
+            result = editTool.handleMouseDown(mouseEvent, state);
+            expect(result).toBe(true);
+            expect(state.currentEditing.isDragging).toBe(true);
+            expect(state.currentEditing.isGroupMove).toBe(true);
+        });
+    });
 });

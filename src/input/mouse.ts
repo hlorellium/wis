@@ -77,6 +77,9 @@ export class MouseHandler {
             if (editHandled) {
                 return;
             }
+            // If edit tool didn't handle the click, allow selection changes in edit mode
+            this.selectTool.handleMouseDown(e, state);
+            return;
         }
 
         // Selection / pan / draw
