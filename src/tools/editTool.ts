@@ -62,9 +62,9 @@ export class EditTool {
                     state.currentEditing.dragStart = { x: worldPos.x, y: worldPos.y };
                     
                     // Store original positions of all selected shapes
-                    (state.currentEditing as any).originalPositions = new Map();
+                    (state.currentEditing as any).originalPositions = {};
                     selectedShapes.forEach(shape => {
-                        (state.currentEditing as any).originalPositions.set(shape.id, this.getShapePosition(shape));
+                        (state.currentEditing as any).originalPositions[shape.id] = this.getShapePosition(shape);
                     });
                     
                     return true;
@@ -85,10 +85,10 @@ export class EditTool {
                     const totalDy = worldPos.y - state.currentEditing.dragStart.y;
                     
                     // Set shapes to their original positions + total delta
-                    const originalPositions = (state.currentEditing as any).originalPositions as Map<string, any>;
+                    const originalPositions = (state.currentEditing as any).originalPositions as Record<string, any>;
                     state.scene.shapes.forEach(shape => {
                         if (state.selection.includes(shape.id)) {
-                            const originalPos = originalPositions.get(shape.id);
+                            const originalPos = originalPositions[shape.id];
                             if (originalPos) {
                                 this.setShapeToPosition(shape, originalPos, totalDx, totalDy);
                                 // Clear cache since shape was moved
@@ -151,6 +151,7 @@ export class EditTool {
             state.currentEditing.isGroupMove = false;
             state.currentEditing.dragStart = null;
             (state.currentEditing as any).originalPos = null;
+            (state.currentEditing as any).originalPositions = null;
             (state.currentEditing as any).totalDelta = null;
             
             return true;
@@ -425,6 +426,7 @@ export class EditTool {
         state.currentEditing.isGroupMove = false;
         state.currentEditing.dragStart = null;
         (state.currentEditing as any).originalPos = null;
+        (state.currentEditing as any).originalPositions = null;
         (state.currentEditing as any).totalDelta = null;
     }
 }
