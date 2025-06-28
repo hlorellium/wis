@@ -43,8 +43,20 @@ export class EditTool {
                     state.currentEditing.isGroupMove = false;
                     state.currentEditing.dragStart = { x: worldPos.x, y: worldPos.y };
                     
-                    // Store the original position for command creation
-                    (state.currentEditing as any).originalPos = oldPos;
+                    // Store the original position for command creation (clone to avoid reference issues)
+                    (state.currentEditing as any).originalPos = { x: oldPos.x, y: oldPos.y };
+                    
+                    // Debug logging for bezier curves
+                    if (shape.type === 'bezier') {
+                        console.log(`[EditTool] Starting bezier vertex drag:`, {
+                            shapeId: handleHit.shapeId,
+                            vertexIndex: handleHit.vertexIndex,
+                            oldPos,
+                            worldPos,
+                            handleHit
+                        });
+                    }
+                    
                     return true;
                 }
             }
@@ -146,6 +158,17 @@ export class EditTool {
                     const oldPos = (state.currentEditing as any).originalPos;
                     const newPos = this.getVertexPosition(shape, state.currentEditing.vertexIndex);
                     
+                    // Debug logging for bezier curves
+                    if (shape.type === 'bezier') {
+                        console.log(`[EditTool] Bezier vertex drag ending:`, {
+                            shapeId: state.currentEditing.shapeId,
+                            vertexIndex: state.currentEditing.vertexIndex,
+                            oldPos,
+                            newPos,
+                            changed: oldPos.x !== newPos.x || oldPos.y !== newPos.y
+                        });
+                    }
+                    
                     // Only create command if position actually changed
                     if (oldPos.x !== newPos.x || oldPos.y !== newPos.y) {
                         const command = new MoveVertexCommand(
@@ -154,8 +177,15 @@ export class EditTool {
                             oldPos,
                             newPos
                         );
+                        
+                        if (shape.type === 'bezier') {
+                            console.log(`[EditTool] Creating MoveVertexCommand for bezier:`, command.serialize());
+                        }
+                        
                         this.executor.execute(command, state);
                         this.onHistoryChange();
+                    } else if (shape.type === 'bezier') {
+                        console.log(`[EditTool] No bezier vertex command created - position unchanged`);
                     }
                 }
             }
