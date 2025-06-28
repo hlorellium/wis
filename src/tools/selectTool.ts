@@ -1,6 +1,8 @@
 import type { State, Shape, RectangleShape, LineShape, CircleShape, BezierCurveShape } from '../state';
 import { CoordinateTransformer } from '../canvas/coordinates';
 import { getBoundingBox, rectContainsRect, rectIntersectsRect, lineIntersectsRect, bezierIntersectsRect, type BoundingBox } from '../utils/geometry';
+import { SelectionManager } from '../utils/selectionManager';
+import { HIT_CONFIG } from '../constants';
 
 export class SelectTool {
     private coordinateTransformer: CoordinateTransformer;
@@ -22,12 +24,12 @@ export class SelectTool {
             this.isDragging = true;
             
             // Check for single-click hit test with small tolerance
-            const clickTolerance = 5;
+            const clickTolerance = HIT_CONFIG.CLICK_TOLERANCE;
             const shapes = state.scene.shapes;
             for (let i = shapes.length - 1; i >= 0; i--) {
                 if (this.hitTest(shapes[i], worldPos.x, worldPos.y)) {
                     // Single click on shape - select it and exit early
-                    state.selection = [shapes[i].id];
+                    SelectionManager.setSelection(state, [shapes[i].id]);
                     console.log('selected', state.selection);
                     this.isDragging = false;
                     this.dragStart = null;
@@ -38,7 +40,7 @@ export class SelectTool {
             
             // If in edit mode and no shape was hit, clear selection immediately
             if (state.tool === 'edit') {
-                state.selection = [];
+                const result = SelectionManager.clear(state);
                 console.log('cleared selection (click on empty space in edit mode)');
                 this.isDragging = false;
                 this.dragStart = null;
@@ -70,8 +72,8 @@ export class SelectTool {
                 if (this.dragStart && this.dragCurrent) {
                     const dragDistance = Math.abs(this.dragCurrent.x - this.dragStart.x) + 
                                        Math.abs(this.dragCurrent.y - this.dragStart.y);
-                    if (dragDistance > 5) {
-                        state.selection = [];
+                    if (dragDistance > HIT_CONFIG.DRAG_THRESHOLD) {
+                        SelectionManager.clear(state);
                         console.log('cleared selection (drag in edit mode)');
                     }
                 }
@@ -113,7 +115,7 @@ export class SelectTool {
     }
 
     private hitTestLine(line: LineShape, x: number, y: number): boolean {
-        const tolerance = 5; // 5 pixels tolerance for line selection
+        const tolerance = HIT_CONFIG.LINE_TOLERANCE;
         
         // Distance from point to line segment
         const A = x - line.x1;
@@ -168,8 +170,8 @@ export class SelectTool {
         const isCrossing = this.dragStart.x > this.dragCurrent.x; // Right-to-left = crossing
 
         // If no significant drag, clear selection
-        if (selectionRect.width < 5 && selectionRect.height < 5) {
-            state.selection = [];
+        if (selectionRect.width < HIT_CONFIG.SELECTION_RECT_MIN && selectionRect.height < HIT_CONFIG.SELECTION_RECT_MIN) {
+            SelectionManager.clear(state);
             console.log('cleared selection (small drag)');
             return;
         }
@@ -193,7 +195,7 @@ export class SelectTool {
             }
         });
 
-        state.selection = selectedIds;
+        SelectionManager.setSelection(state, selectedIds);
         console.log(`${isWindow ? 'Window' : 'Crossing'} selection:`, selectedIds);
     }
 

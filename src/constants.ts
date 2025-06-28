@@ -39,6 +39,15 @@ export const UI_CONFIG = {
     DRAWING_CURSOR: 'crosshair'
 } as const;
 
+// Hit-testing and interaction configuration
+export const HIT_CONFIG = {
+    HANDLE_RADIUS: 8,           // Radius for edit handles (pixels)
+    DRAG_THRESHOLD: 5,          // Minimum drag distance before considering it a drag
+    LINE_TOLERANCE: 5,          // Tolerance for line hit-testing (pixels)
+    SELECTION_RECT_MIN: 5,      // Minimum drag distance for selection rectangle
+    CLICK_TOLERANCE: 5          // General click tolerance for hit-testing
+} as const;
+
 // Sync configuration
 export const SYNC_CONFIG = {
     DEFAULT_CHANNEL: 'drawing-app-sync',

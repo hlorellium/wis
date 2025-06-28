@@ -7,6 +7,7 @@ import { ToolManager } from '../tools/toolManager';
 import { CommandExecutor } from '../commandExecutor';
 import { DeleteShapeCommand } from '../commands';
 import { getBoundingBox } from '../utils/geometry';
+import { SelectionManager } from '../utils/selectionManager';
 import type { Path2DRenderer } from '../rendering/path2DRenderer';
 
 export class MouseHandler {
@@ -82,7 +83,7 @@ export class MouseHandler {
             
             // If we're in edit mode and selection is now empty (cleared by SelectTool),
             // automatically switch back to select mode to enable drag-select
-            if (state.selection.length === 0 && !this.selectTool.getDragState()) {
+            if (!SelectionManager.hasSelection(state) && !this.selectTool.getDragState()) {
                 this.toolManager.setActiveTool('select', state);
             }
             return;
@@ -183,7 +184,7 @@ export class MouseHandler {
 
     private handleKeyDown(e: KeyboardEvent, state: State) {
         // Handle delete/backspace for selected shapes
-        if ((e.key === 'Delete' || e.key === 'Backspace') && state.selection.length > 0) {
+        if ((e.key === 'Delete' || e.key === 'Backspace') && SelectionManager.hasSelection(state)) {
             // Prevent default browser behavior (like going back in history for Backspace)
             e.preventDefault();
             

@@ -4,6 +4,7 @@ import { MoveShapesCommand, MoveVertexCommand } from '../commands';
 import type { CommandExecutor } from '../commandExecutor';
 import type { Path2DRenderer } from '../rendering/path2DRenderer';
 import { getBoundingBox } from '../utils/geometry';
+import { HIT_CONFIG } from '../constants';
 
 interface Handle {
     x: number;
@@ -231,7 +232,7 @@ export class EditTool {
 
     private hitTestHandles(state: State, x: number, y: number): Handle | null {
         const handles = this.getHandles(state);
-        const tolerance = 8; // 8 pixels tolerance for handle selection
+        const tolerance = HIT_CONFIG.HANDLE_RADIUS;
         
         for (const handle of handles) {
             const dx = x - handle.x;
