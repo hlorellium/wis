@@ -1,4 +1,5 @@
 import type { State, Shape, LineShape, RectangleShape, CircleShape, BezierCurveShape } from '../state';
+import type { SelectTool } from '../tools/selectTool';
 
 export class Path2DRenderer {
     private pathCache = new Map<string, Path2D>();
@@ -9,7 +10,7 @@ export class Path2DRenderer {
         'bezier': '#ff00ff'
     };
 
-    render(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, state: State) {
+    render(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, state: State, selectTool?: SelectTool) {
         const dpr = window.devicePixelRatio || 1;
         const width = canvas.width / dpr;
         const height = canvas.height / dpr;
@@ -33,7 +34,7 @@ export class Path2DRenderer {
         }
 
         // Draw selection rectangle preview (for drag selection)
-        this.renderSelectionRectPreview(ctx, state);
+        this.renderSelectionRectPreview(ctx, state, selectTool);
 
         ctx.restore();
     }
@@ -191,10 +192,57 @@ export class Path2DRenderer {
         ctx.restore();
     }
 
-    private renderSelectionRectPreview(ctx: CanvasRenderingContext2D, state: State) {
-        // Check if we need to get drag state from the select tool
-        // For now, we'll skip this since the select tool is not directly accessible
-        // This could be enhanced later by passing drag state through the state object
+    private renderSelectionRectPreview(ctx: CanvasRenderingContext2D, state: State, selectTool?: SelectTool) {
+        // Only render selection preview when the select tool is active and dragging
+        if (!selectTool || state.tool !== 'select') {
+            return;
+        }
+
+        const dragState = selectTool.getDragState();
+        if (!dragState || !dragState.isDragging) {
+            return;
+        }
+
+        const { start, current } = dragState;
+        
+        // Calculate rectangle bounds
+        const x = Math.min(start.x, current.x);
+        const y = Math.min(start.y, current.y);
+        const width = Math.abs(current.x - start.x);
+        const height = Math.abs(current.y - start.y);
+
+        // Don't render if rectangle is too small
+        if (width < 2 || height < 2) {
+            return;
+        }
+
+        // Determine selection type based on drag direction
+        const isWindow = start.x < current.x; // Left-to-right = window selection
+        const isCrossing = start.x > current.x; // Right-to-left = crossing selection
+
+        ctx.save();
+
+        if (isWindow) {
+            // Window selection: solid border, light blue fill
+            ctx.strokeStyle = '#0066cc';
+            ctx.setLineDash([]);
+            ctx.fillStyle = 'rgba(0, 102, 204, 0.1)';
+            ctx.lineWidth = 1;
+        } else if (isCrossing) {
+            // Crossing selection: dashed border, light green fill
+            ctx.strokeStyle = '#00cc66';
+            ctx.setLineDash([5, 5]);
+            ctx.fillStyle = 'rgba(0, 204, 102, 0.1)';
+            ctx.lineWidth = 1;
+        }
+
+        // Draw filled rectangle
+        ctx.fillRect(x, y, width, height);
+        
+        // Draw border
+        ctx.strokeRect(x, y, width, height);
+
+        ctx.restore();
     }
 
     // Clear cache when shapes are deleted or modified

@@ -91,6 +91,9 @@ class DrawingApp {
 
         // Setup input handling
         this.mouseHandler.setupEventListeners(this.canvasSetup.getCanvas(), this.state);
+        
+        // Set force render callback for selection rectangle preview
+        this.mouseHandler.setForceRenderCallback(() => this.render(true));
 
         // Setup keyboard shortcuts
         this.setupKeyboardShortcuts();
@@ -145,15 +148,17 @@ class DrawingApp {
         });
     }
 
-    private render() {
+    private render(force: boolean = false) {
         const currentVersion = (this.state as any).__v;
         
-        // Skip render if version hasn't changed
-        if (currentVersion === this.lastRenderedVersion) {
+        // Skip render if version hasn't changed (unless forced)
+        if (!force && currentVersion === this.lastRenderedVersion) {
             return;
         }
         
-        this.lastRenderedVersion = currentVersion;
+        if (!force) {
+            this.lastRenderedVersion = currentVersion;
+        }
 
         const bgCtx = this.canvasSetup.getBgCanvasContext();
         const ctx = this.canvasSetup.getCanvasContext();
@@ -161,7 +166,7 @@ class DrawingApp {
         const canvas = this.canvasSetup.getCanvas();
 
         this.bgRenderer.render(bgCtx, bgCanvas, this.state);
-        this.renderer.render(ctx, canvas, this.state);
+        this.renderer.render(ctx, canvas, this.state, this.mouseHandler?.getSelectTool());
     }
 }
 

@@ -12,6 +12,7 @@ export class MouseHandler {
     private selectTool: SelectTool;
     private toolManager: ToolManager;
     private executor: CommandExecutor;
+    private forceRenderCallback?: () => void;
 
     constructor(
         canvas: HTMLCanvasElement,
@@ -24,6 +25,11 @@ export class MouseHandler {
         this.selectTool = new SelectTool(canvas);
         this.toolManager = toolManager;
         this.executor = executor;
+    }
+
+    // Set callback to force re-renders during drag operations
+    setForceRenderCallback(callback: () => void) {
+        this.forceRenderCallback = callback;
     }
 
     setupEventListeners(canvas: HTMLCanvasElement, state: State) {
@@ -47,9 +53,14 @@ export class MouseHandler {
     }
 
     private handleMouseMove(e: MouseEvent, state: State) {
-        this.selectTool.handleMouseMove(e, state);
+        const selectToolHandled = this.selectTool.handleMouseMove(e, state);
         this.panTool.handleMouseMove(e, state);
         this.drawingTools.handleMouseMove(e, state);
+        
+        // Force re-render if SelectTool is dragging to show selection rectangle
+        if (selectToolHandled && this.forceRenderCallback) {
+            this.forceRenderCallback();
+        }
     }
 
     private handleMouseUp(state: State) {
@@ -94,5 +105,10 @@ export class MouseHandler {
             
             console.log('Deleted shapes:', state.selection);
         }
+    }
+
+    // Getter for SelectTool to access drag state
+    getSelectTool(): SelectTool {
+        return this.selectTool;
     }
 }
