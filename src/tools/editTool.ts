@@ -214,8 +214,10 @@ export class EditTool {
             case 'circle':
                 const circleShape = shape as CircleShape;
                 handles.push(
-                    { x: circleShape.x, y: circleShape.y, vertexIndex: 0, shapeId: shape.id }, // center
-                    { x: circleShape.x + circleShape.radius, y: circleShape.y, vertexIndex: 1, shapeId: shape.id } // radius point
+                    { x: circleShape.x + circleShape.radius, y: circleShape.y, vertexIndex: 0, shapeId: shape.id }, // East
+                    { x: circleShape.x, y: circleShape.y + circleShape.radius, vertexIndex: 1, shapeId: shape.id }, // South
+                    { x: circleShape.x - circleShape.radius, y: circleShape.y, vertexIndex: 2, shapeId: shape.id }, // West
+                    { x: circleShape.x, y: circleShape.y - circleShape.radius, vertexIndex: 3, shapeId: shape.id } // North
                 );
                 break;
                 
@@ -267,9 +269,13 @@ export class EditTool {
                 
             case 'circle':
                 const circleShape = shape as CircleShape;
-                return vertexIndex === 0
-                    ? { x: circleShape.x, y: circleShape.y }
-                    : { x: circleShape.x + circleShape.radius, y: circleShape.y };
+                switch (vertexIndex) {
+                    case 0: return { x: circleShape.x + circleShape.radius, y: circleShape.y }; // East
+                    case 1: return { x: circleShape.x, y: circleShape.y + circleShape.radius }; // South
+                    case 2: return { x: circleShape.x - circleShape.radius, y: circleShape.y }; // West
+                    case 3: return { x: circleShape.x, y: circleShape.y - circleShape.radius }; // North
+                    default: return { x: circleShape.x + circleShape.radius, y: circleShape.y };
+                }
                     
             case 'bezier':
                 const bezierShape = shape as BezierCurveShape;
@@ -320,14 +326,10 @@ export class EditTool {
                 
             case 'circle':
                 const circleShape = shape as CircleShape;
-                if (vertexIndex === 0) {
-                    circleShape.x = pos.x;
-                    circleShape.y = pos.y;
-                } else {
-                    const dx = pos.x - circleShape.x;
-                    const dy = pos.y - circleShape.y;
-                    circleShape.radius = Math.sqrt(dx * dx + dy * dy);
-                }
+                // For all 4 handles, calculate distance from center and update radius
+                const dx = pos.x - circleShape.x;
+                const dy = pos.y - circleShape.y;
+                circleShape.radius = Math.sqrt(dx * dx + dy * dy);
                 break;
                 
             case 'bezier':

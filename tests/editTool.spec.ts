@@ -66,9 +66,11 @@ describe('EditTool', () => {
 
             const handles = editTool.getHandles(state);
 
-            expect(handles).toHaveLength(2);
-            expect(handles[0]).toEqual({ x: 25, y: 25, vertexIndex: 0, shapeId: 'circle1' }); // center
-            expect(handles[1]).toEqual({ x: 40, y: 25, vertexIndex: 1, shapeId: 'circle1' }); // radius point
+            expect(handles).toHaveLength(4);
+            expect(handles[0]).toEqual({ x: 40, y: 25, vertexIndex: 0, shapeId: 'circle1' }); // East
+            expect(handles[1]).toEqual({ x: 25, y: 40, vertexIndex: 1, shapeId: 'circle1' }); // South
+            expect(handles[2]).toEqual({ x: 10, y: 25, vertexIndex: 2, shapeId: 'circle1' }); // West
+            expect(handles[3]).toEqual({ x: 25, y: 10, vertexIndex: 3, shapeId: 'circle1' }); // North
         });
 
         it('should return no handles when no shapes are selected', () => {
@@ -84,12 +86,13 @@ describe('EditTool', () => {
         it('should return handles for multiple selected shapes', () => {
             const line = createTestLine({ id: 'line1', x1: 10, y1: 10, x2: 50, y2: 50 });
             const rect = createTestRectangle({ id: 'rect1', x: 60, y: 60, width: 30, height: 20 });
-            state.scene.shapes.push(line, rect);
-            state.selection = ['line1', 'rect1'];
+            const circle = createTestCircle({ id: 'circle1', x: 100, y: 100, radius: 10 });
+            state.scene.shapes.push(line, rect, circle);
+            state.selection = ['line1', 'rect1', 'circle1'];
 
             const handles = editTool.getHandles(state);
 
-            expect(handles).toHaveLength(6); // 2 for line + 4 for rectangle
+            expect(handles).toHaveLength(10); // 2 for line + 4 for rectangle + 4 for circle
         });
     });
 

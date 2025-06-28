@@ -95,6 +95,8 @@ export class SelectTool {
                 return this.hitTestCircle(shape as CircleShape, x, y);
             case 'line':
                 return this.hitTestLine(shape as LineShape, x, y);
+            case 'bezier':
+                return this.hitTestBezier(shape as BezierCurveShape, x, y);
             default:
                 return false;
         }
@@ -152,6 +154,17 @@ export class SelectTool {
         const distance = Math.sqrt(dx * dx + dy * dy);
         
         return distance <= tolerance;
+    }
+
+    private hitTestBezier(bezier: BezierCurveShape, x: number, y: number): boolean {
+        // Simple bounding box test for bezier curves (arcs)
+        const bounds = getBoundingBox(bezier);
+        const tolerance = HIT_CONFIG.CLICK_TOLERANCE;
+        
+        return x >= bounds.x - tolerance && 
+               x <= bounds.x + bounds.width + tolerance && 
+               y >= bounds.y - tolerance && 
+               y <= bounds.y + bounds.height + tolerance;
     }
 
     private performDragSelection(state: State): void {
