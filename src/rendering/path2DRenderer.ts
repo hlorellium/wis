@@ -1,11 +1,12 @@
-import type { State, Shape, LineShape, RectangleShape, CircleShape } from '../state';
+import type { State, Shape, LineShape, RectangleShape, CircleShape, BezierCurveShape } from '../state';
 
 export class Path2DRenderer {
     private pathCache = new Map<string, Path2D>();
     private colorMap = {
         'rectangle': '#f00',
         'line': '#0080ff',
-        'circle': '#00ff80'
+        'circle': '#00ff80',
+        'bezier': '#ff00ff'
     };
 
     render(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, state: State) {
@@ -72,6 +73,11 @@ export class Path2DRenderer {
             case 'circle':
                 path.arc(shape.x, shape.y, shape.radius, 0, Math.PI * 2);
                 break;
+            case 'bezier':
+                const [p0, cp1, cp2, p1] = shape.points;
+                path.moveTo(p0.x, p0.y);
+                path.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, p1.x, p1.y);
+                break;
         }
 
         return path;
@@ -117,6 +123,15 @@ export class Path2DRenderer {
                 ctx.lineWidth = 2;
                 ctx.stroke(path);
                 break;
+            case 'curve':
+                const curveShape = shape as BezierCurveShape;
+                const [p0, cp1, cp2, p1] = curveShape.points;
+                path.moveTo(p0.x, p0.y);
+                path.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, p1.x, p1.y);
+                ctx.strokeStyle = curveShape.color;
+                ctx.lineWidth = 2;
+                ctx.stroke(path);
+                break;
         }
 
         ctx.restore();
@@ -145,6 +160,15 @@ export class Path2DRenderer {
                 ctx.beginPath();
                 ctx.moveTo(line.x1, line.y1);
                 ctx.lineTo(line.x2, line.y2);
+                ctx.stroke();
+                break;
+            case 'bezier':
+                const bezier = shape as BezierCurveShape;
+                const [p0, cp1, cp2, p1] = bezier.points;
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(p0.x, p0.y);
+                ctx.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, p1.x, p1.y);
                 ctx.stroke();
                 break;
         }

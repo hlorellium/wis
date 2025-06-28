@@ -1,4 +1,4 @@
-import type { State, RectangleShape, CircleShape, LineShape } from '../src/state';
+import type { State, RectangleShape, CircleShape, LineShape, BezierCurveShape } from '../src/state';
 import { generateId } from '../src/constants';
 
 /**
@@ -57,6 +57,24 @@ export function createTestLine(overrides: Partial<LineShape> = {}): LineShape {
     y1: 0,
     x2: 50,
     y2: 50,
+    ...overrides
+  };
+}
+
+/**
+ * Creates a test Bézier curve shape with optional overrides
+ */
+export function createTestBezierCurve(overrides: Partial<BezierCurveShape> = {}): BezierCurveShape {
+  return {
+    id: generateId(),
+    type: 'bezier' as const,
+    color: '#ff00ff',
+    points: [
+      { x: 10, y: 10 },  // p0
+      { x: 20, y: 5 },   // cp1
+      { x: 30, y: 25 },  // cp2
+      { x: 40, y: 20 }   // p1
+    ],
     ...overrides
   };
 }

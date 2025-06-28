@@ -28,8 +28,13 @@ export type CircleShape = BaseShape & {
     radius: number;
 };
 
+export type BezierCurveShape = BaseShape & {
+    type: 'bezier';
+    points: { x: number; y: number }[]; // [p0, cp1, cp2, p1]
+};
+
 // Main Shape discriminated union
-export type Shape = RectangleShape | LineShape | CircleShape;
+export type Shape = RectangleShape | LineShape | CircleShape | BezierCurveShape;
 
 // Legacy type exports for backward compatibility (if needed)
 export type Rectangle = Omit<RectangleShape, 'id' | 'color' | 'type'>;

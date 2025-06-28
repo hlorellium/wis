@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { Path2DRenderer } from '../src/rendering/path2DRenderer';
-import { createTestState, createTestRectangle, createTestCircle, createTestLine } from './helpers';
+import { createTestState, createTestRectangle, createTestCircle, createTestLine, createTestBezierCurve } from './helpers';
 import type { State } from '../src/state';
 
 // Simple Path2D mock that implements the necessary methods
@@ -19,6 +19,10 @@ class MockPath2D {
   }
 
   arc(x: number, y: number, radius: number, startAngle: number, endAngle: number) {
+    // No-op implementation for testing
+  }
+
+  bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number) {
     // No-op implementation for testing
   }
 }
@@ -159,6 +163,19 @@ describe('Path2DRenderer', () => {
       const strokeCalls = mockCtx.calls.filter(call => call.method === 'stroke');
       expect(strokeCalls.length).toBeGreaterThan(0);
       expect(mockCtx.strokeStyle).toBe('#0000ff');
+      expect(mockCtx.lineWidth).toBe(2);
+    });
+
+    it('should render Bézier curve using stroke operation', () => {
+      const curve = createTestBezierCurve({ color: '#ff00ff' });
+      state.scene.shapes = [curve];
+      
+      renderer.render(mockCtx as any, canvas, state);
+
+      // Check that curve is stroked
+      const strokeCalls = mockCtx.calls.filter(call => call.method === 'stroke');
+      expect(strokeCalls.length).toBeGreaterThan(0);
+      expect(mockCtx.strokeStyle).toBe('#ff00ff');
       expect(mockCtx.lineWidth).toBe(2);
     });
   });

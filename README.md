@@ -4,7 +4,7 @@ A TypeScript + Vite canvas drawing application with an advanced command-pattern 
 
 ## Features
 
-- **Drawing Tools**: Rectangle, Circle, Line drawing with color selection
+- **Drawing Tools**: Rectangle, Circle, Line, and Bézier Curve drawing with color selection
 - **Pan Tool**: Navigate around the canvas with mouse dragging
 - **Undo/Redo System**: Command pattern implementation with merge support for pan operations
 - **Reactive State**: Deep proxy-based state management with versioning

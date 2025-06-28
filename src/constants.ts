@@ -4,6 +4,7 @@ export const TOOL_TYPES = {
     LINE: 'line',
     RECTANGLE: 'rectangle',
     CIRCLE: 'circle',
+    CURVE: 'curve',
     SELECT: 'select'
 } as const;
 
@@ -13,7 +14,8 @@ export type Tool = typeof TOOL_TYPES[keyof typeof TOOL_TYPES];
 export const PALETTE = {
     LINE: '#0080ff',
     RECTANGLE: '#f00',
-    CIRCLE: '#00ff80'
+    CIRCLE: '#00ff80',
+    CURVE: '#ff00ff'
 } as const;
 
 // History configuration

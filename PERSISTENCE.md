@@ -62,6 +62,24 @@ High-level interface for state persistence:
 - **Storage Key**: `snapshot`
 - **Data Format**: Complete state object (JSON serializable)
 
+### Supported Shape Types
+
+The persistence system handles all drawing shapes with full type safety:
+
+| Shape Type | Properties | Example |
+|------------|------------|---------|
+| `rectangle` | `x, y, width, height, color, id` | Filled rectangles |
+| `circle` | `x, y, radius, color, id` | Stroked circles |
+| `line` | `x1, y1, x2, y2, color, id` | Straight lines |
+| `bezier` | `points[4], color, id` | Bézier curves with control points |
+
+All shapes include:
+- **id**: Unique identifier for each shape
+- **color**: Hex color string (e.g., `#ff0000`)
+- **type**: Discriminated union type for TypeScript safety
+
+Bézier curves store four points: `[p0, cp1, cp2, p1]` where `p0` and `p1` are endpoints, and `cp1`, `cp2` are control points.
+
 ## Error Handling
 
 - All IndexedDB operations are wrapped in try-catch blocks

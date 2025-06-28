@@ -1,4 +1,4 @@
-import type { State, LineShape, RectangleShape, CircleShape } from '../state';
+import type { State, LineShape, RectangleShape, CircleShape, BezierCurveShape } from '../state';
 import { CoordinateTransformer } from '../canvas/coordinates';
 import { generateId } from '../state';
 import { AddShapeCommand } from '../history';
@@ -88,6 +88,20 @@ export class DrawingTools {
                 } as CircleShape;
                 state.currentDrawing.type = 'circle';
                 break;
+            case 'curve':
+                state.currentDrawing.shape = {
+                    id: generateId(),
+                    type: 'bezier',
+                    color: PALETTE.CURVE,
+                    points: [
+                        { x: this.startWorldX, y: this.startWorldY }, // p0
+                        { x: this.startWorldX, y: this.startWorldY }, // cp1
+                        { x: this.startWorldX, y: this.startWorldY }, // cp2
+                        { x: this.startWorldX, y: this.startWorldY }  // p1
+                    ]
+                } as BezierCurveShape;
+                state.currentDrawing.type = 'curve';
+                break;
         }
     }
 
@@ -113,6 +127,21 @@ export class DrawingTools {
                 const dy = currentY - this.startWorldY;
                 circle.radius = Math.sqrt(dx * dx + dy * dy);
                 break;
+            case 'curve':
+                const curve = state.currentDrawing.shape as BezierCurveShape;
+                // Update end point
+                curve.points[3] = { x: currentX, y: currentY };
+                // Set control points to create a straight line initially
+                const t1 = 1/3, t2 = 2/3;
+                curve.points[1] = {
+                    x: this.startWorldX + (currentX - this.startWorldX) * t1,
+                    y: this.startWorldY + (currentY - this.startWorldY) * t1
+                };
+                curve.points[2] = {
+                    x: this.startWorldX + (currentX - this.startWorldX) * t2,
+                    y: this.startWorldY + (currentY - this.startWorldY) * t2
+                };
+                break;
         }
     }
 
@@ -133,6 +162,13 @@ export class DrawingTools {
             case 'circle':
                 const circle = shape as CircleShape;
                 shouldAdd = circle.radius > 1;
+                break;
+            case 'curve':
+                const curve = shape as BezierCurveShape;
+                const p0 = curve.points[0];
+                const p1 = curve.points[3];
+                const distance = Math.sqrt((p1.x - p0.x) ** 2 + (p1.y - p0.y) ** 2);
+                shouldAdd = distance > 1;
                 break;
         }
 
