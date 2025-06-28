@@ -2,6 +2,7 @@ import type { State, Shape, LineShape, RectangleShape, CircleShape, BezierCurveS
 import { CoordinateTransformer } from '../canvas/coordinates';
 import { MoveShapesCommand, MoveVertexCommand } from '../commands';
 import type { CommandExecutor } from '../commandExecutor';
+import type { Path2DRenderer } from '../rendering/path2DRenderer';
 import { getBoundingBox } from '../utils/geometry';
 
 interface Handle {
@@ -14,11 +15,13 @@ interface Handle {
 export class EditTool {
     private coordinateTransformer: CoordinateTransformer;
     private executor: CommandExecutor;
+    private renderer: Path2DRenderer;
     private onHistoryChange: () => void;
 
-    constructor(canvas: HTMLCanvasElement, executor: CommandExecutor, onHistoryChange: () => void) {
+    constructor(canvas: HTMLCanvasElement, executor: CommandExecutor, renderer: Path2DRenderer, onHistoryChange: () => void) {
         this.coordinateTransformer = new CoordinateTransformer(canvas);
         this.executor = executor;
+        this.renderer = renderer;
         this.onHistoryChange = onHistoryChange;
     }
 
@@ -312,6 +315,9 @@ export class EditTool {
                 }
                 break;
         }
+        
+        // Clear the cache for this shape since its geometry has changed
+        this.renderer.clearCache(shape.id);
     }
 
     private moveShapeBy(shape: Shape, dx: number, dy: number): void {
@@ -341,6 +347,9 @@ export class EditTool {
                 });
                 break;
         }
+        
+        // Clear the cache for this shape since its geometry has changed
+        this.renderer.clearCache(shape.id);
     }
 
     private isPointInsideShape(shape: Shape, x: number, y: number): boolean {
@@ -349,5 +358,16 @@ export class EditTool {
                x <= bounds.x + bounds.width && 
                y >= bounds.y && 
                y <= bounds.y + bounds.height;
+    }
+
+    // Reset editing state when switching away from edit mode
+    reset(state: State): void {
+        state.currentEditing.shapeId = null;
+        state.currentEditing.vertexIndex = null;
+        state.currentEditing.isDragging = false;
+        state.currentEditing.isGroupMove = false;
+        state.currentEditing.dragStart = null;
+        (state.currentEditing as any).originalPos = null;
+        (state.currentEditing as any).totalDelta = null;
     }
 }

@@ -75,7 +75,7 @@ class DrawingApp {
         this.bgRenderer = new BackgroundRenderer();
         this.renderer = new Path2DRenderer();
         this.toolManager = new ToolManager(canvas, this.executor, this.history);
-        this.mouseHandler = new MouseHandler(canvas, this.toolManager, this.executor);
+        this.mouseHandler = new MouseHandler(canvas, this.toolManager, this.executor, this.renderer);
 
         this.initialize();
     }
@@ -88,6 +88,12 @@ class DrawingApp {
         // Setup tool management
         this.toolManager.setupToolButtons(this.state);
         this.toolManager.setActiveTool('pan', this.state);
+
+        // Set tool references so ToolManager can clear their states
+        this.toolManager.setToolReferences(
+            this.mouseHandler.getSelectTool(),
+            this.mouseHandler.getEditTool()
+        );
 
         // Setup input handling
         this.mouseHandler.setupEventListeners(this.canvasSetup.getCanvas(), this.state);

@@ -7,6 +7,7 @@ import { ToolManager } from '../tools/toolManager';
 import { CommandExecutor } from '../commandExecutor';
 import { DeleteShapeCommand } from '../commands';
 import { getBoundingBox } from '../utils/geometry';
+import type { Path2DRenderer } from '../rendering/path2DRenderer';
 
 export class MouseHandler {
     private panTool: PanTool;
@@ -20,13 +21,14 @@ export class MouseHandler {
     constructor(
         canvas: HTMLCanvasElement,
         toolManager: ToolManager,
-        executor: CommandExecutor
+        executor: CommandExecutor,
+        renderer: Path2DRenderer
     ) {
         const onHistoryChange = () => toolManager.updateHistoryButtons();
         this.panTool = new PanTool(executor, onHistoryChange);
         this.drawingTools = new DrawingTools(canvas, executor, onHistoryChange);
         this.selectTool = new SelectTool(canvas);
-        this.editTool = new EditTool(canvas, executor, onHistoryChange);
+        this.editTool = new EditTool(canvas, executor, renderer, onHistoryChange);
         this.toolManager = toolManager;
         this.executor = executor;
     }
@@ -63,6 +65,8 @@ export class MouseHandler {
                 });
             if (hit) {
                 this.toolManager.setActiveTool('edit', state);
+                // Clear any active selection drag state when entering edit mode
+                this.selectTool.cancelDrag();
                 // fall through to edit handler
             }
         }
@@ -103,6 +107,8 @@ export class MouseHandler {
                 if (this.isPointInsideShape(shape, worldX, worldY)) {
                     // Switch to edit mode
                     this.toolManager.setActiveTool('edit', state);
+                    // Clear any active selection drag state when entering edit mode
+                    this.selectTool.cancelDrag();
                     console.log('Entered edit mode for shape:', shape.id);
                     return;
                 }

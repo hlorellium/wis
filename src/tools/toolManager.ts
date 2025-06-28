@@ -11,6 +11,8 @@ export class ToolManager {
     private canvas: HTMLCanvasElement;
     private executor: CommandExecutor;
     private history: HistoryManager;
+    private selectTool?: import('./selectTool').SelectTool;
+    private editTool?: import('./editTool').EditTool;
 
     constructor(canvas: HTMLCanvasElement, executor: CommandExecutor, history: HistoryManager) {
         this.canvas = canvas;
@@ -54,7 +56,25 @@ export class ToolManager {
         }
     }
 
+    // Set tool references so we can clear their states
+    setToolReferences(selectTool: import('./selectTool').SelectTool, editTool: import('./editTool').EditTool) {
+        this.selectTool = selectTool;
+        this.editTool = editTool;
+    }
+
     setActiveTool(tool: Tool, state?: State) {
+        // Clear previous tool state if we have state and are switching tools
+        if (state && state.tool !== tool) {
+            // Clear select tool drag state when switching away from select
+            if (state.tool === 'select' && this.selectTool) {
+                this.selectTool.cancelDrag();
+            }
+            // Clear edit tool state when switching away from edit
+            if (state.tool === 'edit' && this.editTool) {
+                this.editTool.reset(state);
+            }
+        }
+
         // Update UI and ARIA attributes
         this.toolButtons.forEach(btn => {
             if (btn.dataset.tool) {

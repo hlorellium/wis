@@ -3,6 +3,7 @@ import { EditTool } from '../src/tools/editTool';
 import { CommandExecutor } from '../src/commandExecutor';
 import { createTestState, createTestRectangle, createTestLine, createTestCircle } from './helpers';
 import type { State } from '../src/state';
+import type { Path2DRenderer } from '../src/rendering/path2DRenderer';
 
 describe('EditTool', () => {
     let editTool: EditTool;
@@ -19,9 +20,14 @@ describe('EditTool', () => {
             height: 600
         } as HTMLCanvasElement;
 
+        // Create a mock renderer
+        const mockRenderer = {
+            clearCache: () => {}
+        } as Path2DRenderer;
+
         executor = new CommandExecutor();
         onHistoryChange = () => {};
-        editTool = new EditTool(canvas, executor, onHistoryChange);
+        editTool = new EditTool(canvas, executor, mockRenderer, onHistoryChange);
         state = createTestState();
         state.tool = 'edit';
     });

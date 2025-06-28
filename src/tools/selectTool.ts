@@ -207,4 +207,11 @@ export class SelectTool {
             isDragging: this.isDragging
         };
     }
+
+    // Cancel any active drag operation
+    cancelDrag(): void {
+        this.isDragging = false;
+        this.dragStart = null;
+        this.dragCurrent = null;
+    }
 }
