@@ -1,5 +1,5 @@
 import type { Command } from '../commands';
-import { AddShapeCommand, RemoveShapeCommand, PanCommand, UndoCommand, RedoCommand } from '../commands';
+import { AddShapeCommand, RemoveShapeCommand, PanCommand, UndoCommand, RedoCommand, DeleteShapeCommand } from '../commands';
 import type { Shape } from '../state';
 
 export interface SerializableCommand {
@@ -71,9 +71,19 @@ const RedoCommandFactory: CommandFactory = {
     }
 };
 
+const DeleteShapeCommandFactory: CommandFactory = {
+    deserialize(data: { shapeIds: string[]; deletedShapes: Shape[]; id: string; timestamp: number }): DeleteShapeCommand {
+        const command = new DeleteShapeCommand(data.shapeIds, data.id);
+        // Restore the deleted shapes for proper undo functionality
+        (command as any).deletedShapes = data.deletedShapes;
+        return command;
+    }
+};
+
 // Register all command factories
 CommandRegistry.register('AddShapeCommand', AddShapeCommandFactory);
 CommandRegistry.register('RemoveShapeCommand', RemoveShapeCommandFactory);
 CommandRegistry.register('PanCommand', PanCommandFactory);
 CommandRegistry.register('UndoCommand', UndoCommandFactory);
 CommandRegistry.register('RedoCommand', RedoCommandFactory);
+CommandRegistry.register('DeleteShapeCommand', DeleteShapeCommandFactory);

@@ -32,6 +32,9 @@ export class Path2DRenderer {
             this.renderPreview(ctx, state.currentDrawing.shape, state.currentDrawing.type);
         }
 
+        // Draw selection rectangle preview (for drag selection)
+        this.renderSelectionRectPreview(ctx, state);
+
         ctx.restore();
     }
 
@@ -54,7 +57,7 @@ export class Path2DRenderer {
         }
 
         // Render selection highlight if this shape is selected
-        if (state.selection === shape.id) {
+        if (state.selection.includes(shape.id)) {
             this.renderSelectionHighlight(ctx, shape);
         }
     }
@@ -186,6 +189,12 @@ export class Path2DRenderer {
         }
 
         ctx.restore();
+    }
+
+    private renderSelectionRectPreview(ctx: CanvasRenderingContext2D, state: State) {
+        // Check if we need to get drag state from the select tool
+        // For now, we'll skip this since the select tool is not directly accessible
+        // This could be enhanced later by passing drag state through the state object
     }
 
     // Clear cache when shapes are deleted or modified

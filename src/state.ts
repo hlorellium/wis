@@ -60,7 +60,7 @@ export type State = {
         shape: Shape | null;
         type: Tool | null;
     };
-    selection: string | null;
+    selection: string[];
 };
 
 export const initialState: State = {
@@ -81,7 +81,7 @@ export const initialState: State = {
         shape: null,
         type: null
     },
-    selection: null
+    selection: []
 };
 
 export { generateId };

@@ -4,12 +4,14 @@ import { DrawingTools } from '../tools/drawingTools';
 import { SelectTool } from '../tools/selectTool';
 import { ToolManager } from '../tools/toolManager';
 import { CommandExecutor } from '../commandExecutor';
+import { DeleteShapeCommand } from '../commands';
 
 export class MouseHandler {
     private panTool: PanTool;
     private drawingTools: DrawingTools;
     private selectTool: SelectTool;
     private toolManager: ToolManager;
+    private executor: CommandExecutor;
 
     constructor(
         canvas: HTMLCanvasElement,
@@ -21,6 +23,7 @@ export class MouseHandler {
         this.drawingTools = new DrawingTools(canvas, executor, onHistoryChange);
         this.selectTool = new SelectTool(canvas);
         this.toolManager = toolManager;
+        this.executor = executor;
     }
 
     setupEventListeners(canvas: HTMLCanvasElement, state: State) {
@@ -28,6 +31,7 @@ export class MouseHandler {
         window.addEventListener('mousemove', (e) => this.handleMouseMove(e, state));
         window.addEventListener('mouseup', () => this.handleMouseUp(state));
         canvas.addEventListener('wheel', (e) => this.handleWheel(e, state));
+        window.addEventListener('keydown', (e) => this.handleKeyDown(e, state));
     }
 
     private handleMouseDown(e: MouseEvent, state: State) {
@@ -43,11 +47,13 @@ export class MouseHandler {
     }
 
     private handleMouseMove(e: MouseEvent, state: State) {
+        this.selectTool.handleMouseMove(e, state);
         this.panTool.handleMouseMove(e, state);
         this.drawingTools.handleMouseMove(e, state);
     }
 
     private handleMouseUp(state: State) {
+        this.selectTool.handleMouseUp(state);
         const panHandled = this.panTool.handleMouseUp(state);
         this.drawingTools.handleMouseUp(state);
         
@@ -73,6 +79,20 @@ export class MouseHandler {
             state.view.panX = x - (x - state.view.panX) * scaleFactor;
             state.view.panY = y - (y - state.view.panY) * scaleFactor;
             state.view.zoom = newZoom;
+        }
+    }
+
+    private handleKeyDown(e: KeyboardEvent, state: State) {
+        // Handle delete/backspace for selected shapes
+        if ((e.key === 'Delete' || e.key === 'Backspace') && state.selection.length > 0) {
+            // Prevent default browser behavior (like going back in history for Backspace)
+            e.preventDefault();
+            
+            // Create and execute delete command
+            const deleteCommand = new DeleteShapeCommand([...state.selection]);
+            this.executor.execute(deleteCommand, state);
+            
+            console.log('Deleted shapes:', state.selection);
         }
     }
 }

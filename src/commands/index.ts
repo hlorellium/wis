@@ -8,6 +8,8 @@ export interface Command {
     merge?(other: Command): Command | null; // optional command merging
 }
 
+export { DeleteShapeCommand } from './deleteShapeCommand';
+
 export class AddShapeCommand implements Command {
     public readonly id: string;
     public readonly timestamp: number;

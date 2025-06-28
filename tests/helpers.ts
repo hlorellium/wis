@@ -10,7 +10,7 @@ export function createTestState(): State {
     view: { panX: 0, panY: 0, zoom: 1 },
     tool: 'pan' as const,
     currentDrawing: { shape: null, type: null },
-    selection: null
+    selection: []
   };
 }
 

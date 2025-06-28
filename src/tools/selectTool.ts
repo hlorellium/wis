@@ -1,8 +1,12 @@
-import type { State, Shape, RectangleShape, LineShape, CircleShape } from '../state';
+import type { State, Shape, RectangleShape, LineShape, CircleShape, BezierCurveShape } from '../state';
 import { CoordinateTransformer } from '../canvas/coordinates';
+import { getBoundingBox, rectContainsRect, rectIntersectsRect, lineIntersectsRect, bezierIntersectsRect, type BoundingBox } from '../utils/geometry';
 
 export class SelectTool {
     private coordinateTransformer: CoordinateTransformer;
+    private dragStart: { x: number; y: number } | null = null;
+    private dragCurrent: { x: number; y: number } | null = null;
+    private isDragging = false;
 
     constructor(canvas: HTMLCanvasElement) {
         this.coordinateTransformer = new CoordinateTransformer(canvas);
@@ -12,19 +16,25 @@ export class SelectTool {
         if (e.button === 0 && state.tool === 'select') {
             const worldPos = this.coordinateTransformer.screenToWorld(e.clientX, e.clientY, state);
             
-            // Check shapes from top to bottom (reverse order)
+            // Start drag operation
+            this.dragStart = { x: worldPos.x, y: worldPos.y };
+            this.dragCurrent = { x: worldPos.x, y: worldPos.y };
+            this.isDragging = true;
+            
+            // Check for single-click hit test with small tolerance
+            const clickTolerance = 5;
             const shapes = state.scene.shapes;
             for (let i = shapes.length - 1; i >= 0; i--) {
                 if (this.hitTest(shapes[i], worldPos.x, worldPos.y)) {
-                    state.selection = shapes[i].id;
-                    console.log('selected', state.selection)
+                    // Single click on shape - select it and exit early
+                    state.selection = [shapes[i].id];
+                    console.log('selected', state.selection);
+                    this.isDragging = false;
+                    this.dragStart = null;
+                    this.dragCurrent = null;
                     return true;
                 }
             }
-
-            // Click on empty space clears selection
-            state.selection = null;
-            console.log('selected', state.selection)
             
             return true;
         }
@@ -32,12 +42,22 @@ export class SelectTool {
     }
 
     handleMouseMove(e: MouseEvent, state: State): boolean {
-        // No action needed for select tool on mouse move
+        if (this.isDragging && state.tool === 'select') {
+            const worldPos = this.coordinateTransformer.screenToWorld(e.clientX, e.clientY, state);
+            this.dragCurrent = { x: worldPos.x, y: worldPos.y };
+            return true;
+        }
         return false;
     }
 
     handleMouseUp(state: State): boolean {
-        // No action needed for select tool on mouse up
+        if (this.isDragging && state.tool === 'select') {
+            this.performDragSelection(state);
+            this.isDragging = false;
+            this.dragStart = null;
+            this.dragCurrent = null;
+            return true;
+        }
         return false;
     }
 
@@ -106,5 +126,85 @@ export class SelectTool {
         const distance = Math.sqrt(dx * dx + dy * dy);
         
         return distance <= tolerance;
+    }
+
+    private performDragSelection(state: State): void {
+        if (!this.dragStart || !this.dragCurrent) return;
+
+        // Create selection rectangle
+        const selectionRect: BoundingBox = {
+            x: Math.min(this.dragStart.x, this.dragCurrent.x),
+            y: Math.min(this.dragStart.y, this.dragCurrent.y),
+            width: Math.abs(this.dragCurrent.x - this.dragStart.x),
+            height: Math.abs(this.dragCurrent.y - this.dragStart.y)
+        };
+
+        // Determine selection mode based on drag direction
+        const isWindow = this.dragStart.x < this.dragCurrent.x; // Left-to-right = window
+        const isCrossing = this.dragStart.x > this.dragCurrent.x; // Right-to-left = crossing
+
+        // If no significant drag, clear selection
+        if (selectionRect.width < 5 && selectionRect.height < 5) {
+            state.selection = [];
+            console.log('cleared selection (small drag)');
+            return;
+        }
+
+        const selectedIds: string[] = [];
+
+        // Test each shape against selection rectangle
+        state.scene.shapes.forEach(shape => {
+            let isSelected = false;
+
+            if (isWindow) {
+                // Window selection: shape must be fully enclosed
+                isSelected = this.shapeFullyContained(shape, selectionRect);
+            } else if (isCrossing) {
+                // Crossing selection: any intersection
+                isSelected = this.shapeIntersects(shape, selectionRect);
+            }
+
+            if (isSelected) {
+                selectedIds.push(shape.id);
+            }
+        });
+
+        state.selection = selectedIds;
+        console.log(`${isWindow ? 'Window' : 'Crossing'} selection:`, selectedIds);
+    }
+
+    private shapeFullyContained(shape: Shape, selectionRect: BoundingBox): boolean {
+        const shapeBounds = getBoundingBox(shape);
+        return rectContainsRect(shapeBounds, selectionRect);
+    }
+
+    private shapeIntersects(shape: Shape, selectionRect: BoundingBox): boolean {
+        switch (shape.type) {
+            case 'rectangle':
+            case 'circle':
+                const shapeBounds = getBoundingBox(shape);
+                return rectIntersectsRect(shapeBounds, selectionRect);
+            
+            case 'line':
+                return lineIntersectsRect(shape as LineShape, selectionRect);
+            
+            case 'bezier':
+                return bezierIntersectsRect(shape as BezierCurveShape, selectionRect);
+            
+            default:
+                return false;
+        }
+    }
+
+    // Getter for current drag state (for renderer to show preview)
+    getDragState(): { start: { x: number; y: number }; current: { x: number; y: number }; isDragging: boolean } | null {
+        if (!this.isDragging || !this.dragStart || !this.dragCurrent) {
+            return null;
+        }
+        return {
+            start: this.dragStart,
+            current: this.dragCurrent,
+            isDragging: this.isDragging
+        };
     }
 }

@@ -266,7 +266,7 @@ describe('Path2DRenderer', () => {
     it('should render selection highlight for selected rectangle', () => {
       const rectangle = createTestRectangle({ x: 10, y: 20, width: 100, height: 50 });
       state.scene.shapes = [rectangle];
-      state.selection = rectangle.id;
+      state.selection = [rectangle.id];
 
       renderer.render(mockCtx as any, canvas, state);
 
@@ -279,7 +279,7 @@ describe('Path2DRenderer', () => {
     it('should render selection highlight for selected circle', () => {
       const circle = createTestCircle({ x: 50, y: 75, radius: 25 });
       state.scene.shapes = [circle];
-      state.selection = circle.id;
+      state.selection = [circle.id];
 
       renderer.render(mockCtx as any, canvas, state);
 
@@ -292,7 +292,7 @@ describe('Path2DRenderer', () => {
     it('should set selection highlight style', () => {
       const rectangle = createTestRectangle();
       state.scene.shapes = [rectangle];
-      state.selection = rectangle.id;
+      state.selection = [rectangle.id];
 
       renderer.render(mockCtx as any, canvas, state);
 
