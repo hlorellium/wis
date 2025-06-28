@@ -1,5 +1,5 @@
 import type { Command } from '../commands';
-import { AddShapeCommand, RemoveShapeCommand, PanCommand } from '../commands';
+import { AddShapeCommand, RemoveShapeCommand, PanCommand, UndoCommand, RedoCommand } from '../commands';
 import type { Shape } from '../state';
 
 export interface SerializableCommand {
@@ -42,20 +42,32 @@ export class CommandRegistry {
 
 // Factory implementations
 const AddShapeCommandFactory: CommandFactory = {
-    deserialize(data: { shape: Shape }): AddShapeCommand {
-        return new AddShapeCommand(data.shape);
+    deserialize(data: { shape: Shape; id: string; timestamp: number }): AddShapeCommand {
+        return new AddShapeCommand(data.shape, data.id);
     }
 };
 
 const RemoveShapeCommandFactory: CommandFactory = {
-    deserialize(data: { shape: Shape }): RemoveShapeCommand {
-        return new RemoveShapeCommand(data.shape);
+    deserialize(data: { shape: Shape; id: string; timestamp: number }): RemoveShapeCommand {
+        return new RemoveShapeCommand(data.shape, data.id);
     }
 };
 
 const PanCommandFactory: CommandFactory = {
-    deserialize(data: { dx: number; dy: number }): PanCommand {
-        return new PanCommand(data.dx, data.dy);
+    deserialize(data: { dx: number; dy: number; id: string; timestamp: number }): PanCommand {
+        return new PanCommand(data.dx, data.dy, data.id);
+    }
+};
+
+const UndoCommandFactory: CommandFactory = {
+    deserialize(data: { commandId: string; id: string; timestamp: number }): UndoCommand {
+        return new UndoCommand(data.commandId, data.id);
+    }
+};
+
+const RedoCommandFactory: CommandFactory = {
+    deserialize(data: { commandId: string; id: string; timestamp: number }): RedoCommand {
+        return new RedoCommand(data.commandId, data.id);
     }
 };
 
@@ -63,3 +75,5 @@ const PanCommandFactory: CommandFactory = {
 CommandRegistry.register('AddShapeCommand', AddShapeCommandFactory);
 CommandRegistry.register('RemoveShapeCommand', RemoveShapeCommandFactory);
 CommandRegistry.register('PanCommand', PanCommandFactory);
+CommandRegistry.register('UndoCommand', UndoCommandFactory);
+CommandRegistry.register('RedoCommand', RedoCommandFactory);

@@ -1,4 +1,5 @@
 import type { Command } from './commands';
+import { UndoCommand, RedoCommand } from './commands';
 import type { State } from './state';
 
 export type CommandSource = 'local' | 'remote';
@@ -11,6 +12,15 @@ export type CommandListener = (command: Command, source: CommandSource) => void;
  */
 export class CommandExecutor {
     private listeners = new Set<CommandListener>();
+    private historyManager?: any; // Will be set by main.ts
+    private executedCommands = new Set<string>(); // Track executed command IDs
+
+    /**
+     * Set the history manager for handling undo/redo commands
+     */
+    setHistoryManager(historyManager: any): void {
+        this.historyManager = historyManager;
+    }
 
     /**
      * Execute a command and notify all listeners.
@@ -19,8 +29,33 @@ export class CommandExecutor {
      * @param source Whether this is a local or remote command
      */
     execute(command: Command, state: State, source: CommandSource = 'local'): void {
-        // Apply the command to state
+        // Handle undo/redo commands specially
+        if (command instanceof UndoCommand) {
+            if (this.historyManager && !this.executedCommands.has(command.id)) {
+                this.executedCommands.add(command.id);
+                this.historyManager.handleRemoteUndo(command, state);
+                // Notify listeners
+                this.listeners.forEach(listener => listener(command, source));
+            }
+            return;
+        } else if (command instanceof RedoCommand) {
+            if (this.historyManager && !this.executedCommands.has(command.id)) {
+                this.executedCommands.add(command.id);
+                this.historyManager.handleRemoteRedo(command, state);
+                // Notify listeners
+                this.listeners.forEach(listener => listener(command, source));
+            }
+            return;
+        }
+
+        // For regular commands, check if already executed
+        if (this.executedCommands.has(command.id)) {
+            return; // Skip already executed commands
+        }
+
+        // Apply regular commands to state
         command.apply(state);
+        this.executedCommands.add(command.id);
         
         // Notify all listeners
         this.listeners.forEach(listener => listener(command, source));

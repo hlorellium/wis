@@ -43,11 +43,17 @@ class DrawingApp {
         this.syncManager = new SyncManager(this.executor, this.state);
 
         // Setup history to listen to command executor
-        // Only record local commands to prevent cross-tab undo interference
+        // Record ALL commands (local and remote) for global history
         this.executor.subscribe((command, source) => {
-            if (source === 'local') {
-                this.history.record(command);
-            }
+            this.history.record(command, source);
+        });
+
+        // Connect history manager to executor for undo/redo handling
+        this.executor.setHistoryManager(this.history);
+
+        // Setup history to broadcast undo/redo operations
+        this.history.setUndoRedoCallback((undoRedoCommand) => {
+            this.executor.execute(undoRedoCommand, this.state, 'local');
         });
 
         // Initialize modules

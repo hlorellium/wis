@@ -1,7 +1,7 @@
 import { CommandExecutor } from '../commandExecutor';
 import type { CommandSource } from '../commandExecutor';
 import type { Command } from '../commands';
-import { PanCommand } from '../commands';
+import { PanCommand, UndoCommand, RedoCommand } from '../commands';
 import type { State } from '../state';
 import { CommandRegistry } from './commandRegistry';
 import { logger } from '../utils/logger';
@@ -60,6 +60,11 @@ export class SyncManager {
         // Don't sync pan commands - these should remain local to each tab
         if (command instanceof PanCommand) {
             return false;
+        }
+        
+        // Sync undo/redo commands to enable synchronized history
+        if (command instanceof UndoCommand || command instanceof RedoCommand) {
+            return true;
         }
         
         // Sync all other commands (AddShape, RemoveShape, etc.)
