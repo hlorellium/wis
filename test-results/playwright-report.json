@@ -30,7 +30,7 @@
       "max": 5,
       "threshold": 300000
     },
-    "quiet": false,
+    "quiet": true,
     "projects": [
       {
         "outputDir": "/Users/hlorella/code/wis/wis/test-results",
@@ -64,20 +64,20 @@
   },
   "suites": [
     {
-      "title": "color-selection.spec.ts",
-      "file": "color-selection.spec.ts",
+      "title": "fill-stroke-functionality.spec.ts",
+      "file": "fill-stroke-functionality.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Color Selection E2E Tests",
-          "file": "color-selection.spec.ts",
-          "line": 12,
+          "title": "Fill/Stroke Functionality E2E",
+          "file": "fill-stroke-functionality.spec.ts",
+          "line": 3,
           "column": 6,
           "specs": [
             {
-              "title": "color picker is visible and accessible",
+              "title": "should show style panel when drawing tool is selected",
               "ok": true,
               "tags": [],
               "tests": [
@@ -92,12 +92,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3388,
+                      "duration": 1923,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:22:37.237Z",
+                      "startTime": "2025-06-29T17:52:23.954Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -105,13 +105,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "836b9053b0c718cdad3d-04c4f46b6854979c80a1",
-              "file": "color-selection.spec.ts",
-              "line": 17,
-              "column": 3
+              "id": "c0e383abccb4d902debc-ea971ee853e5fd67f74a",
+              "file": "fill-stroke-functionality.spec.ts",
+              "line": 13,
+              "column": 5
             },
             {
-              "title": "can select different colors and draw shapes",
+              "title": "should hide style panel when non-drawing tool is selected",
               "ok": true,
               "tags": [],
               "tests": [
@@ -126,12 +126,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 5417,
+                      "duration": 1996,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:22:37.235Z",
+                      "startTime": "2025-06-29T17:52:23.957Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -139,13 +139,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "836b9053b0c718cdad3d-49db6494eff6c654cf4e",
-              "file": "color-selection.spec.ts",
-              "line": 31,
-              "column": 3
+              "id": "c0e383abccb4d902debc-76bba3994000631efd5f",
+              "file": "fill-stroke-functionality.spec.ts",
+              "line": 26,
+              "column": 5
             },
             {
-              "title": "color selection persists across tool switches",
+              "title": "should hide fill controls for line tool",
               "ok": true,
               "tags": [],
               "tests": [
@@ -160,12 +160,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 4367,
+                      "duration": 1995,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:22:37.235Z",
+                      "startTime": "2025-06-29T17:52:23.954Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -173,13 +173,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "836b9053b0c718cdad3d-529e184cbd0772adea4f",
-              "file": "color-selection.spec.ts",
-              "line": 52,
-              "column": 3
+              "id": "c0e383abccb4d902debc-6227cf15fb9de0071980",
+              "file": "fill-stroke-functionality.spec.ts",
+              "line": 39,
+              "column": 5
             },
             {
-              "title": "color picker updates visual indicator",
+              "title": "should show all controls for rectangle tool",
               "ok": true,
               "tags": [],
               "tests": [
@@ -194,12 +194,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 3280,
+                      "duration": 1729,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:22:37.246Z",
+                      "startTime": "2025-06-29T17:52:23.949Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -207,13 +207,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "836b9053b0c718cdad3d-e10a5618ecb7b3bff412",
-              "file": "color-selection.spec.ts",
-              "line": 73,
-              "column": 3
+              "id": "c0e383abccb4d902debc-d9009ac803b949831933",
+              "file": "fill-stroke-functionality.spec.ts",
+              "line": 57,
+              "column": 5
             },
             {
-              "title": "different shape types use selected color",
+              "title": "should change stroke color when color picker is used",
               "ok": true,
               "tags": [],
               "tests": [
@@ -228,12 +228,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 4499,
+                      "duration": 1179,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:22:42.615Z",
+                      "startTime": "2025-06-29T17:52:26.114Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -241,47 +241,47 @@
                   "status": "expected"
                 }
               ],
-              "id": "836b9053b0c718cdad3d-624365cf7dc76e976fe8",
-              "file": "color-selection.spec.ts",
+              "id": "c0e383abccb4d902debc-659b6e83b2aeb4b09742",
+              "file": "fill-stroke-functionality.spec.ts",
+              "line": 78,
+              "column": 5
+            },
+            {
+              "title": "should change fill color when color picker is used",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1568,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T17:52:26.265Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c0e383abccb4d902debc-8e97bc3e921cc313c47e",
+              "file": "fill-stroke-functionality.spec.ts",
               "line": 90,
-              "column": 3
+              "column": 5
             },
             {
-              "title": "color selection works with undo/redo",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 4445,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T17:22:42.767Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "836b9053b0c718cdad3d-a797af35b156248a7101",
-              "file": "color-selection.spec.ts",
-              "line": 118,
-              "column": 3
-            },
-            {
-              "title": "color persists after page reload",
+              "title": "should toggle between fill modes",
               "ok": true,
               "tags": [],
               "tests": [
@@ -296,12 +296,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 4509,
+                      "duration": 1676,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:22:43.678Z",
+                      "startTime": "2025-06-29T17:52:26.333Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -309,13 +309,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "836b9053b0c718cdad3d-110ea962929b5891fcf5",
-              "file": "color-selection.spec.ts",
-              "line": 146,
-              "column": 3
+              "id": "c0e383abccb4d902debc-b778a0fb5ac477dc4878",
+              "file": "fill-stroke-functionality.spec.ts",
+              "line": 102,
+              "column": 5
             },
             {
-              "title": "multiple rapid color changes work correctly",
+              "title": "should toggle between line styles",
               "ok": true,
               "tags": [],
               "tests": [
@@ -330,12 +330,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 3401,
+                      "duration": 1671,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:22:44.724Z",
+                      "startTime": "2025-06-29T17:52:26.341Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -343,13 +343,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "836b9053b0c718cdad3d-2bd82aba405c03ef3b3b",
-              "file": "color-selection.spec.ts",
-              "line": 169,
-              "column": 3
+              "id": "c0e383abccb4d902debc-e3f1def55b4a7c617112",
+              "file": "fill-stroke-functionality.spec.ts",
+              "line": 124,
+              "column": 5
             },
             {
-              "title": "color picker keyboard navigation works",
+              "title": "should change stroke width",
               "ok": true,
               "tags": [],
               "tests": [
@@ -364,12 +364,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1974,
+                      "duration": 1245,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:22:47.128Z",
+                      "startTime": "2025-06-29T17:52:27.302Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -377,13 +377,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "836b9053b0c718cdad3d-40b5d627b7058f435016",
-              "file": "color-selection.spec.ts",
-              "line": 187,
-              "column": 3
+              "id": "c0e383abccb4d902debc-4226a2dd5994ca4f7a0a",
+              "file": "fill-stroke-functionality.spec.ts",
+              "line": 145,
+              "column": 5
             },
             {
-              "title": "color picker respects system accessibility settings",
+              "title": "should draw rectangle with custom colors and see it rendered",
               "ok": true,
               "tags": [],
               "tests": [
@@ -398,12 +398,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1968,
+                      "duration": 1402,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:22:47.221Z",
+                      "startTime": "2025-06-29T17:52:27.846Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -411,10 +411,146 @@
                   "status": "expected"
                 }
               ],
-              "id": "836b9053b0c718cdad3d-449c86072e2f57949828",
-              "file": "color-selection.spec.ts",
+              "id": "c0e383abccb4d902debc-1b129d18bc4036948361",
+              "file": "fill-stroke-functionality.spec.ts",
+              "line": 157,
+              "column": 5
+            },
+            {
+              "title": "should persist style settings when switching tools",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 1504,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T17:52:28.018Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c0e383abccb4d902debc-f4bc9213cb281006b8c8",
+              "file": "fill-stroke-functionality.spec.ts",
               "line": 204,
-              "column": 3
+              "column": 5
+            },
+            {
+              "title": "should show correct tooltips on mode buttons",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1383,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T17:52:28.028Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c0e383abccb4d902debc-4f9fa34903ea0c64aaae",
+              "file": "fill-stroke-functionality.spec.ts",
+              "line": 226,
+              "column": 5
+            },
+            {
+              "title": "should have proper accessibility labels",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 1176,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T17:52:28.554Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c0e383abccb4d902debc-8fc22b3575f573c20e60",
+              "file": "fill-stroke-functionality.spec.ts",
+              "line": 240,
+              "column": 5
+            },
+            {
+              "title": "should properly integrate with the drawing workflow",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1199,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T17:52:29.259Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c0e383abccb4d902debc-e041f51935d2660c034b",
+              "file": "fill-stroke-functionality.spec.ts",
+              "line": 256,
+              "column": 5
             }
           ]
         }
@@ -423,9 +559,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-06-29T17:22:35.938Z",
-    "duration": 13590.446,
-    "expected": 10,
+    "startTime": "2025-06-29T17:52:22.613Z",
+    "duration": 7905.473999999999,
+    "expected": 14,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
