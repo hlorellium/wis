@@ -1,37 +1,40 @@
 import { test, expect } from '@playwright/test';
+import { 
+  getMainCanvas, 
+  expectToolActive, 
+  expectToolInactive, 
+  clickToolAndExpectActive, 
+  setupTest 
+} from './utils';
 
 test.describe('Drawing Application - Basic Setup', () => {
   test('app loads and displays basic UI elements', async ({ page }) => {
-    await page.goto('/');
-
-    // Wait for the app to load
-    await page.waitForLoadState('networkidle');
+    await setupTest(page);
 
     // Check that the main canvas is present and visible
-    const canvas = page.locator('#canvas');
+    const canvas = getMainCanvas(page);
     await expect(canvas).toBeVisible();
 
     // Check that tool buttons are present
+    await expect(page.locator('[data-tool="pan"]')).toBeVisible();
     await expect(page.locator('[data-tool="select"]')).toBeVisible();
-    await expect(page.locator('[data-tool="edit"]')).toBeVisible();
     await expect(page.locator('[data-tool="rectangle"]')).toBeVisible();
     await expect(page.locator('[data-tool="circle"]')).toBeVisible();
     await expect(page.locator('[data-tool="line"]')).toBeVisible();
-    await expect(page.locator('[data-tool="bezier"]')).toBeVisible();
+    await expect(page.locator('[data-tool="curve"]')).toBeVisible();
 
     // Check that undo/redo buttons are present
     await expect(page.locator('[data-action="undo"]')).toBeVisible();
     await expect(page.locator('[data-action="redo"]')).toBeVisible();
 
     // Verify the page title
-    await expect(page).toHaveTitle(/Drawing App/);
+    await expect(page).toHaveTitle(/Vite \+ TS/);
   });
 
   test('canvas has correct dimensions', async ({ page }) => {
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await setupTest(page);
 
-    const canvas = page.locator('#canvas');
+    const canvas = getMainCanvas(page);
     
     // Check canvas dimensions
     const canvasBox = await canvas.boundingBox();
@@ -41,35 +44,29 @@ test.describe('Drawing Application - Basic Setup', () => {
   });
 
   test('default tool is selected', async ({ page }) => {
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await setupTest(page);
 
-    // Check that select tool is active by default (should have aria-pressed="true")
-    const selectTool = page.locator('[data-tool="select"]');
-    await expect(selectTool).toHaveAttribute('aria-pressed', 'true');
+    // Check that pan tool is active by default
+    await expectToolActive(page, 'pan');
   });
 
   test('can switch between tools', async ({ page }) => {
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await setupTest(page);
 
-    // Start with select tool active
-    await expect(page.locator('[data-tool="select"]')).toHaveAttribute('aria-pressed', 'true');
+    // Start with pan tool active
+    await expectToolActive(page, 'pan');
 
     // Click rectangle tool
-    await page.click('[data-tool="rectangle"]');
-    await expect(page.locator('[data-tool="rectangle"]')).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.locator('[data-tool="select"]')).toHaveAttribute('aria-pressed', 'false');
+    await clickToolAndExpectActive(page, 'rectangle');
+    await expectToolInactive(page, 'pan');
 
     // Click circle tool
-    await page.click('[data-tool="circle"]');
-    await expect(page.locator('[data-tool="circle"]')).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.locator('[data-tool="rectangle"]')).toHaveAttribute('aria-pressed', 'false');
+    await clickToolAndExpectActive(page, 'circle');
+    await expectToolInactive(page, 'rectangle');
 
-    // Switch back to select tool
-    await page.click('[data-tool="select"]');
-    await expect(page.locator('[data-tool="select"]')).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.locator('[data-tool="circle"]')).toHaveAttribute('aria-pressed', 'false');
+    // Switch to select tool
+    await clickToolAndExpectActive(page, 'select');
+    await expectToolInactive(page, 'circle');
   });
 
   test('console has no errors on load', async ({ page }) => {
@@ -82,8 +79,7 @@ test.describe('Drawing Application - Basic Setup', () => {
       }
     });
 
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await setupTest(page);
 
     // Allow a moment for any async errors
     await page.waitForTimeout(1000);

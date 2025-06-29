@@ -1,4 +1,13 @@
 import { test, expect, Browser, BrowserContext } from '@playwright/test';
+import { 
+  getMainCanvas, 
+  expectToolActive, 
+  clickToolAndExpectActive, 
+  setupTest,
+  drawRectangle,
+  clickCanvas,
+  selectAndDeleteShape
+} from './utils';
 
 test.describe('Drawing Application - Multi-Tab Synchronization', () => {
   let browser: Browser;
@@ -25,39 +34,28 @@ test.describe('Drawing Application - Multi-Tab Synchronization', () => {
     const page2 = await context2.newPage();
 
     // Load the app in both tabs
-    await page1.goto('/');
-    await page2.goto('/');
-    await page1.waitForLoadState('networkidle');
-    await page2.waitForLoadState('networkidle');
+    await setupTest(page1);
+    await setupTest(page2);
 
     // Draw a rectangle in tab 1
-    await page1.click('[data-tool="rectangle"]');
-    const canvas1 = page1.locator('canvas');
-    
-    await canvas1.hover({ position: { x: 100, y: 100 } });
-    await page1.mouse.down();
-    await canvas1.hover({ position: { x: 200, y: 150 } });
-    await page1.mouse.up();
+    await clickToolAndExpectActive(page1, 'rectangle');
+    await drawRectangle(page1, 100, 100, 200, 150);
 
     // Wait a moment for sync
     await page2.waitForTimeout(1000);
 
     // In tab 2, switch to select tool and verify the rectangle exists
-    await page2.click('[data-tool="select"]');
-    const canvas2 = page2.locator('canvas');
+    await clickToolAndExpectActive(page2, 'select');
     
-    // Try to select the rectangle in tab 2
-    await canvas2.click({ position: { x: 150, y: 125 } });
-    
-    // Delete it to verify it was there and selected
-    await page2.keyboard.press('Delete');
+    // Try to select and delete the rectangle in tab 2
+    await selectAndDeleteShape(page2, 150, 125);
 
     // Wait for sync back to tab 1
     await page1.waitForTimeout(1000);
 
     // In tab 1, the rectangle should now be gone
-    await page1.click('[data-tool="select"]');
-    await canvas1.click({ position: { x: 150, y: 125 } }); // Should not select anything
+    await clickToolAndExpectActive(page1, 'select');
+    await clickCanvas(page1, 150, 125); // Should not select anything
   });
 
   test('undo/redo operations sync across tabs', async () => {
@@ -70,13 +68,8 @@ test.describe('Drawing Application - Multi-Tab Synchronization', () => {
     await page2.waitForLoadState('networkidle');
 
     // Draw a rectangle in tab 1
-    await page1.click('[data-tool="rectangle"]');
-    const canvas1 = page1.locator('canvas');
-    
-    await canvas1.hover({ position: { x: 100, y: 100 } });
-    await page1.mouse.down();
-    await canvas1.hover({ position: { x: 200, y: 150 } });
-    await page1.mouse.up();
+    await clickToolAndExpectActive(page1, 'rectangle');
+    await drawRectangle(page1, 100, 100, 200, 150);
 
     // Wait for sync
     await page2.waitForTimeout(1000);
@@ -88,8 +81,8 @@ test.describe('Drawing Application - Multi-Tab Synchronization', () => {
     await page1.waitForTimeout(1000);
 
     // In tab 1, the rectangle should be gone
-    await page1.click('[data-tool="select"]');
-    await canvas1.click({ position: { x: 150, y: 125 } }); // Should not select anything
+    await clickToolAndExpectActive(page1, 'select');
+    await clickCanvas(page1, 150, 125); // Should not select anything
 
     // Redo in tab 1
     await page1.click('[data-action="redo"]');
@@ -98,10 +91,8 @@ test.describe('Drawing Application - Multi-Tab Synchronization', () => {
     await page2.waitForTimeout(1000);
 
     // In tab 2, the rectangle should be back
-    await page2.click('[data-tool="select"]');
-    const canvas2 = page2.locator('canvas');
-    await canvas2.click({ position: { x: 150, y: 125 } });
-    await page2.keyboard.press('Delete'); // Should successfully delete
+    await clickToolAndExpectActive(page2, 'select');
+    await selectAndDeleteShape(page2, 150, 125);
   });
 
   test('shape movements sync across tabs', async () => {
@@ -114,24 +105,19 @@ test.describe('Drawing Application - Multi-Tab Synchronization', () => {
     await page2.waitForLoadState('networkidle');
 
     // Draw a rectangle in tab 1
-    await page1.click('[data-tool="rectangle"]');
-    const canvas1 = page1.locator('canvas');
-    
-    await canvas1.hover({ position: { x: 100, y: 100 } });
-    await page1.mouse.down();
-    await canvas1.hover({ position: { x: 200, y: 150 } });
-    await page1.mouse.up();
+    await clickToolAndExpectActive(page1, 'rectangle');
+    await drawRectangle(page1, 100, 100, 200, 150);
 
     // Wait for sync
     await page2.waitForTimeout(1000);
 
     // In tab 2, select and move the rectangle
-    await page2.click('[data-tool="select"]');
-    const canvas2 = page2.locator('canvas');
+    await clickToolAndExpectActive(page2, 'select');
     
-    await canvas2.click({ position: { x: 150, y: 125 } }); // Select
+    await clickCanvas(page2, 150, 125); // Select
     
     // Drag to new position
+    const canvas2 = getMainCanvas(page2);
     await canvas2.hover({ position: { x: 150, y: 125 } });
     await page2.mouse.down();
     await canvas2.hover({ position: { x: 300, y: 250 } });
@@ -141,14 +127,13 @@ test.describe('Drawing Application - Multi-Tab Synchronization', () => {
     await page1.waitForTimeout(1000);
 
     // In tab 1, the rectangle should be at the new position
-    await page1.click('[data-tool="select"]');
+    await clickToolAndExpectActive(page1, 'select');
     
     // Try to select at old position (should fail)
-    await canvas1.click({ position: { x: 150, y: 125 } });
+    await clickCanvas(page1, 150, 125);
     
     // Try to select at new position (should succeed)
-    await canvas1.click({ position: { x: 300, y: 250 } });
-    await page1.keyboard.press('Delete'); // Should successfully delete
+    await selectAndDeleteShape(page1, 300, 250);
   });
 
   test('shape deletions sync across tabs', async () => {
@@ -161,43 +146,33 @@ test.describe('Drawing Application - Multi-Tab Synchronization', () => {
     await page2.waitForLoadState('networkidle');
 
     // Draw multiple shapes in tab 1
-    await page1.click('[data-tool="rectangle"]');
-    const canvas1 = page1.locator('canvas');
+    await clickToolAndExpectActive(page1, 'rectangle');
     
     // First rectangle
-    await canvas1.hover({ position: { x: 50, y: 50 } });
-    await page1.mouse.down();
-    await canvas1.hover({ position: { x: 100, y: 100 } });
-    await page1.mouse.up();
+    await drawRectangle(page1, 50, 50, 100, 100);
     
     // Second rectangle
-    await canvas1.hover({ position: { x: 150, y: 50 } });
-    await page1.mouse.down();
-    await canvas1.hover({ position: { x: 200, y: 100 } });
-    await page1.mouse.up();
+    await drawRectangle(page1, 150, 50, 200, 100);
 
     // Wait for sync
     await page2.waitForTimeout(1000);
 
     // In tab 2, delete one of the rectangles
-    await page2.click('[data-tool="select"]');
-    const canvas2 = page2.locator('canvas');
+    await clickToolAndExpectActive(page2, 'select');
     
-    await canvas2.click({ position: { x: 75, y: 75 } }); // Select first rectangle
-    await page2.keyboard.press('Delete');
+    await selectAndDeleteShape(page2, 75, 75); // Select and delete first rectangle
 
     // Wait for sync back to tab 1
     await page1.waitForTimeout(1000);
 
     // In tab 1, first rectangle should be gone, second should remain
-    await page1.click('[data-tool="select"]');
+    await clickToolAndExpectActive(page1, 'select');
     
     // Try to select deleted rectangle (should fail)
-    await canvas1.click({ position: { x: 75, y: 75 } });
+    await clickCanvas(page1, 75, 75);
     
     // Try to select remaining rectangle (should succeed)
-    await canvas1.click({ position: { x: 175, y: 75 } });
-    await page1.keyboard.press('Delete'); // Should successfully delete
+    await selectAndDeleteShape(page1, 175, 75);
   });
 
   test('edit mode operations sync across tabs', async () => {
