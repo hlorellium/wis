@@ -45,9 +45,13 @@ export async function setupTest(page: Page) {
  */
 export async function drawRectangle(page: Page, x1: number, y1: number, x2: number, y2: number) {
   const canvas = getMainCanvas(page);
-  await canvas.hover({ position: { x: x1, y: y1 } });
+  const canvasBox = await canvas.boundingBox();
+  if (!canvasBox) throw new Error('Canvas not found');
+  
+  // Use absolute coordinates to avoid element overlap issues
+  await page.mouse.move(canvasBox.x + x1, canvasBox.y + y1);
   await page.mouse.down();
-  await canvas.hover({ position: { x: x2, y: y2 } });
+  await page.mouse.move(canvasBox.x + x2, canvasBox.y + y2);
   await page.mouse.up();
 }
 
@@ -57,9 +61,13 @@ export async function drawRectangle(page: Page, x1: number, y1: number, x2: numb
  */
 export async function drawCircle(page: Page, x1: number, y1: number, x2: number, y2: number) {
   const canvas = getMainCanvas(page);
-  await canvas.hover({ position: { x: x1, y: y1 } });
+  const canvasBox = await canvas.boundingBox();
+  if (!canvasBox) throw new Error('Canvas not found');
+  
+  // Use absolute coordinates to avoid element overlap issues
+  await page.mouse.move(canvasBox.x + x1, canvasBox.y + y1);
   await page.mouse.down();
-  await canvas.hover({ position: { x: x2, y: y2 } });
+  await page.mouse.move(canvasBox.x + x2, canvasBox.y + y2);
   await page.mouse.up();
 }
 

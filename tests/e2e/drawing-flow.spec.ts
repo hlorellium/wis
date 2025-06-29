@@ -52,11 +52,13 @@ test.describe('Drawing Application - Drawing Flow', () => {
     await clickToolAndExpectActive(page, 'line');
 
     const canvas = getMainCanvas(page);
+    const canvasBox = await canvas.boundingBox();
+    if (!canvasBox) throw new Error('Canvas not found');
     
-    // Draw a line by clicking and dragging
-    await canvas.hover({ position: { x: 50, y: 50 } });
+    // Draw a line by clicking and dragging using absolute coordinates
+    await page.mouse.move(canvasBox.x + 50, canvasBox.y + 50);
     await page.mouse.down();
-    await canvas.hover({ position: { x: 150, y: 100 } });
+    await page.mouse.move(canvasBox.x + 150, canvasBox.y + 100);
     await page.mouse.up();
 
     // Switch to select tool and verify the shape was created
@@ -96,11 +98,14 @@ test.describe('Drawing Application - Drawing Flow', () => {
     // Select the rectangle
     await clickCanvas(page, 150, 125);
     
-    // Drag the rectangle to a new position
+    // Drag the rectangle to a new position using absolute coordinates
     const canvas = getMainCanvas(page);
-    await canvas.hover({ position: { x: 150, y: 125 } });
+    const canvasBox = await canvas.boundingBox();
+    if (!canvasBox) throw new Error('Canvas not found');
+    
+    await page.mouse.move(canvasBox.x + 150, canvasBox.y + 125);
     await page.mouse.down();
-    await canvas.hover({ position: { x: 250, y: 200 } });
+    await page.mouse.move(canvasBox.x + 250, canvasBox.y + 200);
     await page.mouse.up();
     
     // The rectangle should now be at the new position
@@ -138,6 +143,8 @@ test.describe('Drawing Application - Drawing Flow', () => {
     await clickToolAndExpectActive(page, 'rectangle');
     
     const canvas = getMainCanvas(page);
+    const canvasBox = await canvas.boundingBox();
+    if (!canvasBox) throw new Error('Canvas not found');
     
     // First rectangle
     await drawRectangle(page, 50, 50, 100, 100);
@@ -148,10 +155,10 @@ test.describe('Drawing Application - Drawing Flow', () => {
     // Switch to select tool
     await clickToolAndExpectActive(page, 'select');
     
-    // Perform drag selection to select both rectangles
-    await canvas.hover({ position: { x: 30, y: 30 } });
+    // Perform drag selection to select both rectangles using absolute coordinates
+    await page.mouse.move(canvasBox.x + 30, canvasBox.y + 30);
     await page.mouse.down();
-    await canvas.hover({ position: { x: 190, y: 120 } });
+    await page.mouse.move(canvasBox.x + 190, canvasBox.y + 120);
     await page.mouse.up();
     
     // Both rectangles should be selected - delete them

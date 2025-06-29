@@ -2,9 +2,9 @@
 
 ```yaml
 - toolbar "Drawing tools":
-  - button "Pan tool":
+  - button "Pan tool" [pressed]:
     - img
-  - button "Line tool" [pressed]:
+  - button "Line tool":
     - img
   - button "Rectangle tool":
     - img
