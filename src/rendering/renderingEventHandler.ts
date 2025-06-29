@@ -19,9 +19,21 @@ export class RenderingEventHandler {
      * Start listening to command events and handle rendering side effects
      */
     start(): void {
-        this.unsubscribe = eventBus.subscribe<CommandExecutedEvent>('commandExecuted', (event) => {
+        // Subscribe to command executed events
+        const unsubscribeCommandExecuted = eventBus.subscribe<CommandExecutedEvent>('commandExecuted', (event) => {
             this.handleCommandExecuted(event);
         });
+        
+        // Subscribe to state changed events (for undo/redo cache invalidation)
+        const unsubscribeStateChanged = eventBus.subscribe<{ source: string }>('stateChanged', (event) => {
+            this.handleStateChanged(event);
+        });
+        
+        // Combine unsubscribe functions
+        this.unsubscribe = () => {
+            unsubscribeCommandExecuted();
+            unsubscribeStateChanged();
+        };
         
         logger.info('RenderingEventHandler started', 'RenderingEventHandler');
     }
@@ -95,6 +107,20 @@ export class RenderingEventHandler {
             // Clear all cache if no specific target
             this.renderer.clearCache();
             logger.debug('Cleared all cache', 'RenderingEventHandler');
+        }
+    }
+
+    /**
+     * Handle state changed events (from undo/redo operations)
+     */
+    private handleStateChanged(event: { source: string }): void {
+        logger.debug(`Handling state change from: ${event.source}`, 'RenderingEventHandler');
+        
+        // Clear entire cache for undo/redo operations to ensure shapes are re-rendered
+        // with their correct positions after state changes
+        if (event.source === 'undo' || event.source === 'redo') {
+            this.renderer.clearCache();
+            logger.debug(`Cleared all cache due to ${event.source} operation`, 'RenderingEventHandler');
         }
     }
 
