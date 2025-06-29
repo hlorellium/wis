@@ -67,7 +67,7 @@ export class ToolManager {
         if (state && state.tool !== tool) {
             // Clear select tool drag state when switching away from select
             if (state.tool === 'select' && this.selectTool) {
-                this.selectTool.cancelDrag();
+                this.selectTool.cancelDrag(state);
             }
             // Clear edit tool state when switching away from edit
             if (state.tool === 'edit' && this.editTool) {
