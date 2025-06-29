@@ -57,11 +57,18 @@ export class CommandExecutor {
         }
 
         logger.info(`Executing ${source} command: ${command.constructor.name} (${command.id})`, 'CommandExecutor');
+        try {
+            const serialized = (command as any).serialize ? (command as any).serialize() : 'No serialize method';
+            logger.info(`Command details: ${JSON.stringify(serialized)}`, 'CommandExecutor');
+        } catch (e) {
+            logger.info(`Command serialization failed: ${e}`, 'CommandExecutor');
+        }
         
         try {
             // Apply regular commands to state
             command.apply(state);
             this.executedCommands.add(command.id);
+            logger.info(`Command applied successfully, added to executedCommands`, 'CommandExecutor');
             
             // Get command metadata for side effects
             const metadata = command.getMetadata();

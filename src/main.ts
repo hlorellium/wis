@@ -5,7 +5,7 @@ import { BackgroundRenderer } from './rendering/background';
 import { Path2DRenderer } from './rendering/path2DRenderer';
 import { ToolManager } from './tools/toolManager';
 import { MouseHandler } from './input/mouse';
-import { HistoryManager } from './history';
+import { HistoryManager, UndoCommand, RedoCommand } from './history';
 import { CommandExecutor } from './commandExecutor';
 import { SyncManager } from './sync/syncManager';
 import { PersistenceManager } from './persistence/persistenceManager';
@@ -70,9 +70,19 @@ class DrawingApp {
         // Setup history to listen to command executor
         // Record ALL commands (local and remote) for global history
         this.executor.subscribe((command, source) => {
-            this.history.record(command, source);
+            logger.info(`Main.ts listener received command: ${command.constructor.name} (${command.id}) from ${source}`, 'Main');
+            // For regular commands that have been executed, use record()
+            // For undo/redo commands, they handle themselves
+            if (!(command instanceof UndoCommand) && !(command instanceof RedoCommand)) {
+                this.history.record(command, source);
+                logger.info(`Command recorded in history`, 'Main');
+            } else {
+                logger.info(`Skipping undo/redo command recording`, 'Main');
+            }
+            logger.info(`About to update history buttons`, 'Main');
             // Update UI buttons immediately after recording commands
             this.toolManager.updateHistoryButtons();
+            logger.info(`History buttons updated`, 'Main');
         });
 
         // Connect history manager to executor for undo/redo handling

@@ -3,6 +3,7 @@ import { HISTORY_CONFIG } from './constants';
 import type { Command } from './commands';
 import { UndoCommand, RedoCommand } from './commands';
 import { eventBus } from './utils/eventBus';
+import { logger } from './utils/logger';
 
 // Re-export commands for backward compatibility
 export type { Command } from './commands';
@@ -32,13 +33,17 @@ export class HistoryManager {
     }
 
     record(command: Command, source: 'local' | 'remote' = 'local'): void {
+        logger.info(`HistoryManager.record called for ${command.constructor.name} (${command.id})`, 'HistoryManager');
+        
         // Skip if this command was already applied (prevent duplicates in sync)
         if (this.appliedCommands.has(command.id)) {
+            logger.info(`Skipping duplicate command ${command.constructor.name} (${command.id})`, 'HistoryManager');
             return;
         }
 
         // Don't record undo/redo commands in history
         if (command instanceof UndoCommand || command instanceof RedoCommand) {
+            logger.info(`Not recording undo/redo command ${command.constructor.name} (${command.id})`, 'HistoryManager');
             this.appliedCommands.add(command.id);
             return;
         }
@@ -47,6 +52,7 @@ export class HistoryManager {
         const entry: CommandEntry = { command, source };
         this.past.push(entry);
         this.appliedCommands.add(command.id);
+        logger.info(`Command recorded in history. Past length: ${this.past.length}`, 'HistoryManager');
         
         // Enforce capacity limit
         if (this.past.length > this.maxSize) {

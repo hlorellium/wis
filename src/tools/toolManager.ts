@@ -127,11 +127,19 @@ export class ToolManager {
     }
 
     updateHistoryButtons(): void {
+        const canUndo = this.history.canUndo();
+        const canRedo = this.history.canRedo();
+        const historySize = this.history.getHistorySize();
+        
+        console.log(`[ToolManager] updateHistoryButtons: canUndo=${canUndo}, canRedo=${canRedo}, historySize=${JSON.stringify(historySize)}`);
+        
         if (this.undoButton) {
-            this.undoButton.disabled = !this.history.canUndo();
+            this.undoButton.disabled = !canUndo;
+            console.log(`[ToolManager] Undo button disabled: ${this.undoButton.disabled}`);
         }
         if (this.redoButton) {
-            this.redoButton.disabled = !this.history.canRedo();
+            this.redoButton.disabled = !canRedo;
+            console.log(`[ToolManager] Redo button disabled: ${this.redoButton.disabled}`);
         }
     }
 
