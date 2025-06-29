@@ -3,6 +3,7 @@ import type { CommandSource } from '../commandExecutor';
 import type { Command } from '../commands';
 import { PanCommand, UndoCommand, RedoCommand } from '../commands';
 import type { State } from '../state';
+import { HistoryManager } from '../history';
 import { CommandRegistry } from './commandRegistry';
 import { logger } from '../utils/logger';
 
@@ -28,14 +29,17 @@ export class SyncManager {
     private unsubscribe: () => void;
     private executor: CommandExecutor;
     private state: State;
+    private history: HistoryManager;
 
     constructor(
         executor: CommandExecutor,
         state: State,
+        history: HistoryManager,
         channelName: string = 'drawing-app-sync'
     ) {
         this.executor = executor;
         this.state = state;
+        this.history = history;
         this.channel = new BroadcastChannel(channelName);
         this.setupMessageListener();
         this.unsubscribe = this.setupCommandListener();
@@ -107,8 +111,9 @@ export class SyncManager {
         try {
             logger.info(`Received remote command: ${serialized.type}`, 'SyncManager', serialized.data);
             const command = this.deserializeCommand(serialized);
-            // Execute as remote command to avoid re-broadcasting
-            this.executor.execute(command, this.state, 'remote');
+            // Use history.push to both apply the command AND record it for undo
+            // This ensures remote commands are undoable in all tabs
+            this.history.push(command, this.state, 'remote');
             logger.info(`Applied remote command: ${serialized.type}`, 'SyncManager');
         } catch (error) {
             logger.warn('Failed to apply remote command', 'SyncManager', error);
@@ -123,7 +128,7 @@ export class SyncManager {
         return {
             type,
             data,
-            id: crypto.randomUUID(),
+            id: command.id, // Preserve original command ID for proper duplicate checking
             timestamp: Date.now()
         };
     }
@@ -133,7 +138,10 @@ export class SyncManager {
      */
     private deserializeCommand(serialized: SerializedCommand): Command {
         const { type, data } = serialized;
-        return CommandRegistry.deserialize(type, data);
+        const command = CommandRegistry.deserialize(type, data);
+        // Ensure the deserialized command has the same ID as the serialized one
+        (command as any).id = serialized.id;
+        return command;
     }
 
     /**

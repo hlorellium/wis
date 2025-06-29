@@ -117,6 +117,9 @@ export class HistoryManager {
         // Clear redo chain
         this.future.forEach(entry => this.appliedCommands.delete(entry.command.id));
         this.future.length = 0;
+
+        // Emit state change event to trigger UI updates (important for remote commands)
+        eventBus.emit('stateChanged', { source: 'push' });
     }
 
     undo(state: State, broadcast: boolean = true): boolean {

@@ -6,13 +6,13 @@
     - img
   - button "Line tool":
     - img
-  - button "Rectangle tool" [pressed]:
+  - button "Rectangle tool":
     - img
   - button "Circle tool":
     - img
   - button "Curve tool":
     - img
-  - button "Select tool":
+  - button "Select tool" [pressed]:
     - img
   - button "Undo (⌘Z)":
     - img

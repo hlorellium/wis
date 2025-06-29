@@ -63,12 +63,14 @@ class DrawingApp {
         // Initialize command system
         this.executor = new CommandExecutor();
         this.history = new HistoryManager();
-        this.syncManager = new SyncManager(this.executor, this.state);
+        this.syncManager = new SyncManager(this.executor, this.state, this.history);
 
         // Setup history to listen to command executor
         // Record ALL commands (local and remote) for global history
         this.executor.subscribe((command, source) => {
             this.history.record(command, source);
+            // Update UI buttons immediately after recording commands
+            this.toolManager.updateHistoryButtons();
         });
 
         // Connect history manager to executor for undo/redo handling
@@ -132,6 +134,9 @@ class DrawingApp {
 
         // Initial render
         this.render();
+        
+        // Update history buttons after initialization (important for persistence scenarios)
+        this.toolManager.updateHistoryButtons();
     }
 
     private setupPersistence() {

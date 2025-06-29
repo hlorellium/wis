@@ -22,13 +22,15 @@ test.describe('Drawing Application - Multi-Tab Synchronization', () => {
 
   test.beforeEach(async () => {
     // Create two separate browser contexts (tabs)
+    // Note: BroadcastChannel doesn't work between separate contexts in Playwright
+    // So we use same context with different pages to simulate multi-tab behavior
     context1 = await browser.newContext();
-    context2 = await browser.newContext();
+    context2 = context1; // Same context, different pages - enables BroadcastChannel
   });
 
   test.afterEach(async () => {
     await context1.close();
-    await context2.close();
+    // Don't close context2 since it's the same as context1
   });
 
   test('shapes drawn in one tab appear in another tab', async () => {
