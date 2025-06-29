@@ -59,6 +59,7 @@ export class RemoveShapeCommand implements Command {
     public readonly id: string;
     public readonly timestamp: number;
     private readonly shape: Shape;
+    private wasSelected: boolean = false;
 
     constructor(shape: Shape, id?: string) {
         // Clone the shape to remove any proxy wrappers that can't be serialized
@@ -68,11 +69,26 @@ export class RemoveShapeCommand implements Command {
     }
 
     apply(state: State): void {
+        // Remember if this shape was selected
+        this.wasSelected = state.selection.includes(this.shape.id);
+        
+        // Remove shape from scene
         state.scene.shapes = state.scene.shapes.filter(sh => sh.id !== this.shape.id);
+        
+        // Remove from selection if it was selected
+        if (this.wasSelected) {
+            state.selection = state.selection.filter(id => id !== this.shape.id);
+        }
     }
 
     invert(state: State): void {
+        // Restore the shape
         state.scene.shapes.push(this.shape);
+        
+        // Restore selection if it was selected
+        if (this.wasSelected) {
+            state.selection.push(this.shape.id);
+        }
     }
 
     getMetadata(): CommandMetadata {

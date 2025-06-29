@@ -17,7 +17,7 @@ export class ShapeRenderer {
         }
 
         // Render selection highlight if this shape is selected
-        if (state && state.selection === shape.id) {
+        if (state && state.selection.includes(shape.id)) {
             this.renderSelectionHighlight(ctx, shape);
         }
     }

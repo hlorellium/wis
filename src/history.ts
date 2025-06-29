@@ -2,6 +2,7 @@ import type { State } from './state';
 import { HISTORY_CONFIG } from './constants';
 import type { Command } from './commands';
 import { UndoCommand, RedoCommand } from './commands';
+import { eventBus } from './utils/eventBus';
 
 // Re-export commands for backward compatibility
 export type { Command } from './commands';
@@ -124,6 +125,9 @@ export class HistoryManager {
             entry.command.invert(state);
             this.future.push(entry);
             
+            // Emit state change event to trigger re-render
+            eventBus.emit('stateChanged', { source: 'undo' });
+            
             // Broadcast undo operation if requested and callback is set
             if (broadcast && this.onUndoRedo) {
                 const undoCommand = new UndoCommand(entry.command.id);
@@ -140,6 +144,9 @@ export class HistoryManager {
         if (entry) {
             entry.command.apply(state);
             this.past.push(entry);
+            
+            // Emit state change event to trigger re-render
+            eventBus.emit('stateChanged', { source: 'redo' });
             
             // Broadcast redo operation if requested and callback is set
             if (broadcast && this.onUndoRedo) {

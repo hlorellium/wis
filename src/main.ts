@@ -12,6 +12,7 @@ import { PersistenceManager } from './persistence/persistenceManager';
 import { RenderingEventHandler } from './rendering/renderingEventHandler';
 import { getRequiredElement } from './utils/dom';
 import { logger } from './utils/logger';
+import { eventBus } from './utils/eventBus';
 // Import CommandRegistry to ensure command factories are registered
 import './sync/commandRegistry';
 import './style.css';
@@ -113,6 +114,12 @@ class DrawingApp {
 
         // Setup persistence
         this.setupPersistence();
+
+        // Subscribe to state change events to trigger re-renders
+        eventBus.subscribe('stateChanged', () => {
+            this.render(true);
+            this.toolManager.updateHistoryButtons();
+        });
 
         // Initial render
         this.render();
