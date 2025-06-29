@@ -1,32 +1,45 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { SyncManager } from '../src/sync/syncManager';
 import { CommandExecutor } from '../src/commandExecutor';
-import { AddShapeCommand, PanCommand } from '../src/history';
+import { AddShapeCommand, PanCommand, HistoryManager } from '../src/history';
 import { initialState } from '../src/state';
 // Import to register command factories
 import '../src/sync/commandRegistry';
 
-// Mock BroadcastChannel
+// Mock BroadcastChannel specifically for this test
 const mockPostMessage = vi.fn();
 const mockClose = vi.fn();
 
-global.BroadcastChannel = vi.fn().mockImplementation((name: string) => ({
-    name,
-    postMessage: mockPostMessage,
-    onmessage: null,
-    close: mockClose
-}));
+// Store original BroadcastChannel (from polyfill) to restore later
+const originalBroadcastChannel = globalThis.BroadcastChannel;
 
 describe('SyncManager', () => {
     let syncManager: SyncManager;
     let executor: CommandExecutor;
+    let history: HistoryManager;
     let state: any;
 
     beforeEach(() => {
         vi.clearAllMocks();
+        
+        // Override BroadcastChannel for this test suite
+        globalThis.BroadcastChannel = vi.fn().mockImplementation((name: string) => ({
+            name,
+            postMessage: mockPostMessage,
+            onmessage: null,
+            close: mockClose
+        }));
+        
         executor = new CommandExecutor();
+        history = new HistoryManager();
         state = { ...initialState };
-        syncManager = new SyncManager(executor, state, 'test-channel');
+        syncManager = new SyncManager(executor, state, history, 'test-channel');
+    });
+
+    afterEach(() => {
+        // Restore original BroadcastChannel
+        globalThis.BroadcastChannel = originalBroadcastChannel;
+        syncManager?.destroy();
     });
 
     it('should create a BroadcastChannel with the specified name', () => {

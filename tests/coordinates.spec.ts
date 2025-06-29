@@ -157,46 +157,38 @@ describe('CoordinateTransformer', () => {
   });
 
   describe('round-trip conversion', () => {
-    it('should maintain precision in round-trip conversions', () => {
-      const testCases = [
-        { zoom: 1, panX: 0, panY: 0, worldX: 100, worldY: 100 },
-        { zoom: 2, panX: 50, panY: 30, worldX: 150, worldY: 200 },
-        { zoom: 0.5, panX: -20, panY: -10, worldX: 75, worldY: 125 },
-        { zoom: 1.5, panX: 100, panY: 75, worldX: 0, worldY: 0 },
-      ];
+    it.each([
+      { zoom: 1, panX: 0, panY: 0, worldX: 100, worldY: 100, description: 'no zoom/pan' },
+      { zoom: 2, panX: 50, panY: 30, worldX: 150, worldY: 200, description: '2x zoom with pan' },
+      { zoom: 0.5, panX: -20, panY: -10, worldX: 75, worldY: 125, description: '0.5x zoom with negative pan' },
+      { zoom: 1.5, panX: 100, panY: 75, worldX: 0, worldY: 0, description: '1.5x zoom at origin' },
+    ])('should maintain precision in round-trip conversions ($description)', ({ zoom, panX, panY, worldX, worldY }) => {
+      state.view.zoom = zoom;
+      state.view.panX = panX;
+      state.view.panY = panY;
 
-      testCases.forEach(({ zoom, panX, panY, worldX, worldY }) => {
-        state.view.zoom = zoom;
-        state.view.panX = panX;
-        state.view.panY = panY;
+      // World -> Screen -> World
+      const screen = transformer.worldToScreen(worldX, worldY, state);
+      const backToWorld = transformer.screenToWorld(screen.x, screen.y, state);
 
-        // World -> Screen -> World
-        const screen = transformer.worldToScreen(worldX, worldY, state);
-        const backToWorld = transformer.screenToWorld(screen.x, screen.y, state);
-
-        expect(backToWorld.x).toBeCloseTo(worldX, 10);
-        expect(backToWorld.y).toBeCloseTo(worldY, 10);
-      });
+      expect(backToWorld.x).toBeCloseTo(worldX, 10);
+      expect(backToWorld.y).toBeCloseTo(worldY, 10);
     });
 
-    it('should handle extreme zoom values in round-trip', () => {
-      const extremeCases = [
-        { zoom: 0.1, worldX: 1000, worldY: 500 },
-        { zoom: 10, worldX: 10, worldY: 20 },
-        { zoom: 0.01, worldX: 5000, worldY: 3000 },
-      ];
+    it.each([
+      { zoom: 0.1, worldX: 1000, worldY: 500, description: 'very small zoom (0.1x)' },
+      { zoom: 10, worldX: 10, worldY: 20, description: 'large zoom (10x)' },
+      { zoom: 0.01, worldX: 5000, worldY: 3000, description: 'extreme small zoom (0.01x)' },
+    ])('should handle extreme zoom values in round-trip ($description)', ({ zoom, worldX, worldY }) => {
+      state.view.zoom = zoom;
+      state.view.panX = 0;
+      state.view.panY = 0;
 
-      extremeCases.forEach(({ zoom, worldX, worldY }) => {
-        state.view.zoom = zoom;
-        state.view.panX = 0;
-        state.view.panY = 0;
+      const screen = transformer.worldToScreen(worldX, worldY, state);
+      const backToWorld = transformer.screenToWorld(screen.x, screen.y, state);
 
-        const screen = transformer.worldToScreen(worldX, worldY, state);
-        const backToWorld = transformer.screenToWorld(screen.x, screen.y, state);
-
-        expect(backToWorld.x).toBeCloseTo(worldX, 5);
-        expect(backToWorld.y).toBeCloseTo(worldY, 5);
-      });
+      expect(backToWorld.x).toBeCloseTo(worldX, 5);
+      expect(backToWorld.y).toBeCloseTo(worldY, 5);
     });
   });
 

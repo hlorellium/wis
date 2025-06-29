@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { CommandExecutor } from '../src/commandExecutor';
 import { SyncManager } from '../src/sync/syncManager';
 import { MoveVertexCommand, MoveShapesCommand } from '../src/commands';
-import { Path2DRenderer } from '../src/rendering/path2DRenderer';
+import { HistoryManager } from '../src/history';
 import { initialState } from '../src/state';
 import { eventBus } from '../src/utils/eventBus';
 import '../src/sync/commandRegistry';
@@ -10,11 +10,13 @@ import '../src/sync/commandRegistry';
 describe('Bezier Curve Sync', () => {
     let executor: CommandExecutor;
     let syncManager: SyncManager;
+    let history: HistoryManager;
     let state: any;
     let broadcastSpy: any;
 
     beforeEach(() => {
         executor = new CommandExecutor();
+        history = new HistoryManager();
         state = {
             ...initialState,
             scene: {
@@ -34,7 +36,7 @@ describe('Bezier Curve Sync', () => {
             }
         };
 
-        syncManager = new SyncManager(executor, state, 'test-channel');
+        syncManager = new SyncManager(executor, state, history, 'test-channel');
 
         // Mock BroadcastChannel
         const mockChannel = {

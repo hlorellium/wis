@@ -1,0 +1,140 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Command Serialization Protocol > DeleteShapeCommand > should serialize consistently > delete-shape-command 1`] = `
+{
+  "data": {
+    "deletedShapes": [],
+    "id": "test-delete-789",
+    "shapeIds": [
+      "delete-test-1",
+    ],
+    "timestamp": 1700000000000,
+  },
+  "type": "DeleteShapeCommand",
+}
+`;
+
+exports[`Command Serialization Protocol > DeleteShapeCommand > should serialize with multiple shapes > delete-shapes-multiple 1`] = `
+{
+  "data": {
+    "deletedShapes": [],
+    "id": "multi-delete-test",
+    "shapeIds": [
+      "shape-a",
+      "shape-b",
+      "shape-c",
+    ],
+    "timestamp": 1700000000000,
+  },
+  "type": "DeleteShapeCommand",
+}
+`;
+
+exports[`Command Serialization Protocol > MoveShapesCommand > should serialize consistently > move-shapes-command 1`] = `
+{
+  "data": {
+    "dx": 25,
+    "dy": -10,
+    "id": "test-move-shapes-123",
+    "shapeIds": [
+      "shape-1",
+      "shape-2",
+    ],
+    "timestamp": 1700000000000,
+  },
+  "type": "MoveShapesCommand",
+}
+`;
+
+exports[`Command Serialization Protocol > MoveShapesCommand > should serialize with multiple shapes > move-shapes-multiple 1`] = `
+{
+  "data": {
+    "dx": 0,
+    "dy": 15,
+    "id": "multi-shape-move",
+    "shapeIds": [
+      "rect-1",
+      "rect-2",
+      "circle-1",
+      "bezier-1",
+    ],
+    "timestamp": 1700000000000,
+  },
+  "type": "MoveShapesCommand",
+}
+`;
+
+exports[`Command Serialization Protocol > MoveShapesCommand > should serialize with negative deltas > move-shapes-negative 1`] = `
+{
+  "data": {
+    "dx": -100,
+    "dy": -50,
+    "id": "negative-move-123",
+    "shapeIds": [
+      "negative-test",
+    ],
+    "timestamp": 1700000000000,
+  },
+  "type": "MoveShapesCommand",
+}
+`;
+
+exports[`Command Serialization Protocol > MoveVertexCommand > should serialize consistently > move-vertex-command 1`] = `
+{
+  "data": {
+    "id": "test-move-vertex-456",
+    "newPos": {
+      "x": 125.75,
+      "y": 175.5,
+    },
+    "oldPos": {
+      "x": 100.5,
+      "y": 200.25,
+    },
+    "shapeId": "bezier-test",
+    "timestamp": 1700000000000,
+    "vertexIndex": 2,
+  },
+  "type": "MoveVertexCommand",
+}
+`;
+
+exports[`Command Serialization Protocol > MoveVertexCommand > should serialize with different vertex indices > move-vertex-index-3 1`] = `
+{
+  "data": {
+    "id": "vertex-index-test",
+    "newPos": {
+      "x": 70,
+      "y": 80,
+    },
+    "oldPos": {
+      "x": 50,
+      "y": 60,
+    },
+    "shapeId": "vertex-index-test",
+    "timestamp": 1700000000000,
+    "vertexIndex": 3,
+  },
+  "type": "MoveVertexCommand",
+}
+`;
+
+exports[`Command Serialization Protocol > MoveVertexCommand > should serialize with fractional coordinates > move-vertex-precision 1`] = `
+{
+  "data": {
+    "id": "precision-vertex",
+    "newPos": {
+      "x": 999.999999,
+      "y": -1000.000001,
+    },
+    "oldPos": {
+      "x": 0.123456789,
+      "y": -0.987654321,
+    },
+    "shapeId": "precision-test",
+    "timestamp": 1700000000000,
+    "vertexIndex": 0,
+  },
+  "type": "MoveVertexCommand",
+}
+`;
