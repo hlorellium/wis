@@ -181,6 +181,12 @@ export function createTestState() {
       zoom: 1
     },
     tool: 'select' as const,
+    currentColor: '#000000',
+    fillMode: 'stroke' as const,
+    strokeColor: '#000000',
+    fillColor: '#000000',
+    strokeStyle: 'solid' as const,
+    strokeWidth: 2,
     currentDrawing: {
       shape: null,
       type: null
@@ -191,7 +197,9 @@ export function createTestState() {
       vertexIndex: null,
       isDragging: false,
       isGroupMove: false,
-      dragStart: null
+      dragStart: null,
+      previewShapes: null,
+      originalShapes: null
     },
     ui: {
       selectionDrag: {

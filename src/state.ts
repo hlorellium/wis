@@ -80,6 +80,9 @@ export type State = {
         isDragging: boolean;
         isGroupMove: boolean;
         dragStart: { x: number; y: number } | null;
+        // Preview state for edit operations - doesn't affect history
+        previewShapes: Shape[] | null;
+        originalShapes: Shape[] | null;
     };
     ui: {
         selectionDrag: {
@@ -121,7 +124,9 @@ export const initialState: State = {
         vertexIndex: null,
         isDragging: false,
         isGroupMove: false,
-        dragStart: null
+        dragStart: null,
+        previewShapes: null,
+        originalShapes: null
     },
     ui: {
         selectionDrag: {
@@ -159,6 +164,14 @@ export function migrateState(state: any): State {
     // Ensure currentColor exists (was added in previous update)
     if (migrated.currentColor === undefined) {
         migrated.currentColor = '#000000';
+    }
+    
+    // Ensure currentEditing has new preview properties
+    if (migrated.currentEditing && migrated.currentEditing.previewShapes === undefined) {
+        migrated.currentEditing.previewShapes = null;
+    }
+    if (migrated.currentEditing && migrated.currentEditing.originalShapes === undefined) {
+        migrated.currentEditing.originalShapes = null;
     }
     
     return migrated as State;

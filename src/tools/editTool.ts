@@ -5,6 +5,7 @@ import type { CommandExecutor } from '../commandExecutor';
 import type { Path2DRenderer } from '../rendering/path2DRenderer';
 import { getBoundingBox } from '../utils/geometry';
 import { HIT_CONFIG } from '../constants';
+import { logger } from '../utils/logger';
 
 interface Handle {
     x: number;
@@ -33,21 +34,20 @@ export class EditTool {
             // Check for handle hit first
             const handleHit = this.hitTestHandles(state, worldPos.x, worldPos.y);
             if (handleHit) {
-                // Start vertex drag
+                // Start vertex drag - setup preview state
                 const shape = state.scene.shapes.find(s => s.id === handleHit.shapeId);
                 if (shape) {
-                    const oldPos = this.getVertexPosition(shape, handleHit.vertexIndex);
                     state.currentEditing.shapeId = handleHit.shapeId;
                     state.currentEditing.vertexIndex = handleHit.vertexIndex;
                     state.currentEditing.isDragging = true;
                     state.currentEditing.isGroupMove = false;
                     state.currentEditing.dragStart = { x: worldPos.x, y: worldPos.y };
                     
-                    // Store the original position for command creation (clone to avoid reference issues)
-                    (state.currentEditing as any).originalPos = { x: oldPos.x, y: oldPos.y };
+                    // Store original shapes state and create preview copies
+                    state.currentEditing.originalShapes = this.cloneShapes(state.scene.shapes);
+                    state.currentEditing.previewShapes = this.cloneShapes(state.scene.shapes);
                     
-                    // Debug logging for bezier curves
-                    
+                    logger.info(`Starting vertex edit for shape ${handleHit.shapeId}, vertex ${handleHit.vertexIndex}`, 'EditTool');
                     return true;
                 }
             }
@@ -58,19 +58,18 @@ export class EditTool {
                 const isInsideAnyShape = selectedShapes.some(shape => this.isPointInsideShape(shape, worldPos.x, worldPos.y));
                 
                 if (isInsideAnyShape) {
-                    // Start group move - store original positions
+                    // Start group move - setup preview state
                     state.currentEditing.shapeId = null;
                     state.currentEditing.vertexIndex = null;
                     state.currentEditing.isDragging = true;
                     state.currentEditing.isGroupMove = true;
                     state.currentEditing.dragStart = { x: worldPos.x, y: worldPos.y };
                     
-                    // Store original positions of all selected shapes
-                    (state.currentEditing as any).originalPositions = {};
-                    selectedShapes.forEach(shape => {
-                        (state.currentEditing as any).originalPositions[shape.id] = this.getShapePosition(shape);
-                    });
+                    // Store original shapes state and create preview copies
+                    state.currentEditing.originalShapes = this.cloneShapes(state.scene.shapes);
+                    state.currentEditing.previewShapes = this.cloneShapes(state.scene.shapes);
                     
+                    logger.info(`Starting group move for ${selectedShapes.length} shapes`, 'EditTool');
                     return true;
                 }
             }
@@ -79,36 +78,35 @@ export class EditTool {
     }
 
     handleMouseMove(e: MouseEvent, state: State): boolean {
-        if (state.currentEditing.isDragging && state.tool === 'edit') {
+        if (state.currentEditing.isDragging && state.tool === 'edit' && state.currentEditing.previewShapes) {
             const worldPos = this.coordinateTransformer.screenToWorld(e.clientX, e.clientY, state);
             
-            if (state.currentEditing.isGroupMove) {
-                // Group move: calculate total delta from original drag start
-                if (state.currentEditing.dragStart && (state.currentEditing as any).originalPositions) {
-                    const totalDx = worldPos.x - state.currentEditing.dragStart.x;
-                    const totalDy = worldPos.y - state.currentEditing.dragStart.y;
-                    
-                    // Set shapes to their original positions + total delta
-                    const originalPositions = (state.currentEditing as any).originalPositions as Record<string, any>;
-                    state.scene.shapes.forEach(shape => {
-                        if (state.selection.includes(shape.id)) {
-                            const originalPos = originalPositions[shape.id];
-                            if (originalPos) {
-                                this.setShapeToPosition(shape, originalPos, totalDx, totalDy);
-                                // Clear cache since shape was moved
-                                this.renderer.clearCache(shape.id);
-                            }
+            if (state.currentEditing.isGroupMove && state.currentEditing.dragStart) {
+                // Group move: calculate delta and update preview shapes
+                const dx = worldPos.x - state.currentEditing.dragStart.x;
+                const dy = worldPos.y - state.currentEditing.dragStart.y;
+                
+                // Update preview shapes
+                state.currentEditing.previewShapes.forEach(shape => {
+                    if (state.selection.includes(shape.id)) {
+                        const originalShape = state.currentEditing.originalShapes!.find(s => s.id === shape.id);
+                        if (originalShape) {
+                            this.setShapeToAbsolutePosition(shape, originalShape, dx, dy);
                         }
-                    });
-                    
-                    // Store total delta for command creation
-                    (state.currentEditing as any).totalDelta = { x: totalDx, y: totalDy };
-                }
+                    }
+                });
+                
+                // Replace scene shapes with preview for rendering
+                state.scene.shapes = state.currentEditing.previewShapes;
+                
             } else if (state.currentEditing.shapeId && state.currentEditing.vertexIndex !== null) {
-                // Vertex move: update the specific vertex
-                const shape = state.scene.shapes.find(s => s.id === state.currentEditing.shapeId);
+                // Vertex move: update the specific vertex in preview
+                const shape = state.currentEditing.previewShapes.find(s => s.id === state.currentEditing.shapeId);
                 if (shape) {
                     this.setVertexPosition(shape, state.currentEditing.vertexIndex, worldPos);
+                    
+                    // Replace scene shapes with preview for rendering
+                    state.scene.shapes = state.currentEditing.previewShapes;
                 }
             }
             
@@ -119,62 +117,82 @@ export class EditTool {
 
     handleMouseUp(state: State): boolean {
         if (state.currentEditing.isDragging && state.tool === 'edit') {
-            if (state.currentEditing.isGroupMove && state.currentEditing.dragStart) {
-                // Create MoveShapesCommand with the total movement delta
-                const totalDelta = (state.currentEditing as any).totalDelta || { x: 0, y: 0 };
-                if (totalDelta.x !== 0 || totalDelta.y !== 0) {
-                    // Reset shapes to their original positions before applying the command
-                    // This prevents double-application of the movement delta
-                    const originalPositions = (state.currentEditing as any).originalPositions as Record<string, any>;
-                    if (originalPositions) {
-                        state.scene.shapes.forEach(shape => {
-                            if (state.selection.includes(shape.id)) {
-                                const originalPos = originalPositions[shape.id];
-                                if (originalPos) {
-                                    this.setShapeToPosition(shape, originalPos, 0, 0);
-                                    this.renderer.clearCache(shape.id);
-                                }
-                            }
-                        });
+            try {
+                if (state.currentEditing.isGroupMove && state.currentEditing.dragStart) {
+                    // Calculate final movement delta
+                    const previewShapes = state.currentEditing.previewShapes!;
+                    const originalShapes = state.currentEditing.originalShapes!;
+                    
+                    // Find any moved shape to calculate delta
+                    const movedShapeId = state.selection[0];
+                    const originalShape = originalShapes.find(s => s.id === movedShapeId);
+                    const previewShape = previewShapes.find(s => s.id === movedShapeId);
+                    
+                    if (originalShape && previewShape) {
+                        const originalPos = this.getShapePosition(originalShape);
+                        const previewPos = this.getShapePosition(previewShape);
+                        const dx = this.calculatePositionDelta(originalPos, previewPos, 'x');
+                        const dy = this.calculatePositionDelta(originalPos, previewPos, 'y');
+                        
+                        // Restore original state before applying command
+                        state.scene.shapes = originalShapes;
+                        
+                        // Only create command if there was actual movement
+                        if (Math.abs(dx) > 0.01 || Math.abs(dy) > 0.01) {
+                            const command = new MoveShapesCommand([...state.selection], dx, dy);
+                            logger.info(`Executing MoveShapesCommand: dx=${dx}, dy=${dy}, shapes=${state.selection.length}`, 'EditTool');
+                            this.executor.execute(command, state);
+                            this.onHistoryChange();
+                        } else {
+                            logger.info('Group move had no significant delta, skipping command', 'EditTool');
+                        }
                     }
                     
-                    const command = new MoveShapesCommand([...state.selection], totalDelta.x, totalDelta.y);
-                    this.executor.execute(command, state);
-                    this.onHistoryChange();
-                }
-            } else if (state.currentEditing.shapeId && state.currentEditing.vertexIndex !== null) {
-                // Create MoveVertexCommand
-                const shape = state.scene.shapes.find(s => s.id === state.currentEditing.shapeId!);
-                if (shape && (state.currentEditing as any).originalPos) {
-                    const oldPos = (state.currentEditing as any).originalPos;
-                    const newPos = this.getVertexPosition(shape, state.currentEditing.vertexIndex);
+                } else if (state.currentEditing.shapeId && state.currentEditing.vertexIndex !== null) {
+                    // Calculate vertex movement
+                    const originalShapes = state.currentEditing.originalShapes!;
+                    const previewShapes = state.currentEditing.previewShapes!;
                     
+                    const originalShape = originalShapes.find(s => s.id === state.currentEditing.shapeId);
+                    const previewShape = previewShapes.find(s => s.id === state.currentEditing.shapeId);
                     
-                    // Only create command if position actually changed
-                    if (oldPos.x !== newPos.x || oldPos.y !== newPos.y) {
-                        const command = new MoveVertexCommand(
-                            state.currentEditing.shapeId,
-                            state.currentEditing.vertexIndex,
-                            oldPos,
-                            newPos
-                        );
+                    if (originalShape && previewShape) {
+                        const oldPos = this.getVertexPosition(originalShape, state.currentEditing.vertexIndex);
+                        const newPos = this.getVertexPosition(previewShape, state.currentEditing.vertexIndex);
                         
+                        // Restore original state before applying command
+                        state.scene.shapes = originalShapes;
                         
-                        this.executor.execute(command, state);
-                        this.onHistoryChange();
+                        // Only create command if position actually changed
+                        if (Math.abs(oldPos.x - newPos.x) > 0.01 || Math.abs(oldPos.y - newPos.y) > 0.01) {
+                            const command = new MoveVertexCommand(
+                                state.currentEditing.shapeId,
+                                state.currentEditing.vertexIndex,
+                                oldPos,
+                                newPos
+                            );
+                            
+                            logger.info(`Executing MoveVertexCommand: shape=${state.currentEditing.shapeId}, vertex=${state.currentEditing.vertexIndex}`, 'EditTool');
+                            logger.info(`Position change: (${oldPos.x},${oldPos.y}) -> (${newPos.x},${newPos.y})`, 'EditTool');
+                            
+                            this.executor.execute(command, state);
+                            this.onHistoryChange();
+                        } else {
+                            logger.info('Vertex move had no significant change, skipping command', 'EditTool');
+                        }
                     }
                 }
+                
+            } catch (error) {
+                logger.error('Error in EditTool handleMouseUp:', 'EditTool', error);
+                // Restore original state on error
+                if (state.currentEditing.originalShapes) {
+                    state.scene.shapes = state.currentEditing.originalShapes;
+                }
+            } finally {
+                // Always reset editing state
+                this.resetEditingState(state);
             }
-
-            // Reset editing state
-            state.currentEditing.shapeId = null;
-            state.currentEditing.vertexIndex = null;
-            state.currentEditing.isDragging = false;
-            state.currentEditing.isGroupMove = false;
-            state.currentEditing.dragStart = null;
-            (state.currentEditing as any).originalPos = null;
-            (state.currentEditing as any).originalPositions = null;
-            (state.currentEditing as any).totalDelta = null;
             
             return true;
         }
@@ -346,41 +364,6 @@ export class EditTool {
                 }
                 break;
         }
-        
-        // Clear the cache for this shape since its geometry has changed
-        this.renderer.clearCache(shape.id);
-    }
-
-    private moveShapeBy(shape: Shape, dx: number, dy: number): void {
-        switch (shape.type) {
-            case 'rectangle':
-                const rectShape = shape as RectangleShape;
-                rectShape.x += dx;
-                rectShape.y += dy;
-                break;
-            case 'circle':
-                const circleShape = shape as CircleShape;
-                circleShape.x += dx;
-                circleShape.y += dy;
-                break;
-            case 'line':
-                const lineShape = shape as LineShape;
-                lineShape.x1 += dx;
-                lineShape.y1 += dy;
-                lineShape.x2 += dx;
-                lineShape.y2 += dy;
-                break;
-            case 'bezier':
-                const bezierShape = shape as BezierCurveShape;
-                bezierShape.points.forEach(point => {
-                    point.x += dx;
-                    point.y += dy;
-                });
-                break;
-        }
-        
-        // Clear the cache for this shape since its geometry has changed
-        this.renderer.clearCache(shape.id);
     }
 
     private getShapePosition(shape: Shape): any {
@@ -402,7 +385,9 @@ export class EditTool {
         }
     }
 
-    private setShapeToPosition(shape: Shape, originalPos: any, dx: number, dy: number): void {
+    private setShapeToAbsolutePosition(shape: Shape, originalShape: Shape, dx: number, dy: number): void {
+        const originalPos = this.getShapePosition(originalShape);
+        
         switch (shape.type) {
             case 'rectangle':
                 const rectShape = shape as RectangleShape;
@@ -434,6 +419,23 @@ export class EditTool {
         }
     }
 
+    private calculatePositionDelta(originalPos: any, newPos: any, axis: 'x' | 'y'): number {
+        // For different shape types, calculate the delta differently
+        if (originalPos.x !== undefined && newPos.x !== undefined) {
+            // Rectangle or Circle
+            return axis === 'x' ? (newPos.x - originalPos.x) : (newPos.y - originalPos.y);
+        } else if (originalPos.x1 !== undefined && newPos.x1 !== undefined) {
+            // Line - use first point as reference
+            return axis === 'x' ? (newPos.x1 - originalPos.x1) : (newPos.y1 - originalPos.y1);
+        } else if (originalPos.points && newPos.points) {
+            // Bezier - use first point as reference
+            return axis === 'x' 
+                ? (newPos.points[0].x - originalPos.points[0].x)
+                : (newPos.points[0].y - originalPos.points[0].y);
+        }
+        return 0;
+    }
+
     private isPointInsideShape(shape: Shape, x: number, y: number): boolean {
         const bounds = getBoundingBox(shape);
         return x >= bounds.x && 
@@ -442,15 +444,26 @@ export class EditTool {
                y <= bounds.y + bounds.height;
     }
 
-    // Reset editing state when switching away from edit mode
-    reset(state: State): void {
+    private cloneShapes(shapes: Shape[]): Shape[] {
+        return shapes.map(shape => JSON.parse(JSON.stringify(shape)));
+    }
+
+    private resetEditingState(state: State): void {
         state.currentEditing.shapeId = null;
         state.currentEditing.vertexIndex = null;
         state.currentEditing.isDragging = false;
         state.currentEditing.isGroupMove = false;
         state.currentEditing.dragStart = null;
-        (state.currentEditing as any).originalPos = null;
-        (state.currentEditing as any).originalPositions = null;
-        (state.currentEditing as any).totalDelta = null;
+        state.currentEditing.previewShapes = null;
+        state.currentEditing.originalShapes = null;
+    }
+
+    // Reset editing state when switching away from edit mode
+    reset(state: State): void {
+        // If we were in the middle of an edit, restore original state
+        if (state.currentEditing.originalShapes) {
+            state.scene.shapes = state.currentEditing.originalShapes;
+        }
+        this.resetEditingState(state);
     }
 }

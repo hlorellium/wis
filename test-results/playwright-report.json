@@ -1,0 +1,176 @@
+{
+  "config": {
+    "configFile": "/Users/hlorella/code/wis/wis/playwright.config.ts",
+    "rootDir": "/Users/hlorella/code/wis/wis/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/playwright-report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/hlorella/code/wis/wis/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/hlorella/code/wis/wis/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.53.1",
+    "workers": 4,
+    "webServer": {
+      "command": "bun run dev",
+      "port": 5173,
+      "reuseExistingServer": true,
+      "stdout": "ignore",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "edit-tool.spec.ts",
+      "file": "edit-tool.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Edit Tool E2E Tests",
+          "file": "edit-tool.spec.ts",
+          "line": 24,
+          "column": 6,
+          "specs": [],
+          "suites": [
+            {
+              "title": "Rectangle Vertex Editing",
+              "file": "edit-tool.spec.ts",
+              "line": 111,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should resize rectangle by dragging corner handles",
+                  "ok": false,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 30000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [
+                        {
+                          "workerIndex": 0,
+                          "parallelIndex": 0,
+                          "status": "failed",
+                          "duration": 6826,
+                          "error": {
+                            "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoHaveAttribute\u001b[2m()\u001b[22m\n\nLocator: locator('[data-action=\"undo\"]')\nExpected: not have attribute\nReceived: have attribute\nCall log:\n\u001b[2m  - Expect \"not toHaveAttribute\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-action=\"undo\"]')\u001b[22m\n\u001b[2m    9 × locator resolved to <button disabled class=\"tool-btn\" data-action=\"undo\" aria-label=\"Undo (⌘Z)\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"attribute present\"\u001b[22m\n",
+                            "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoHaveAttribute\u001b[2m()\u001b[22m\n\nLocator: locator('[data-action=\"undo\"]')\nExpected: not have attribute\nReceived: have attribute\nCall log:\n\u001b[2m  - Expect \"not toHaveAttribute\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-action=\"undo\"]')\u001b[22m\n\u001b[2m    9 × locator resolved to <button disabled class=\"tool-btn\" data-action=\"undo\" aria-label=\"Undo (⌘Z)\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"attribute present\"\u001b[22m\n\n    at expectUndoEnabled (/Users/hlorella/code/wis/wis/tests/e2e/utils.ts:331:60)\n    at /Users/hlorella/code/wis/wis/tests/e2e/edit-tool.spec.ts:122:13",
+                            "location": {
+                              "file": "/Users/hlorella/code/wis/wis/tests/e2e/utils.ts",
+                              "column": 60,
+                              "line": 331
+                            },
+                            "snippet": "\u001b[90m   at \u001b[39mutils.ts:331\n\n\u001b[0m \u001b[90m 329 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36masync\u001b[39m \u001b[36mfunction\u001b[39m expectUndoEnabled(page\u001b[33m:\u001b[39m \u001b[33mPage\u001b[39m\u001b[33m,\u001b[39m enabled\u001b[33m:\u001b[39m boolean \u001b[33m=\u001b[39m \u001b[36mtrue\u001b[39m) {\n \u001b[90m 330 |\u001b[39m   \u001b[36mif\u001b[39m (enabled) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 331 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-action=\"undo\"]'\u001b[39m))\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'disabled'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 332 |\u001b[39m   } \u001b[36melse\u001b[39m {\n \u001b[90m 333 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-action=\"undo\"]'\u001b[39m))\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'disabled'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 334 |\u001b[39m   }\u001b[0m"
+                          },
+                          "errors": [
+                            {
+                              "location": {
+                                "file": "/Users/hlorella/code/wis/wis/tests/e2e/utils.ts",
+                                "column": 60,
+                                "line": 331
+                              },
+                              "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoHaveAttribute\u001b[2m()\u001b[22m\n\nLocator: locator('[data-action=\"undo\"]')\nExpected: not have attribute\nReceived: have attribute\nCall log:\n\u001b[2m  - Expect \"not toHaveAttribute\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-action=\"undo\"]')\u001b[22m\n\u001b[2m    9 × locator resolved to <button disabled class=\"tool-btn\" data-action=\"undo\" aria-label=\"Undo (⌘Z)\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"attribute present\"\u001b[22m\n\n\n\u001b[90m   at \u001b[39mutils.ts:331\n\n\u001b[0m \u001b[90m 329 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36masync\u001b[39m \u001b[36mfunction\u001b[39m expectUndoEnabled(page\u001b[33m:\u001b[39m \u001b[33mPage\u001b[39m\u001b[33m,\u001b[39m enabled\u001b[33m:\u001b[39m boolean \u001b[33m=\u001b[39m \u001b[36mtrue\u001b[39m) {\n \u001b[90m 330 |\u001b[39m   \u001b[36mif\u001b[39m (enabled) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 331 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-action=\"undo\"]'\u001b[39m))\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'disabled'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 332 |\u001b[39m   } \u001b[36melse\u001b[39m {\n \u001b[90m 333 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-action=\"undo\"]'\u001b[39m))\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'disabled'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 334 |\u001b[39m   }\u001b[0m\n\u001b[2m    at expectUndoEnabled (/Users/hlorella/code/wis/wis/tests/e2e/utils.ts:331:60)\u001b[22m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/edit-tool.spec.ts:122:13\u001b[22m"
+                            }
+                          ],
+                          "stdout": [],
+                          "stderr": [],
+                          "retry": 0,
+                          "startTime": "2025-06-29T18:51:09.691Z",
+                          "annotations": [],
+                          "attachments": [
+                            {
+                              "name": "screenshot",
+                              "contentType": "image/png",
+                              "path": "/Users/hlorella/code/wis/wis/test-results/edit-tool-Edit-Tool-E2E-Te-87124--by-dragging-corner-handles-chromium/test-failed-1.png"
+                            },
+                            {
+                              "name": "video",
+                              "contentType": "video/webm",
+                              "path": "/Users/hlorella/code/wis/wis/test-results/edit-tool-Edit-Tool-E2E-Te-87124--by-dragging-corner-handles-chromium/video.webm"
+                            },
+                            {
+                              "name": "error-context",
+                              "contentType": "text/markdown",
+                              "path": "/Users/hlorella/code/wis/wis/test-results/edit-tool-Edit-Tool-E2E-Te-87124--by-dragging-corner-handles-chromium/error-context.md"
+                            }
+                          ],
+                          "errorLocation": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/utils.ts",
+                            "column": 60,
+                            "line": 331
+                          }
+                        }
+                      ],
+                      "status": "unexpected"
+                    }
+                  ],
+                  "id": "144e36fbe0233af75832-07716642d3e8d6ee22b9",
+                  "file": "edit-tool.spec.ts",
+                  "line": 112,
+                  "column": 5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-06-29T18:51:08.833Z",
+    "duration": 7962.460999999999,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

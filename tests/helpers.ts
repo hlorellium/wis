@@ -19,11 +19,13 @@ export function createTestState(): State {
     currentDrawing: { shape: null, type: null },
     selection: [],
     currentEditing: {
-      shapeId: null,
-      vertexIndex: null,
-      isDragging: false,
-      isGroupMove: false,
-      dragStart: null
+        shapeId: null,
+        vertexIndex: null,
+        isDragging: false,
+        isGroupMove: false,
+        dragStart: null,
+        previewShapes: null,
+        originalShapes: null
     },
     ui: {
       selectionDrag: {
