@@ -27,7 +27,6 @@ export class SelectTool {
                 if (this.hitTest(shapes[i], worldPos.x, worldPos.y)) {
                     // Single click on shape - select it and exit early
                     SelectionManager.setSelection(state, [shapes[i].id]);
-                    console.log('selected', state.selection);
                     state.ui.selectionDrag.isActive = false;
                     state.ui.selectionDrag.start = null;
                     state.ui.selectionDrag.current = null;
@@ -38,7 +37,6 @@ export class SelectTool {
             // If in edit mode and no shape was hit, clear selection immediately
             if (state.tool === 'edit') {
                 const result = SelectionManager.clear(state);
-                console.log('cleared selection (click on empty space in edit mode)');
                 state.ui.selectionDrag.isActive = false;
                 state.ui.selectionDrag.start = null;
                 state.ui.selectionDrag.current = null;
@@ -71,7 +69,6 @@ export class SelectTool {
                                        Math.abs(state.ui.selectionDrag.current.y - state.ui.selectionDrag.start.y);
                     if (dragDistance > HIT_CONFIG.DRAG_THRESHOLD) {
                         SelectionManager.clear(state);
-                        console.log('cleared selection (drag in edit mode)');
                     }
                 }
             }
@@ -182,7 +179,6 @@ export class SelectTool {
         // If no significant drag, clear selection
         if (selectionRect.width < HIT_CONFIG.SELECTION_RECT_MIN && selectionRect.height < HIT_CONFIG.SELECTION_RECT_MIN) {
             SelectionManager.clear(state);
-            console.log('cleared selection (small drag)');
             return;
         }
 
@@ -206,7 +202,6 @@ export class SelectTool {
         });
 
         SelectionManager.setSelection(state, selectedIds);
-        console.log(`${isWindow ? 'Window' : 'Crossing'} selection:`, selectedIds);
     }
 
     private shapeFullyContained(shape: Shape, selectionRect: BoundingBox): boolean {

@@ -112,7 +112,6 @@ export class MouseHandler {
                     this.toolManager.setActiveTool('edit', state);
                     // Clear any active selection drag state when entering edit mode
                     this.selectTool.cancelDrag(state);
-                    console.log('Entered edit mode for shape:', shape.id);
                     return;
                 }
             }
@@ -178,7 +177,6 @@ export class MouseHandler {
             const deleteCommand = new DeleteShapeCommand([...state.selection]);
             this.executor.execute(deleteCommand, state);
             
-            console.log('Deleted shapes:', state.selection);
         }
     }
 
