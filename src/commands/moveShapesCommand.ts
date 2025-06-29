@@ -1,5 +1,5 @@
 import type { State, Shape } from '../state';
-import type { Command } from './index';
+import type { Command, CommandMetadata } from './index';
 
 export class MoveShapesCommand implements Command {
     public readonly id: string;
@@ -46,6 +46,17 @@ export class MoveShapesCommand implements Command {
             }
         }
         return null;
+    }
+
+    getMetadata(): CommandMetadata {
+        return {
+            affectedShapeIds: [...this.shapeIds],
+            sideEffects: [
+                ...this.shapeIds.map(shapeId => ({ type: 'cacheInvalidation' as const, target: shapeId })),
+                { type: 'rendering' as const },
+                { type: 'persistence' as const }
+            ]
+        };
     }
 
     private moveShape(shape: Shape, dx: number, dy: number): void {

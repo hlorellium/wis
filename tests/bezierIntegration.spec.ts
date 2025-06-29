@@ -48,9 +48,9 @@ describe('Bezier Curve Edit Integration', () => {
                         color: '#ff00ff',
                         points: [
                             { x: 10, y: 10 }, // p0
-                            { x: 20, y: 10 }, // cp1
-                            { x: 30, y: 20 }, // cp2
-                            { x: 40, y: 20 }  // p1
+                            { x: 30, y: 10 }, // cp1
+                            { x: 50, y: 30 }, // cp2
+                            { x: 70, y: 30 }  // p1
                         ]
                     }
                 ]
@@ -60,12 +60,12 @@ describe('Bezier Curve Edit Integration', () => {
     });
 
     it('should execute MoveVertexCommand for bezier curve control point', () => {
-        // Click on the first control point (cp1) at (20, 10)
-        const mouseDownEvent = { button: 0, clientX: 20, clientY: 10 } as MouseEvent;
+        // Click on the first control point (cp1) at (30, 10)
+        const mouseDownEvent = { button: 0, clientX: 30, clientY: 10 } as MouseEvent;
         editTool.handleMouseDown(mouseDownEvent, state);
         
         // Move the control point
-        const mouseMoveEvent = { clientX: 25, clientY: 15 } as MouseEvent;
+        const mouseMoveEvent = { clientX: 35, clientY: 15 } as MouseEvent;
         editTool.handleMouseMove(mouseMoveEvent, state);
         
         // End the move
@@ -88,12 +88,19 @@ describe('Bezier Curve Edit Integration', () => {
     });
 
     it('should execute MoveShapesCommand for bezier curve group move', () => {
-        // Click in the center of the bezier curve bounding box to avoid handles
-        const mouseDownEvent = { button: 0, clientX: 25, clientY: 15 } as MouseEvent;
+        // With the new larger bezier curve:
+        // Handles are at: (10,10), (30,10), (50,30), (70,30)
+        // Bounding box is roughly (10,10) to (70,30)
+        // Click at (40, 20) which should be far enough from all handles:
+        // - (10,10): sqrt((40-10)^2 + (20-10)^2) = sqrt(900+100) = sqrt(1000) ≈ 31.6px > 8px ✓
+        // - (30,10): sqrt((40-30)^2 + (20-10)^2) = sqrt(100+100) = sqrt(200) ≈ 14.1px > 8px ✓
+        // - (50,30): sqrt((40-50)^2 + (20-30)^2) = sqrt(100+100) = sqrt(200) ≈ 14.1px > 8px ✓
+        // - (70,30): sqrt((40-70)^2 + (20-30)^2) = sqrt(900+100) = sqrt(1000) ≈ 31.6px > 8px ✓
+        const mouseDownEvent = { button: 0, clientX: 40, clientY: 20 } as MouseEvent;
         editTool.handleMouseDown(mouseDownEvent, state);
         
         // Move the entire curve
-        const mouseMoveEvent = { clientX: 35, clientY: 25 } as MouseEvent;
+        const mouseMoveEvent = { clientX: 50, clientY: 30 } as MouseEvent;
         editTool.handleMouseMove(mouseMoveEvent, state);
         
         // End the move
@@ -122,8 +129,8 @@ describe('Bezier Curve Edit Integration', () => {
         
         // Verify handle positions match the bezier points
         expect(handles[0]).toEqual({ x: 10, y: 10, vertexIndex: 0, shapeId: 'bezier-shape' });
-        expect(handles[1]).toEqual({ x: 20, y: 10, vertexIndex: 1, shapeId: 'bezier-shape' });
-        expect(handles[2]).toEqual({ x: 30, y: 20, vertexIndex: 2, shapeId: 'bezier-shape' });
-        expect(handles[3]).toEqual({ x: 40, y: 20, vertexIndex: 3, shapeId: 'bezier-shape' });
+        expect(handles[1]).toEqual({ x: 30, y: 10, vertexIndex: 1, shapeId: 'bezier-shape' });
+        expect(handles[2]).toEqual({ x: 50, y: 30, vertexIndex: 2, shapeId: 'bezier-shape' });
+        expect(handles[3]).toEqual({ x: 70, y: 30, vertexIndex: 3, shapeId: 'bezier-shape' });
     });
 });

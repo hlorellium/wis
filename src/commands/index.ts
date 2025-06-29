@@ -1,4 +1,10 @@
 import type { State, Shape } from '../state';
+import type { SideEffect } from '../utils/eventBus';
+
+export interface CommandMetadata {
+    affectedShapeIds: string[];
+    sideEffects: SideEffect[];
+}
 
 export interface Command {
     id: string;                  // unique command identifier
@@ -6,6 +12,7 @@ export interface Command {
     apply(state: State): void;   // execute (redo)
     invert(state: State): void;  // undo
     merge?(other: Command): Command | null; // optional command merging
+    getMetadata(): CommandMetadata; // declare affected shapes and side effects
 }
 
 export { DeleteShapeCommand } from './deleteShapeCommand';
@@ -32,6 +39,17 @@ export class AddShapeCommand implements Command {
         state.scene.shapes = state.scene.shapes.filter(sh => sh.id !== this.shape.id);
     }
 
+    getMetadata(): CommandMetadata {
+        return {
+            affectedShapeIds: [this.shape.id],
+            sideEffects: [
+                { type: 'cacheInvalidation', target: this.shape.id },
+                { type: 'rendering' },
+                { type: 'persistence' }
+            ]
+        };
+    }
+
     serialize(): { shape: Shape; id: string; timestamp: number } {
         return { shape: this.shape, id: this.id, timestamp: this.timestamp };
     }
@@ -55,6 +73,17 @@ export class RemoveShapeCommand implements Command {
 
     invert(state: State): void {
         state.scene.shapes.push(this.shape);
+    }
+
+    getMetadata(): CommandMetadata {
+        return {
+            affectedShapeIds: [this.shape.id],
+            sideEffects: [
+                { type: 'cacheInvalidation', target: this.shape.id },
+                { type: 'rendering' },
+                { type: 'persistence' }
+            ]
+        };
     }
 
     serialize(): { shape: Shape; id: string; timestamp: number } {
@@ -93,6 +122,15 @@ export class PanCommand implements Command {
         return null;
     }
 
+    getMetadata(): CommandMetadata {
+        return {
+            affectedShapeIds: [], // Pan doesn't affect specific shapes
+            sideEffects: [
+                { type: 'rendering' } // Only needs a full re-render
+            ]
+        };
+    }
+
     serialize(): { dx: number; dy: number; id: string; timestamp: number } {
         return { dx: this.dx, dy: this.dy, id: this.id, timestamp: this.timestamp };
     }
@@ -122,6 +160,16 @@ export class UndoCommand implements Command {
         return this.commandId;
     }
 
+    getMetadata(): CommandMetadata {
+        return {
+            affectedShapeIds: [], // Undo affects whatever the original command affected
+            sideEffects: [
+                { type: 'rendering' },
+                { type: 'persistence' }
+            ]
+        };
+    }
+
     serialize(): { commandId: string; id: string; timestamp: number } {
         return { commandId: this.commandId, id: this.id, timestamp: this.timestamp };
     }
@@ -149,6 +197,16 @@ export class RedoCommand implements Command {
 
     getCommandId(): string {
         return this.commandId;
+    }
+
+    getMetadata(): CommandMetadata {
+        return {
+            affectedShapeIds: [], // Redo affects whatever the original command affected
+            sideEffects: [
+                { type: 'rendering' },
+                { type: 'persistence' }
+            ]
+        };
     }
 
     serialize(): { commandId: string; id: string; timestamp: number } {

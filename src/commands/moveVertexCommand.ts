@@ -1,5 +1,5 @@
 import type { State, Shape, LineShape, RectangleShape, CircleShape, BezierCurveShape } from '../state';
-import type { Command } from './index';
+import type { Command, CommandMetadata } from './index';
 
 export class MoveVertexCommand implements Command {
     public readonly id: string;
@@ -98,6 +98,17 @@ export class MoveVertexCommand implements Command {
                 }
                 break;
         }
+    }
+
+    getMetadata(): CommandMetadata {
+        return {
+            affectedShapeIds: [this.shapeId],
+            sideEffects: [
+                { type: 'cacheInvalidation', target: this.shapeId },
+                { type: 'rendering' },
+                { type: 'persistence' }
+            ]
+        };
     }
 
     serialize(): { 

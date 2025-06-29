@@ -4,6 +4,7 @@ import { SyncManager } from '../src/sync/syncManager';
 import { MoveVertexCommand, MoveShapesCommand } from '../src/commands';
 import { Path2DRenderer } from '../src/rendering/path2DRenderer';
 import { initialState } from '../src/state';
+import { eventBus } from '../src/utils/eventBus';
 import '../src/sync/commandRegistry';
 
 describe('Bezier Curve Sync', () => {
@@ -109,13 +110,13 @@ describe('Bezier Curve Sync', () => {
         expect(bezierShape.points[2]).toEqual({ x: 25, y: 15 });
     });
 
-    it('should clear cache for bezier curves when commands are executed', () => {
-        // Create a mock renderer
-        const mockRenderer = {
-            clearCache: vi.fn()
-        };
+    it('should emit command events for bezier curves when commands are executed', () => {
+        const commandEvents: any[] = [];
         
-        executor.setRenderer(mockRenderer);
+        // Subscribe to command events
+        const unsubscribe = eventBus.subscribe('commandExecuted', (event) => {
+            commandEvents.push(event);
+        });
 
         // Execute a vertex move command
         const vertexCommand = new MoveVertexCommand(
@@ -127,16 +128,30 @@ describe('Bezier Curve Sync', () => {
         
         executor.execute(vertexCommand, state, 'local');
         
-        // Verify cache was cleared for the bezier shape
-        expect(mockRenderer.clearCache).toHaveBeenCalledWith('bezier-test');
+        // Verify command event was emitted with correct metadata
+        expect(commandEvents).toHaveLength(1);
+        expect(commandEvents[0].affectedShapeIds).toContain('bezier-test');
+        expect(commandEvents[0].sideEffects).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ type: 'cacheInvalidation', target: 'bezier-test' })
+            ])
+        );
 
         // Execute a shape move command
-        mockRenderer.clearCache.mockClear();
+        commandEvents.length = 0;
         const shapeCommand = new MoveShapesCommand(['bezier-test'], 10, 20);
         
         executor.execute(shapeCommand, state, 'local');
         
-        // Verify cache was cleared for the bezier shape
-        expect(mockRenderer.clearCache).toHaveBeenCalledWith('bezier-test');
+        // Verify command event was emitted with correct metadata
+        expect(commandEvents).toHaveLength(1);
+        expect(commandEvents[0].affectedShapeIds).toContain('bezier-test');
+        expect(commandEvents[0].sideEffects).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ type: 'cacheInvalidation', target: 'bezier-test' })
+            ])
+        );
+
+        unsubscribe();
     });
 });

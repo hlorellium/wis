@@ -1,5 +1,5 @@
 import type { State, Shape } from '../state';
-import type { Command } from './index';
+import type { Command, CommandMetadata } from './index';
 
 export class DeleteShapeCommand implements Command {
     public readonly id: string;
@@ -34,6 +34,17 @@ export class DeleteShapeCommand implements Command {
         
         // Restore selection
         state.selection = this.shapeIds.slice();
+    }
+
+    getMetadata(): CommandMetadata {
+        return {
+            affectedShapeIds: [...this.shapeIds],
+            sideEffects: [
+                ...this.shapeIds.map(shapeId => ({ type: 'cacheInvalidation' as const, target: shapeId })),
+                { type: 'rendering' as const },
+                { type: 'persistence' as const }
+            ]
+        };
     }
 
     serialize(): { shapeIds: string[]; deletedShapes: Shape[]; id: string; timestamp: number } {

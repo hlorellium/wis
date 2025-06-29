@@ -9,6 +9,7 @@ import { HistoryManager } from './history';
 import { CommandExecutor } from './commandExecutor';
 import { SyncManager } from './sync/syncManager';
 import { PersistenceManager } from './persistence/persistenceManager';
+import { RenderingEventHandler } from './rendering/renderingEventHandler';
 import { getRequiredElement } from './utils/dom';
 import { logger } from './utils/logger';
 // Import CommandRegistry to ensure command factories are registered
@@ -26,6 +27,7 @@ class DrawingApp {
     private executor!: CommandExecutor;
     private syncManager!: SyncManager;
     private persistence: PersistenceManager;
+    private renderingEventHandler!: RenderingEventHandler;
     private lastRenderedVersion = -1;
 
     constructor() {
@@ -75,8 +77,9 @@ class DrawingApp {
         this.bgRenderer = new BackgroundRenderer();
         this.renderer = new Path2DRenderer();
         
-        // Connect renderer to executor for cache clearing
-        this.executor.setRenderer(this.renderer);
+        // Initialize EventBus-based rendering handler
+        this.renderingEventHandler = new RenderingEventHandler(this.renderer);
+        this.renderingEventHandler.start();
         
         this.toolManager = new ToolManager(canvas, this.executor, this.history);
         this.mouseHandler = new MouseHandler(canvas, this.toolManager, this.executor, this.renderer);
