@@ -8,6 +8,7 @@ export class ToolManager {
     private toolButtons: NodeListOf<HTMLButtonElement>;
     private undoButton: HTMLButtonElement | null;
     private redoButton: HTMLButtonElement | null;
+    private colorPicker: HTMLInputElement | null;
     private canvas: HTMLCanvasElement;
     private executor: CommandExecutor;
     private history: HistoryManager;
@@ -21,6 +22,7 @@ export class ToolManager {
         this.toolButtons = getElements<HTMLButtonElement>('.tool-btn');
         this.undoButton = getOptionalElement<HTMLButtonElement>('[data-action="undo"]');
         this.redoButton = getOptionalElement<HTMLButtonElement>('[data-action="redo"]');
+        this.colorPicker = getOptionalElement<HTMLInputElement>('#color-picker');
     }
 
     setupToolButtons(state: State) {
@@ -34,6 +36,19 @@ export class ToolManager {
                 }
             });
         });
+
+        // Setup color picker
+        if (this.colorPicker) {
+            this.colorPicker.addEventListener('change', (e) => {
+                const target = e.target as HTMLInputElement;
+                state.currentColor = target.value;
+                this.updateColorPickerUI(target.value);
+            });
+            
+            // Initialize color picker with current state
+            this.colorPicker.value = state.currentColor;
+            this.updateColorPickerUI(state.currentColor);
+        }
 
         // Initial button state update
         this.updateHistoryButtons();
@@ -121,6 +136,17 @@ export class ToolManager {
             this.canvas.style.cursor = UI_CONFIG.PANNING_CURSOR;
         } else {
             this.canvas.style.cursor = UI_CONFIG.PAN_CURSOR;
+        }
+    }
+
+    private updateColorPickerUI(color: string) {
+        // Update the color picker label's inner circle to show the selected color
+        const label = getOptionalElement<HTMLElement>('.color-picker-label');
+        if (label) {
+            const circle = label.querySelector('svg circle:last-child');
+            if (circle) {
+                circle.setAttribute('fill', color);
+            }
         }
     }
 }

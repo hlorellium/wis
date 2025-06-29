@@ -56,6 +56,7 @@ export type State = {
         zoom: number;
     },
     tool: Tool;
+    currentColor: string;
     currentDrawing: {
         shape: Shape | null;
         type: Tool | null;
@@ -91,6 +92,7 @@ export const initialState: State = {
         zoom: 1,           // unitless, >0
     },
     tool: 'pan',
+    currentColor: '#000000',
     currentDrawing: {
         shape: null,
         type: null

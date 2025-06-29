@@ -57,7 +57,7 @@ export class DrawingTools {
                 state.currentDrawing.shape = {
                     id: generateId(),
                     type: 'line',
-                    color: PALETTE.LINE,
+                    color: state.currentColor,
                     x1: this.startWorldX,
                     y1: this.startWorldY,
                     x2: this.startWorldX,
@@ -69,7 +69,7 @@ export class DrawingTools {
                 state.currentDrawing.shape = {
                     id: generateId(),
                     type: 'rectangle',
-                    color: PALETTE.RECTANGLE,
+                    color: state.currentColor,
                     x: this.startWorldX,
                     y: this.startWorldY,
                     width: 0,
@@ -81,7 +81,7 @@ export class DrawingTools {
                 state.currentDrawing.shape = {
                     id: generateId(),
                     type: 'circle',
-                    color: PALETTE.CIRCLE,
+                    color: state.currentColor,
                     x: this.startWorldX,
                     y: this.startWorldY,
                     radius: 0
@@ -92,7 +92,7 @@ export class DrawingTools {
                 state.currentDrawing.shape = {
                     id: generateId(),
                     type: 'bezier',
-                    color: PALETTE.CURVE,
+                    color: state.currentColor,
                     points: [
                         { x: this.startWorldX, y: this.startWorldY }, // p0
                         { x: this.startWorldX, y: this.startWorldY }, // cp1

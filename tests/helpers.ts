@@ -9,6 +9,7 @@ export function createTestState(): State {
     scene: { shapes: [] },
     view: { panX: 0, panY: 0, zoom: 1 },
     tool: 'pan' as const,
+    currentColor: '#000000',
     currentDrawing: { shape: null, type: null },
     selection: [],
     currentEditing: {

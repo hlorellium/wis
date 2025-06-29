@@ -69,6 +69,7 @@ describe('DrawingTools', () => {
     // Create mock state with correct structure
     mockState = {
       tool: 'line',
+      currentColor: '#000000',
       scene: { shapes: [] },
       view: { panX: 0, panY: 0, zoom: 1 },
       selection: [],
@@ -136,7 +137,7 @@ describe('DrawingTools', () => {
       expect(mockState.currentDrawing.shape).toEqual({
         id: 'test-id-123',
         type: 'line',
-        color: PALETTE.LINE,
+        color: '#000000',
         x1: 100,
         y1: 100,
         x2: 100,
@@ -154,7 +155,7 @@ describe('DrawingTools', () => {
       expect(mockState.currentDrawing.shape).toEqual({
         id: 'test-id-123',
         type: 'rectangle',
-        color: PALETTE.RECTANGLE,
+        color: '#000000',
         x: 100,
         y: 100,
         width: 0,
@@ -172,7 +173,7 @@ describe('DrawingTools', () => {
       expect(mockState.currentDrawing.shape).toEqual({
         id: 'test-id-123',
         type: 'circle',
-        color: PALETTE.CIRCLE,
+        color: '#000000',
         x: 100,
         y: 100,
         radius: 0
@@ -189,7 +190,7 @@ describe('DrawingTools', () => {
       expect(mockState.currentDrawing.shape).toEqual({
         id: 'test-id-123',
         type: 'bezier',
-        color: PALETTE.CURVE,
+        color: '#000000',
         points: [
           { x: 100, y: 100 }, // p0
           { x: 100, y: 100 }, // cp1
