@@ -58,6 +58,9 @@ export class DrawingTools {
                     id: generateId(),
                     type: 'line',
                     color: state.currentColor,
+                    strokeColor: state.strokeColor,
+                    strokeStyle: state.strokeStyle,
+                    strokeWidth: state.strokeWidth,
                     x1: this.startWorldX,
                     y1: this.startWorldY,
                     x2: this.startWorldX,
@@ -70,6 +73,11 @@ export class DrawingTools {
                     id: generateId(),
                     type: 'rectangle',
                     color: state.currentColor,
+                    fillMode: state.fillMode,
+                    strokeColor: state.strokeColor,
+                    fillColor: state.fillColor,
+                    strokeStyle: state.strokeStyle,
+                    strokeWidth: state.strokeWidth,
                     x: this.startWorldX,
                     y: this.startWorldY,
                     width: 0,
@@ -82,6 +90,11 @@ export class DrawingTools {
                     id: generateId(),
                     type: 'circle',
                     color: state.currentColor,
+                    fillMode: state.fillMode,
+                    strokeColor: state.strokeColor,
+                    fillColor: state.fillColor,
+                    strokeStyle: state.strokeStyle,
+                    strokeWidth: state.strokeWidth,
                     x: this.startWorldX,
                     y: this.startWorldY,
                     radius: 0
@@ -93,6 +106,9 @@ export class DrawingTools {
                     id: generateId(),
                     type: 'bezier',
                     color: state.currentColor,
+                    strokeColor: state.strokeColor,
+                    strokeStyle: state.strokeStyle,
+                    strokeWidth: state.strokeWidth,
                     points: [
                         { x: this.startWorldX, y: this.startWorldY }, // p0
                         { x: this.startWorldX, y: this.startWorldY }, // cp1

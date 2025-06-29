@@ -63,6 +63,65 @@
           </svg>
         </button>
       </div>
+      <!-- Style Panel -->
+      <div class="style-panel" id="style-panel" style="display: none;">
+        <div class="style-section">
+          <label class="style-label">Stroke</label>
+          <input type="color" id="stroke-color" class="style-color-picker" value="#000000" title="Stroke color">
+        </div>
+        <div class="style-section">
+          <label class="style-label">Fill</label>
+          <input type="color" id="fill-color" class="style-color-picker" value="#000000" title="Fill color">
+        </div>
+        <div class="style-separator"></div>
+        <div class="style-section">
+          <div class="style-mode-group">
+            <button class="style-btn style-mode-btn active" data-mode="stroke" title="Stroke only">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <rect x="4" y="6" width="16" height="12" stroke="currentColor" stroke-width="2" fill="none"/>
+              </svg>
+            </button>
+            <button class="style-btn style-mode-btn" data-mode="fill" title="Fill only">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <rect x="4" y="6" width="16" height="12" fill="currentColor"/>
+              </svg>
+            </button>
+            <button class="style-btn style-mode-btn" data-mode="both" title="Both stroke and fill">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <rect x="4" y="6" width="16" height="12" stroke="currentColor" stroke-width="2" fill="currentColor" fill-opacity="0.3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="style-separator"></div>
+        <div class="style-section">
+          <div class="style-line-group">
+            <button class="style-btn style-line-btn active" data-style="solid" title="Solid line">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </button>
+            <button class="style-btn style-line-btn" data-style="dotted" title="Dotted line">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="2" stroke-dasharray="3,3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="style-separator"></div>
+        <div class="style-section">
+          <label class="style-label">Width</label>
+          <select id="stroke-width" class="style-width-select">
+            <option value="1">1px</option>
+            <option value="2" selected>2px</option>
+            <option value="3">3px</option>
+            <option value="4">4px</option>
+            <option value="5">5px</option>
+            <option value="8">8px</option>
+            <option value="10">10px</option>
+          </select>
+        </div>
+      </div>
     </div>
     <div id="canvas-container">
         <canvas id="bg-canvas"></canvas>

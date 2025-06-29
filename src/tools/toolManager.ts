@@ -9,6 +9,12 @@ export class ToolManager {
     private undoButton: HTMLButtonElement | null;
     private redoButton: HTMLButtonElement | null;
     private colorPicker: HTMLInputElement | null;
+    private stylePanel: HTMLElement | null;
+    private strokeColorPicker: HTMLInputElement | null;
+    private fillColorPicker: HTMLInputElement | null;
+    private modeButtons: NodeListOf<HTMLButtonElement>;
+    private lineButtons: NodeListOf<HTMLButtonElement>;
+    private strokeWidthSelect: HTMLSelectElement | null;
     private canvas: HTMLCanvasElement;
     private executor: CommandExecutor;
     private history: HistoryManager;
@@ -23,6 +29,12 @@ export class ToolManager {
         this.undoButton = getOptionalElement<HTMLButtonElement>('[data-action="undo"]');
         this.redoButton = getOptionalElement<HTMLButtonElement>('[data-action="redo"]');
         this.colorPicker = getOptionalElement<HTMLInputElement>('#color-picker');
+        this.stylePanel = getOptionalElement<HTMLElement>('#style-panel');
+        this.strokeColorPicker = getOptionalElement<HTMLInputElement>('#stroke-color');
+        this.fillColorPicker = getOptionalElement<HTMLInputElement>('#fill-color');
+        this.modeButtons = getElements<HTMLButtonElement>('.style-mode-btn');
+        this.lineButtons = getElements<HTMLButtonElement>('.style-line-btn');
+        this.strokeWidthSelect = getOptionalElement<HTMLSelectElement>('#stroke-width');
     }
 
     setupToolButtons(state: State) {
@@ -49,6 +61,9 @@ export class ToolManager {
             this.colorPicker.value = state.currentColor;
             this.updateColorPickerUI(state.currentColor);
         }
+
+        // Setup style panel
+        this.setupStylePanel(state);
 
         // Initial button state update
         this.updateHistoryButtons();
@@ -102,6 +117,9 @@ export class ToolManager {
         // Update cursor
         this.updateCursor(tool);
 
+        // Update style panel visibility
+        this.updateStylePanelVisibility(tool);
+
         // Update state if provided
         if (state) {
             state.tool = tool;
@@ -146,6 +164,98 @@ export class ToolManager {
             const circle = label.querySelector('svg circle:last-child');
             if (circle) {
                 circle.setAttribute('fill', color);
+            }
+        }
+    }
+
+    private setupStylePanel(state: State) {
+        // Setup stroke color picker
+        if (this.strokeColorPicker) {
+            this.strokeColorPicker.addEventListener('change', (e) => {
+                const target = e.target as HTMLInputElement;
+                state.strokeColor = target.value;
+            });
+            this.strokeColorPicker.value = state.strokeColor;
+        }
+
+        // Setup fill color picker
+        if (this.fillColorPicker) {
+            this.fillColorPicker.addEventListener('change', (e) => {
+                const target = e.target as HTMLInputElement;
+                state.fillColor = target.value;
+            });
+            this.fillColorPicker.value = state.fillColor;
+        }
+
+        // Setup fill mode buttons
+        this.modeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.dataset.mode) {
+                    state.fillMode = btn.dataset.mode as 'stroke' | 'fill' | 'both';
+                    this.updateModeButtons(state.fillMode);
+                }
+            });
+        });
+
+        // Setup line style buttons
+        this.lineButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.dataset.style) {
+                    state.strokeStyle = btn.dataset.style as 'solid' | 'dotted';
+                    this.updateLineButtons(state.strokeStyle);
+                }
+            });
+        });
+
+        // Setup stroke width select
+        if (this.strokeWidthSelect) {
+            this.strokeWidthSelect.addEventListener('change', (e) => {
+                const target = e.target as HTMLSelectElement;
+                state.strokeWidth = parseInt(target.value);
+            });
+            this.strokeWidthSelect.value = state.strokeWidth.toString();
+        }
+
+        // Initialize UI state
+        this.updateModeButtons(state.fillMode);
+        this.updateLineButtons(state.strokeStyle);
+    }
+
+    private updateModeButtons(mode: 'stroke' | 'fill' | 'both') {
+        this.modeButtons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.mode === mode);
+        });
+    }
+
+    private updateLineButtons(style: 'solid' | 'dotted') {
+        this.lineButtons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.style === style);
+        });
+    }
+
+    private updateStylePanelVisibility(tool: Tool) {
+        if (!this.stylePanel) return;
+
+        // Show style panel for drawing tools, hide for others
+        const showPanel = ['rectangle', 'circle', 'line', 'curve'].includes(tool);
+        this.stylePanel.style.display = showPanel ? 'flex' : 'none';
+
+        // For line and curve tools, hide fill-related controls
+        if (showPanel) {
+            const fillSection = this.stylePanel.querySelector('.style-section:nth-child(2)') as HTMLElement;
+            const fillModeButton = this.stylePanel.querySelector('[data-mode="fill"]') as HTMLElement;
+            const bothModeButton = this.stylePanel.querySelector('[data-mode="both"]') as HTMLElement;
+            
+            if (tool === 'line' || tool === 'curve') {
+                // Hide fill color picker and fill/both mode buttons for line/curve tools
+                if (fillSection) fillSection.style.display = 'none';
+                if (fillModeButton) fillModeButton.style.display = 'none';
+                if (bothModeButton) bothModeButton.style.display = 'none';
+            } else {
+                // Show all controls for rectangle/circle tools
+                if (fillSection) fillSection.style.display = 'flex';
+                if (fillModeButton) fillModeButton.style.display = 'flex';
+                if (bothModeButton) bothModeButton.style.display = 'flex';
             }
         }
     }

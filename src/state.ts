@@ -2,6 +2,12 @@
 type BaseShape = {
     id: string;
     color: string;
+    // Style properties (optional for backwards compatibility)
+    fillMode?: 'stroke' | 'fill' | 'both';
+    strokeColor?: string;
+    fillColor?: string;
+    strokeStyle?: 'solid' | 'dotted';
+    strokeWidth?: number;
 };
 
 // Discriminated union types for each shape
@@ -57,6 +63,12 @@ export type State = {
     },
     tool: Tool;
     currentColor: string;
+    // Style properties for new shapes
+    fillMode: 'stroke' | 'fill' | 'both';
+    strokeColor: string;
+    fillColor: string;
+    strokeStyle: 'solid' | 'dotted';
+    strokeWidth: number;
     currentDrawing: {
         shape: Shape | null;
         type: Tool | null;
@@ -93,6 +105,12 @@ export const initialState: State = {
     },
     tool: 'pan',
     currentColor: '#000000',
+    // Style defaults
+    fillMode: 'stroke',
+    strokeColor: '#000000',
+    fillColor: '#000000',
+    strokeStyle: 'solid',
+    strokeWidth: 2,
     currentDrawing: {
         shape: null,
         type: null

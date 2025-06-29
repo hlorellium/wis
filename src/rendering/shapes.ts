@@ -23,8 +23,21 @@ export class ShapeRenderer {
     }
 
     renderLine(ctx: CanvasRenderingContext2D, line: LineShape) {
-        ctx.strokeStyle = line.color;
-        ctx.lineWidth = this.lineWidth;
+        // Use new style properties or fall back to legacy color
+        const strokeColor = line.strokeColor || line.color;
+        const strokeWidth = line.strokeWidth || this.lineWidth;
+        const strokeStyle = line.strokeStyle || 'solid';
+
+        ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = strokeWidth;
+        
+        // Set line dash for dotted style
+        if (strokeStyle === 'dotted') {
+            ctx.setLineDash([5, 5]);
+        } else {
+            ctx.setLineDash([]);
+        }
+        
         ctx.beginPath();
         ctx.moveTo(line.x1, line.y1);
         ctx.lineTo(line.x2, line.y2);
@@ -32,17 +45,80 @@ export class ShapeRenderer {
     }
 
     renderRectangle(ctx: CanvasRenderingContext2D, rect: RectangleShape) {
-        ctx.fillStyle = rect.color;
-        ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+        // Use new style properties or fall back to legacy behavior
+        const fillMode = rect.fillMode || 'fill'; // Legacy rectangles were filled
+        const strokeColor = rect.strokeColor || rect.color;
+        const fillColor = rect.fillColor || rect.color;
+        const strokeWidth = rect.strokeWidth || this.lineWidth;
+        const strokeStyle = rect.strokeStyle || 'solid';
+
+        // Set line dash for dotted style
+        if (strokeStyle === 'dotted') {
+            ctx.setLineDash([5, 5]);
+        } else {
+            ctx.setLineDash([]);
+        }
+
+        // Render based on fill mode
+        switch (fillMode) {
+            case 'fill':
+                ctx.fillStyle = fillColor;
+                ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+                break;
+            case 'stroke':
+                ctx.strokeStyle = strokeColor;
+                ctx.lineWidth = strokeWidth;
+                ctx.strokeRect(rect.x, rect.y, rect.width, rect.height);
+                break;
+            case 'both':
+                // Fill first, then stroke
+                ctx.fillStyle = fillColor;
+                ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+                ctx.strokeStyle = strokeColor;
+                ctx.lineWidth = strokeWidth;
+                ctx.strokeRect(rect.x, rect.y, rect.width, rect.height);
+                break;
+        }
     }
 
     renderCircle(ctx: CanvasRenderingContext2D, circle: CircleShape) {
-        ctx.strokeStyle = circle.color;
-        ctx.fillStyle = 'transparent';
-        ctx.lineWidth = this.lineWidth;
+        // Use new style properties or fall back to legacy behavior
+        const fillMode = circle.fillMode || 'stroke'; // Legacy circles were stroked
+        const strokeColor = circle.strokeColor || circle.color;
+        const fillColor = circle.fillColor || circle.color;
+        const strokeWidth = circle.strokeWidth || this.lineWidth;
+        const strokeStyle = circle.strokeStyle || 'solid';
+
+        // Set line dash for dotted style
+        if (strokeStyle === 'dotted') {
+            ctx.setLineDash([5, 5]);
+        } else {
+            ctx.setLineDash([]);
+        }
+
         ctx.beginPath();
         ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
-        ctx.stroke();
+
+        // Render based on fill mode
+        switch (fillMode) {
+            case 'fill':
+                ctx.fillStyle = fillColor;
+                ctx.fill();
+                break;
+            case 'stroke':
+                ctx.strokeStyle = strokeColor;
+                ctx.lineWidth = strokeWidth;
+                ctx.stroke();
+                break;
+            case 'both':
+                // Fill first, then stroke
+                ctx.fillStyle = fillColor;
+                ctx.fill();
+                ctx.strokeStyle = strokeColor;
+                ctx.lineWidth = strokeWidth;
+                ctx.stroke();
+                break;
+        }
     }
 
     renderPreview(ctx: CanvasRenderingContext2D, shape: Shape, type: string) {

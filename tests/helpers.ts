@@ -10,6 +10,12 @@ export function createTestState(): State {
     view: { panX: 0, panY: 0, zoom: 1 },
     tool: 'pan' as const,
     currentColor: '#000000',
+    // Style defaults
+    fillMode: 'stroke',
+    strokeColor: '#000000',
+    fillColor: '#000000',
+    strokeStyle: 'solid',
+    strokeWidth: 2,
     currentDrawing: { shape: null, type: null },
     selection: [],
     currentEditing: {
