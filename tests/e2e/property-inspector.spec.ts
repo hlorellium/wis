@@ -1,10 +1,33 @@
 import { test, expect } from '@playwright/test';
 import { createShapes, waitForCanvasReady } from './utils';
 
+// Helper function to wait for property inspector to be visible with content
+async function waitForPropertyInspectorVisible(page: any, expectedTitle: string = '') {
+  await expect(page.locator('#property-inspector')).toBeVisible({ timeout: 10000 });
+  if (expectedTitle) {
+    await expect(page.locator('.property-title')).toHaveText(expectedTitle, { timeout: 5000 });
+  }
+}
+
+// Helper function to wait for property inspector to be hidden
+async function waitForPropertyInspectorHidden(page: any) {
+  await expect(page.locator('#property-inspector')).toBeHidden({ timeout: 10000 });
+}
+
+// Helper function to select a shape and wait for property inspector
+async function selectShapeAndWaitForInspector(page: any, x: number, y: number, expectedTitle: string = '') {
+  await page.click('#canvas', { position: { x, y } });
+  await page.waitForTimeout(100); // Brief wait for selection to register
+  await waitForPropertyInspectorVisible(page, expectedTitle);
+}
+
 test.describe('Property Inspector', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await waitForCanvasReady(page);
+    
+    // Ensure property inspector is initially hidden
+    await expect(page.locator('#property-inspector')).toBeHidden();
   });
 
   test('should show property inspector when shape is selected', async ({ page }) => {
@@ -14,14 +37,8 @@ test.describe('Property Inspector', () => {
     // Switch to select tool
     await page.click('[data-tool="select"]');
     
-    // Click on the rectangle to select it
-    await page.click('#canvas', { position: { x: 110, y: 110 } });
-    
-    // Property inspector should be visible
-    await expect(page.locator('#property-inspector')).toBeVisible();
-    
-    // Should show rectangle title
-    await expect(page.locator('.property-title')).toHaveText('Rectangle');
+    // Click on the rectangle to select it and wait for inspector
+    await selectShapeAndWaitForInspector(page, 125, 125, 'Rectangle');
     
     // Should show shape ID
     await expect(page.locator('.property-id')).toContainText('ID:');
@@ -33,16 +50,13 @@ test.describe('Property Inspector', () => {
     
     // Switch to select tool and select the shape
     await page.click('[data-tool="select"]');
-    await page.click('#canvas', { position: { x: 110, y: 110 } });
-    
-    // Property inspector should be visible
-    await expect(page.locator('#property-inspector')).toBeVisible();
+    await selectShapeAndWaitForInspector(page, 125, 125, 'Rectangle');
     
     // Click on empty area to deselect
     await page.click('#canvas', { position: { x: 300, y: 300 } });
     
     // Property inspector should be hidden
-    await expect(page.locator('#property-inspector')).toBeHidden();
+    await waitForPropertyInspectorHidden(page);
   });
 
   test('should display and edit rectangle properties', async ({ page }) => {
@@ -51,7 +65,7 @@ test.describe('Property Inspector', () => {
     
     // Switch to select tool and select the rectangle
     await page.click('[data-tool="select"]');
-    await page.click('#canvas', { position: { x: 110, y: 110 } });
+    await selectShapeAndWaitForInspector(page, 125, 125, 'Rectangle');
     
     // Verify position fields are shown with correct values
     const xInput = page.locator('[data-property="x"]');
@@ -73,8 +87,8 @@ test.describe('Property Inspector', () => {
     // Rectangle should move to new position
     // We can verify this by checking if the new position can be selected
     await page.click('#canvas', { position: { x: 300, y: 300 } }); // Deselect
-    await page.click('#canvas', { position: { x: 160, y: 110 } }); // Click at new position
-    await expect(page.locator('#property-inspector')).toBeVisible();
+    await waitForPropertyInspectorHidden(page);
+    await selectShapeAndWaitForInspector(page, 175, 125, 'Rectangle'); // New position
     await expect(xInput).toHaveValue('150');
   });
 
@@ -84,10 +98,7 @@ test.describe('Property Inspector', () => {
     
     // Switch to select tool and select the circle
     await page.click('[data-tool="select"]');
-    await page.click('#canvas', { position: { x: 200, y: 200 } });
-    
-    // Should show circle title
-    await expect(page.locator('.property-title')).toHaveText('Circle');
+    await selectShapeAndWaitForInspector(page, 220, 220, 'Circle'); // Click offset from center
     
     // Verify position fields
     const xInput = page.locator('[data-property="x"]');
@@ -117,10 +128,7 @@ test.describe('Property Inspector', () => {
     
     // Switch to select tool and select the line
     await page.click('[data-tool="select"]');
-    await page.click('#canvas', { position: { x: 100, y: 100 } }); // Click on line
-    
-    // Should show line title
-    await expect(page.locator('.property-title')).toHaveText('Line');
+    await selectShapeAndWaitForInspector(page, 100, 100, 'Line'); // Click on line
     
     // Verify start point fields
     const x1Input = page.locator('[data-property="x1"]');
@@ -149,7 +157,7 @@ test.describe('Property Inspector', () => {
     
     // Switch to select tool and select the rectangle
     await page.click('[data-tool="select"]');
-    await page.click('#canvas', { position: { x: 110, y: 110 } });
+    await selectShapeAndWaitForInspector(page, 125, 125, 'Rectangle');
     
     // Verify style section is visible
     await expect(page.locator('.property-label').filter({ hasText: 'Style' })).toBeVisible();
@@ -203,12 +211,15 @@ test.describe('Property Inspector', () => {
     await page.click('[data-tool="select"]');
     
     // Select first rectangle
-    await page.click('#canvas', { position: { x: 110, y: 110 } });
+    await selectShapeAndWaitForInspector(page, 125, 125, 'Rectangle');
     
     // Hold Ctrl and select second rectangle (multi-select)
     await page.keyboard.down('Control');
-    await page.click('#canvas', { position: { x: 210, y: 110 } });
+    await page.click('#canvas', { position: { x: 225, y: 125 } });
     await page.keyboard.up('Control');
+    
+    // Wait for multi-selection to register
+    await page.waitForTimeout(200);
     
     // Property inspector should show multiple selection
     await expect(page.locator('.property-title')).toHaveText('Multiple Selection');
@@ -224,7 +235,7 @@ test.describe('Property Inspector', () => {
     
     // Switch to select tool and select the rectangle
     await page.click('[data-tool="select"]');
-    await page.click('#canvas', { position: { x: 110, y: 110 } });
+    await selectShapeAndWaitForInspector(page, 125, 125, 'Rectangle');
     
     // Change the X position
     const xInput = page.locator('[data-property="x"]');
@@ -257,7 +268,7 @@ test.describe('Property Inspector', () => {
     
     // Switch to select tool and select the rectangle
     await page.click('[data-tool="select"]');
-    await page.click('#canvas', { position: { x: 110, y: 110 } });
+    await selectShapeAndWaitForInspector(page, 125, 125, 'Rectangle');
     
     // Change the fill color
     const fillColorInput = page.locator('[data-property="fillColor"]');
@@ -268,11 +279,11 @@ test.describe('Property Inspector', () => {
     await page.click('[data-tool="pan"]');
     
     // Property inspector should be hidden
-    await expect(page.locator('#property-inspector')).toBeHidden();
+    await waitForPropertyInspectorHidden(page);
     
     // Switch back to select tool and select the rectangle again
     await page.click('[data-tool="select"]');
-    await page.click('#canvas', { position: { x: 110, y: 110 } });
+    await selectShapeAndWaitForInspector(page, 125, 125, 'Rectangle');
     
     // The color change should be preserved
     await expect(fillColorInput).toHaveValue('#ff0000');
