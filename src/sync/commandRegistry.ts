@@ -1,6 +1,7 @@
 import type { Command } from '../commands';
-import { AddShapeCommand, RemoveShapeCommand, PanCommand, UndoCommand, RedoCommand, DeleteShapeCommand, MoveShapesCommand, MoveVertexCommand } from '../commands';
+import { AddShapeCommand, RemoveShapeCommand, PanCommand, UndoCommand, RedoCommand, DeleteShapeCommand, MoveShapesCommand, MoveVertexCommand, UpdateShapePropertiesCommand } from '../commands';
 import type { Shape } from '../state';
+import type { ShapePropertyUpdate } from '../commands/updateShapePropertiesCommand';
 
 export interface SerializableCommand {
     serialize(): any;
@@ -99,6 +100,12 @@ const MoveVertexCommandFactory: CommandFactory = {
     }
 };
 
+const UpdateShapePropertiesCommandFactory: CommandFactory = {
+    deserialize(data: { updates: ShapePropertyUpdate[]; id: string; timestamp: number }): UpdateShapePropertiesCommand {
+        return new UpdateShapePropertiesCommand(data.updates, data.id);
+    }
+};
+
 // Register all command factories
 CommandRegistry.register('AddShapeCommand', AddShapeCommandFactory);
 CommandRegistry.register('RemoveShapeCommand', RemoveShapeCommandFactory);
@@ -108,3 +115,4 @@ CommandRegistry.register('RedoCommand', RedoCommandFactory);
 CommandRegistry.register('DeleteShapeCommand', DeleteShapeCommandFactory);
 CommandRegistry.register('MoveShapesCommand', MoveShapesCommandFactory);
 CommandRegistry.register('MoveVertexCommand', MoveVertexCommandFactory);
+CommandRegistry.register('UpdateShapePropertiesCommand', UpdateShapePropertiesCommandFactory);

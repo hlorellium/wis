@@ -268,3 +268,175 @@ body {
   background: #333;
   color: white;
 }
+
+/* Property Inspector */
+.property-inspector {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 280px;
+  max-height: calc(100vh - 20px);
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 8px;
+  padding: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+}
+
+.property-header {
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px;
+}
+
+.property-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 4px 0;
+}
+
+.property-id {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: monospace;
+}
+
+.property-section {
+  margin-bottom: 16px;
+}
+
+.property-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.property-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.property-row:last-child {
+  margin-bottom: 0;
+}
+
+.property-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.property-field label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.property-input {
+  width: 100%;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.property-input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.property-input::-webkit-outer-spin-button,
+.property-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.property-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.property-color-input {
+  width: 100%;
+  height: 32px;
+  padding: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.property-color-input:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.property-color-input::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border-radius: 2px;
+}
+
+.property-color-input::-webkit-color-swatch {
+  border: none;
+  border-radius: 2px;
+}
+
+.property-color-input::-moz-color-swatch {
+  border: none;
+  border-radius: 2px;
+}
+
+.property-select {
+  width: 100%;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.property-select:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.property-select option {
+  background: #333;
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .property-inspector {
+    position: fixed;
+    top: auto;
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+    width: auto;
+    max-height: 40vh;
+  }
+}
+
+@media (max-height: 600px) {
+  .property-inspector {
+    max-height: 50vh;
+  }
+}

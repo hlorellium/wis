@@ -10,6 +10,7 @@ import { CommandExecutor } from './commandExecutor';
 import { SyncManager } from './sync/syncManager';
 import { PersistenceManager } from './persistence/persistenceManager';
 import { RenderingEventHandler } from './rendering/renderingEventHandler';
+import { PropertyInspector } from './ui/propertyInspector';
 import { getRequiredElement } from './utils/dom';
 import { logger } from './utils/logger';
 import { eventBus } from './utils/eventBus';
@@ -29,6 +30,7 @@ class DrawingApp {
     private syncManager!: SyncManager;
     private persistence: PersistenceManager;
     private renderingEventHandler!: RenderingEventHandler;
+    private propertyInspector!: PropertyInspector;
     private lastRenderedVersion = -1;
 
     constructor() {
@@ -93,6 +95,9 @@ class DrawingApp {
         this.toolManager = new ToolManager(canvas, this.executor, this.history);
         this.mouseHandler = new MouseHandler(canvas, this.toolManager, this.executor, this.renderer);
 
+        // Initialize property inspector
+        this.propertyInspector = new PropertyInspector(this.executor);
+
         this.initialize();
     }
 
@@ -125,6 +130,12 @@ class DrawingApp {
 
         // Setup persistence
         this.setupPersistence();
+
+        // Initialize property inspector with state
+        this.propertyInspector.initialize(this.state);
+
+        // Setup selection change monitoring
+        this.setupSelectionMonitoring();
 
         // Subscribe to state change events for UI updates (history buttons only)
         // Note: StateProxy handles all rendering automatically
@@ -180,6 +191,23 @@ class DrawingApp {
                 this.toolManager.updateHistoryButtons();
             }
         });
+    }
+
+    private setupSelectionMonitoring() {
+        let previousSelection = [...this.state.selection];
+
+        // Monitor selection changes using state proxy's change callback
+        const originalRender = this.render.bind(this);
+        this.render = (force: boolean = false) => {
+            // Check if selection has changed
+            const currentSelection = this.state.selection;
+            if (JSON.stringify(currentSelection) !== JSON.stringify(previousSelection)) {
+                this.propertyInspector.updateSelection(currentSelection);
+                previousSelection = [...currentSelection];
+            }
+            
+            return originalRender(force);
+        };
     }
 
     private showPersistenceWarning() {
