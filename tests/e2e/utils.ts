@@ -102,3 +102,19 @@ export async function selectAndDeleteShape(page: Page, x: number, y: number) {
   await clickCanvas(page, x, y);
   await page.keyboard.press('Delete');
 }
+
+/**
+ * Wait for undo button to be enabled and then click it
+ */
+export async function clickUndoWhenEnabled(page: Page, timeout = 10000) {
+  await page.waitForSelector('[data-action="undo"]:not([disabled])', { timeout });
+  await page.click('[data-action="undo"]');
+}
+
+/**
+ * Wait for redo button to be enabled and then click it
+ */
+export async function clickRedoWhenEnabled(page: Page, timeout = 10000) {
+  await page.waitForSelector('[data-action="redo"]:not([disabled])', { timeout });
+  await page.click('[data-action="redo"]');
+}

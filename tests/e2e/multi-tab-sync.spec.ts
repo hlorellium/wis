@@ -6,7 +6,9 @@ import {
   setupTest,
   drawRectangle,
   clickCanvas,
-  selectAndDeleteShape
+  selectAndDeleteShape,
+  clickUndoWhenEnabled,
+  clickRedoWhenEnabled
 } from './utils';
 
 test.describe('Drawing Application - Multi-Tab Synchronization', () => {
@@ -75,7 +77,7 @@ test.describe('Drawing Application - Multi-Tab Synchronization', () => {
     await page2.waitForTimeout(1000);
 
     // Undo in tab 2
-    await page2.click('[data-action="undo"]');
+    await clickUndoWhenEnabled(page2);
 
     // Wait for sync back to tab 1
     await page1.waitForTimeout(1000);
@@ -85,7 +87,7 @@ test.describe('Drawing Application - Multi-Tab Synchronization', () => {
     await clickCanvas(page1, 150, 125); // Should not select anything
 
     // Redo in tab 1
-    await page1.click('[data-action="redo"]');
+    await clickRedoWhenEnabled(page1);
 
     // Wait for sync to tab 2
     await page2.waitForTimeout(1000);

@@ -7,7 +7,9 @@ import {
   drawRectangle,
   drawCircle,
   clickCanvas,
-  selectAndDeleteShape
+  selectAndDeleteShape,
+  clickUndoWhenEnabled,
+  clickRedoWhenEnabled
 } from './utils';
 
 test.describe('Drawing Application - Persistence & Recovery', () => {
@@ -76,7 +78,7 @@ test.describe('Drawing Application - Persistence & Recovery', () => {
     await page.waitForTimeout(1000);
 
     // After reload, undo should work to remove the circle
-    await page.click('[data-action="undo"]');
+    await clickUndoWhenEnabled(page);
     
     // Switch to select and verify circle is gone, rectangle remains
     await clickToolAndExpectActive(page, 'select');
@@ -88,7 +90,7 @@ test.describe('Drawing Application - Persistence & Recovery', () => {
     await selectAndDeleteShape(page, 150, 125);
 
     // Redo should bring the circle back
-    await page.click('[data-action="redo"]');
+    await clickRedoWhenEnabled(page);
     
     // Circle should be back
     await selectAndDeleteShape(page, 275, 125);
@@ -232,8 +234,8 @@ test.describe('Drawing Application - Persistence & Recovery', () => {
       await drawRectangle(page, x, 50, x + 40, 90);
       
       // Rapidly undo/redo
-      await page.click('[data-action="undo"]');
-      await page.click('[data-action="redo"]');
+      await clickUndoWhenEnabled(page);
+      await clickRedoWhenEnabled(page);
     }
 
     // Quick reload to test persistence under stress
