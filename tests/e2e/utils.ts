@@ -150,3 +150,61 @@ export async function drawCurve(page: Page, x1: number, y1: number, x2: number, 
   await page.mouse.move(canvasBox.x + x2, canvasBox.y + y2);
   await page.mouse.up();
 }
+
+/**
+ * Wait for the canvas to be ready for interaction
+ */
+export async function waitForCanvasReady(page: Page) {
+  await page.waitForLoadState('networkidle');
+  await page.waitForSelector('#canvas', { state: 'visible' });
+  // Wait a bit more for the application to fully initialize
+  await page.waitForTimeout(100);
+}
+
+/**
+ * Create shapes on the canvas using the specified tool
+ * @param page Playwright page object
+ * @param tool The tool to use ('rectangle', 'circle', 'line', 'curve')
+ * @param positions Array of positions. For single-point shapes (rect, circle), use one point. For lines, use two points.
+ */
+export async function createShapes(
+  page: Page, 
+  tool: 'rectangle' | 'circle' | 'line' | 'curve', 
+  positions: Array<{ x: number; y: number }>
+) {
+  // Select the appropriate tool
+  await clickToolAndExpectActive(page, tool);
+  
+  if (tool === 'rectangle') {
+    for (const pos of positions) {
+      // Create a rectangle with default size (e.g., 50x50)
+      await drawRectangle(page, pos.x, pos.y, pos.x + 50, pos.y + 50);
+    }
+  } else if (tool === 'circle') {
+    for (const pos of positions) {
+      // Create a circle with default size (radius ~25)
+      await drawCircle(page, pos.x, pos.y, pos.x + 50, pos.y + 50);
+    }
+  } else if (tool === 'line') {
+    // For lines, expect pairs of points
+    for (let i = 0; i < positions.length; i += 2) {
+      if (i + 1 < positions.length) {
+        const start = positions[i];
+        const end = positions[i + 1];
+        await drawLine(page, start.x, start.y, end.x, end.y);
+      }
+    }
+  } else if (tool === 'curve') {
+    // For curves, expect pairs of points
+    for (let i = 0; i < positions.length; i += 2) {
+      if (i + 1 < positions.length) {
+        const start = positions[i];
+        const end = positions[i + 1];
+        await drawCurve(page, start.x, start.y, end.x, end.y);
+      }
+    }
+  }
+  
+  // Brief wait for shapes to be created
+  await page.waitForTimeout(100);
+}

@@ -30,7 +30,7 @@
       "max": 5,
       "threshold": 300000
     },
-    "quiet": true,
+    "quiet": false,
     "projects": [
       {
         "outputDir": "/Users/hlorella/code/wis/wis/test-results",
@@ -46,7 +46,7 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 30000
+        "timeout": 10000
       }
     ],
     "shard": null,
@@ -64,25 +64,25 @@
   },
   "suites": [
     {
-      "title": "fill-stroke-functionality.spec.ts",
-      "file": "fill-stroke-functionality.spec.ts",
+      "title": "property-inspector.spec.ts",
+      "file": "property-inspector.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Fill/Stroke Functionality E2E",
-          "file": "fill-stroke-functionality.spec.ts",
-          "line": 3,
+          "title": "Property Inspector",
+          "file": "property-inspector.spec.ts",
+          "line": 4,
           "column": 6,
           "specs": [
             {
-              "title": "should show style panel when drawing tool is selected",
-              "ok": true,
+              "title": "should show property inspector when shape is selected",
+              "ok": false,
               "tags": [],
               "tests": [
                 {
-                  "timeout": 30000,
+                  "timeout": 10000,
                   "annotations": [],
                   "expectedStatus": "passed",
                   "projectId": "chromium",
@@ -91,32 +91,72 @@
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1923,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 8023,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('#property-inspector')\nExpected: visible\nReceived: hidden\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#property-inspector')\u001b[22m\n\u001b[2m    9 × locator resolved to <div id=\"property-inspector\" class=\"property-inspector\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('#property-inspector')\nExpected: visible\nReceived: hidden\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#property-inspector')\u001b[22m\n\u001b[2m    9 × locator resolved to <div id=\"property-inspector\" class=\"property-inspector\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts:21:55",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                          "column": 55,
+                          "line": 21
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 19 |\u001b[39m     \n \u001b[90m 20 |\u001b[39m     \u001b[90m// Property inspector should be visible\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 21 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#property-inspector'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 22 |\u001b[39m     \n \u001b[90m 23 |\u001b[39m     \u001b[90m// Should show rectangle title\u001b[39m\n \u001b[90m 24 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.property-title'\u001b[39m))\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'Rectangle'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                            "column": 55,
+                            "line": 21
+                          },
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('#property-inspector')\nExpected: visible\nReceived: hidden\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#property-inspector')\u001b[22m\n\u001b[2m    9 × locator resolved to <div id=\"property-inspector\" class=\"property-inspector\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 19 |\u001b[39m     \n \u001b[90m 20 |\u001b[39m     \u001b[90m// Property inspector should be visible\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 21 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#property-inspector'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 22 |\u001b[39m     \n \u001b[90m 23 |\u001b[39m     \u001b[90m// Should show rectangle title\u001b[39m\n \u001b[90m 24 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.property-title'\u001b[39m))\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'Rectangle'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts:21:55\u001b[22m"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:52:23.954Z",
+                      "startTime": "2025-06-29T18:10:53.964Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-4a1fa-ctor-when-shape-is-selected-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-4a1fa-ctor-when-shape-is-selected-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-4a1fa-ctor-when-shape-is-selected-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                        "column": 55,
+                        "line": 21
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
-              "id": "c0e383abccb4d902debc-ea971ee853e5fd67f74a",
-              "file": "fill-stroke-functionality.spec.ts",
-              "line": 13,
-              "column": 5
+              "id": "fea000f8a2b273e85159-7722e0bd492d0e00aee0",
+              "file": "property-inspector.spec.ts",
+              "line": 10,
+              "column": 3
             },
             {
-              "title": "should hide style panel when non-drawing tool is selected",
-              "ok": true,
+              "title": "should hide property inspector when no shapes are selected",
+              "ok": false,
               "tags": [],
               "tests": [
                 {
-                  "timeout": 30000,
+                  "timeout": 10000,
                   "annotations": [],
                   "expectedStatus": "passed",
                   "projectId": "chromium",
@@ -125,32 +165,72 @@
                     {
                       "workerIndex": 1,
                       "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1996,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 8036,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('#property-inspector')\nExpected: visible\nReceived: hidden\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#property-inspector')\u001b[22m\n\u001b[2m    9 × locator resolved to <div id=\"property-inspector\" class=\"property-inspector\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('#property-inspector')\nExpected: visible\nReceived: hidden\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#property-inspector')\u001b[22m\n\u001b[2m    9 × locator resolved to <div id=\"property-inspector\" class=\"property-inspector\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts:39:55",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                          "column": 55,
+                          "line": 39
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 37 |\u001b[39m     \n \u001b[90m 38 |\u001b[39m     \u001b[90m// Property inspector should be visible\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 39 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#property-inspector'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 40 |\u001b[39m     \n \u001b[90m 41 |\u001b[39m     \u001b[90m// Click on empty area to deselect\u001b[39m\n \u001b[90m 42 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'#canvas'\u001b[39m\u001b[33m,\u001b[39m { position\u001b[33m:\u001b[39m { x\u001b[33m:\u001b[39m \u001b[35m300\u001b[39m\u001b[33m,\u001b[39m y\u001b[33m:\u001b[39m \u001b[35m300\u001b[39m } })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                            "column": 55,
+                            "line": 39
+                          },
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('#property-inspector')\nExpected: visible\nReceived: hidden\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('#property-inspector')\u001b[22m\n\u001b[2m    9 × locator resolved to <div id=\"property-inspector\" class=\"property-inspector\">…</div>\u001b[22m\n\u001b[2m      - unexpected value \"hidden\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 37 |\u001b[39m     \n \u001b[90m 38 |\u001b[39m     \u001b[90m// Property inspector should be visible\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 39 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#property-inspector'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 40 |\u001b[39m     \n \u001b[90m 41 |\u001b[39m     \u001b[90m// Click on empty area to deselect\u001b[39m\n \u001b[90m 42 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'#canvas'\u001b[39m\u001b[33m,\u001b[39m { position\u001b[33m:\u001b[39m { x\u001b[33m:\u001b[39m \u001b[35m300\u001b[39m\u001b[33m,\u001b[39m y\u001b[33m:\u001b[39m \u001b[35m300\u001b[39m } })\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts:39:55\u001b[22m"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:52:23.957Z",
+                      "startTime": "2025-06-29T18:10:53.967Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-7ba99-when-no-shapes-are-selected-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-7ba99-when-no-shapes-are-selected-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-7ba99-when-no-shapes-are-selected-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                        "column": 55,
+                        "line": 39
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
-              "id": "c0e383abccb4d902debc-76bba3994000631efd5f",
-              "file": "fill-stroke-functionality.spec.ts",
-              "line": 26,
-              "column": 5
+              "id": "fea000f8a2b273e85159-cdb6b5bc8405d41a3a20",
+              "file": "property-inspector.spec.ts",
+              "line": 30,
+              "column": 3
             },
             {
-              "title": "should hide fill controls for line tool",
-              "ok": true,
+              "title": "should display and edit rectangle properties",
+              "ok": false,
               "tags": [],
               "tests": [
                 {
-                  "timeout": 30000,
+                  "timeout": 10000,
                   "annotations": [],
                   "expectedStatus": "passed",
                   "projectId": "chromium",
@@ -159,32 +239,72 @@
                     {
                       "workerIndex": 2,
                       "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1995,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 7961,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-property=\"x\"]')\nExpected string: \u001b[32m\"100\"\u001b[39m\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-property=\"x\"]')\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-property=\"x\"]')\nExpected string: \u001b[32m\"100\"\u001b[39m\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-property=\"x\"]')\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts:59:26",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                          "column": 26,
+                          "line": 59
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 57 |\u001b[39m     \u001b[36mconst\u001b[39m xInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-property=\"x\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 58 |\u001b[39m     \u001b[36mconst\u001b[39m yInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-property=\"y\"]'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 59 |\u001b[39m     \u001b[36mawait\u001b[39m expect(xInput)\u001b[33m.\u001b[39mtoHaveValue(\u001b[32m'100'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 60 |\u001b[39m     \u001b[36mawait\u001b[39m expect(yInput)\u001b[33m.\u001b[39mtoHaveValue(\u001b[32m'100'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 61 |\u001b[39m     \n \u001b[90m 62 |\u001b[39m     \u001b[90m// Verify size fields are shown\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                            "column": 26,
+                            "line": 59
+                          },
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-property=\"x\"]')\nExpected string: \u001b[32m\"100\"\u001b[39m\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-property=\"x\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 57 |\u001b[39m     \u001b[36mconst\u001b[39m xInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-property=\"x\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 58 |\u001b[39m     \u001b[36mconst\u001b[39m yInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-property=\"y\"]'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 59 |\u001b[39m     \u001b[36mawait\u001b[39m expect(xInput)\u001b[33m.\u001b[39mtoHaveValue(\u001b[32m'100'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 60 |\u001b[39m     \u001b[36mawait\u001b[39m expect(yInput)\u001b[33m.\u001b[39mtoHaveValue(\u001b[32m'100'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 61 |\u001b[39m     \n \u001b[90m 62 |\u001b[39m     \u001b[90m// Verify size fields are shown\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts:59:26\u001b[22m"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:52:23.954Z",
+                      "startTime": "2025-06-29T18:10:53.958Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-90f2f-d-edit-rectangle-properties-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-90f2f-d-edit-rectangle-properties-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-90f2f-d-edit-rectangle-properties-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                        "column": 26,
+                        "line": 59
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
-              "id": "c0e383abccb4d902debc-6227cf15fb9de0071980",
-              "file": "fill-stroke-functionality.spec.ts",
-              "line": 39,
-              "column": 5
+              "id": "fea000f8a2b273e85159-9966d1df7361e4df4eeb",
+              "file": "property-inspector.spec.ts",
+              "line": 48,
+              "column": 3
             },
             {
-              "title": "should show all controls for rectangle tool",
+              "title": "should display and edit circle properties",
               "ok": true,
               "tags": [],
               "tests": [
                 {
-                  "timeout": 30000,
+                  "timeout": 10000,
                   "annotations": [],
                   "expectedStatus": "passed",
                   "projectId": "chromium",
@@ -194,12 +314,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1729,
+                      "duration": 2982,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:52:23.949Z",
+                      "startTime": "2025-06-29T18:10:53.961Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -207,18 +327,18 @@
                   "status": "expected"
                 }
               ],
-              "id": "c0e383abccb4d902debc-d9009ac803b949831933",
-              "file": "fill-stroke-functionality.spec.ts",
-              "line": 57,
-              "column": 5
+              "id": "fea000f8a2b273e85159-1b87032ffc84b511b752",
+              "file": "property-inspector.spec.ts",
+              "line": 81,
+              "column": 3
             },
             {
-              "title": "should change stroke color when color picker is used",
-              "ok": true,
+              "title": "should display and edit line properties",
+              "ok": false,
               "tags": [],
               "tests": [
                 {
-                  "timeout": 30000,
+                  "timeout": 10000,
                   "annotations": [],
                   "expectedStatus": "passed",
                   "projectId": "chromium",
@@ -227,330 +347,344 @@
                     {
                       "workerIndex": 3,
                       "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1179,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 6917,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('.property-title')\nExpected string: \u001b[32m\"Line\"\u001b[39m\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.property-title')\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('.property-title')\nExpected string: \u001b[32m\"Line\"\u001b[39m\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.property-title')\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts:123:51",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                          "column": 51,
+                          "line": 123
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 121 |\u001b[39m     \n \u001b[90m 122 |\u001b[39m     \u001b[90m// Should show line title\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 123 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.property-title'\u001b[39m))\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'Line'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 124 |\u001b[39m     \n \u001b[90m 125 |\u001b[39m     \u001b[90m// Verify start point fields\u001b[39m\n \u001b[90m 126 |\u001b[39m     \u001b[36mconst\u001b[39m x1Input \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-property=\"x1\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                            "column": 51,
+                            "line": 123
+                          },
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('.property-title')\nExpected string: \u001b[32m\"Line\"\u001b[39m\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.property-title')\u001b[22m\n\n\n\u001b[0m \u001b[90m 121 |\u001b[39m     \n \u001b[90m 122 |\u001b[39m     \u001b[90m// Should show line title\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 123 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.property-title'\u001b[39m))\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'Line'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 124 |\u001b[39m     \n \u001b[90m 125 |\u001b[39m     \u001b[90m// Verify start point fields\u001b[39m\n \u001b[90m 126 |\u001b[39m     \u001b[36mconst\u001b[39m x1Input \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-property=\"x1\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts:123:51\u001b[22m"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:52:26.114Z",
+                      "startTime": "2025-06-29T18:10:57.286Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-c48c2-ay-and-edit-line-properties-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-c48c2-ay-and-edit-line-properties-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-c48c2-ay-and-edit-line-properties-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                        "column": 51,
+                        "line": 123
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
-              "id": "c0e383abccb4d902debc-659b6e83b2aeb4b09742",
-              "file": "fill-stroke-functionality.spec.ts",
-              "line": 78,
-              "column": 5
+              "id": "fea000f8a2b273e85159-311811f439da863f8142",
+              "file": "property-inspector.spec.ts",
+              "line": 111,
+              "column": 3
             },
             {
-              "title": "should change fill color when color picker is used",
-              "ok": true,
+              "title": "should edit style properties",
+              "ok": false,
               "tags": [],
               "tests": [
                 {
-                  "timeout": 30000,
+                  "timeout": 10000,
                   "annotations": [],
                   "expectedStatus": "passed",
                   "projectId": "chromium",
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1568,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T17:52:26.265Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "c0e383abccb4d902debc-8e97bc3e921cc313c47e",
-              "file": "fill-stroke-functionality.spec.ts",
-              "line": 90,
-              "column": 5
-            },
-            {
-              "title": "should toggle between fill modes",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
+                      "workerIndex": 4,
                       "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1676,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 8326,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('.property-label').filter({ hasText: 'Style' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.property-label').filter({ hasText: 'Style' })\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('.property-label').filter({ hasText: 'Style' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.property-label').filter({ hasText: 'Style' })\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts:155:80",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                          "column": 80,
+                          "line": 155
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 153 |\u001b[39m     \n \u001b[90m 154 |\u001b[39m     \u001b[90m// Verify style section is visible\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 155 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.property-label'\u001b[39m)\u001b[33m.\u001b[39mfilter({ hasText\u001b[33m:\u001b[39m \u001b[32m'Style'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 156 |\u001b[39m     \n \u001b[90m 157 |\u001b[39m     \u001b[90m// Test fill color change\u001b[39m\n \u001b[90m 158 |\u001b[39m     \u001b[36mconst\u001b[39m fillColorInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-property=\"fillColor\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                            "column": 80,
+                            "line": 155
+                          },
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('.property-label').filter({ hasText: 'Style' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.property-label').filter({ hasText: 'Style' })\u001b[22m\n\n\n\u001b[0m \u001b[90m 153 |\u001b[39m     \n \u001b[90m 154 |\u001b[39m     \u001b[90m// Verify style section is visible\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 155 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.property-label'\u001b[39m)\u001b[33m.\u001b[39mfilter({ hasText\u001b[33m:\u001b[39m \u001b[32m'Style'\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 156 |\u001b[39m     \n \u001b[90m 157 |\u001b[39m     \u001b[90m// Test fill color change\u001b[39m\n \u001b[90m 158 |\u001b[39m     \u001b[36mconst\u001b[39m fillColorInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-property=\"fillColor\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts:155:80\u001b[22m"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:52:26.333Z",
+                      "startTime": "2025-06-29T18:11:03.793Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-866fa-hould-edit-style-properties-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-866fa-hould-edit-style-properties-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-866fa-hould-edit-style-properties-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                        "column": 80,
+                        "line": 155
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
-              "id": "c0e383abccb4d902debc-b778a0fb5ac477dc4878",
-              "file": "fill-stroke-functionality.spec.ts",
-              "line": 102,
-              "column": 5
+              "id": "fea000f8a2b273e85159-5e5523ccbfa896bd38b5",
+              "file": "property-inspector.spec.ts",
+              "line": 146,
+              "column": 3
             },
             {
-              "title": "should toggle between line styles",
-              "ok": true,
+              "title": "should show multiple selection with common properties",
+              "ok": false,
               "tags": [],
               "tests": [
                 {
-                  "timeout": 30000,
+                  "timeout": 10000,
                   "annotations": [],
                   "expectedStatus": "passed",
                   "projectId": "chromium",
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1671,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 8092,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('.property-title')\nExpected string: \u001b[32m\"Multiple Selection\"\u001b[39m\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.property-title')\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('.property-title')\nExpected string: \u001b[32m\"Multiple Selection\"\u001b[39m\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.property-title')\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts:214:51",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                          "column": 51,
+                          "line": 214
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 212 |\u001b[39m     \n \u001b[90m 213 |\u001b[39m     \u001b[90m// Property inspector should show multiple selection\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 214 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.property-title'\u001b[39m))\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'Multiple Selection'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 215 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.property-id'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'2 shapes selected'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 216 |\u001b[39m     \n \u001b[90m 217 |\u001b[39m     \u001b[90m// Style properties should be visible (common properties)\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                            "column": 51,
+                            "line": 214
+                          },
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('.property-title')\nExpected string: \u001b[32m\"Multiple Selection\"\u001b[39m\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.property-title')\u001b[22m\n\n\n\u001b[0m \u001b[90m 212 |\u001b[39m     \n \u001b[90m 213 |\u001b[39m     \u001b[90m// Property inspector should show multiple selection\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 214 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.property-title'\u001b[39m))\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'Multiple Selection'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 215 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.property-id'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'2 shapes selected'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 216 |\u001b[39m     \n \u001b[90m 217 |\u001b[39m     \u001b[90m// Style properties should be visible (common properties)\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts:214:51\u001b[22m"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:52:26.341Z",
+                      "startTime": "2025-06-29T18:11:03.886Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-f6ac6-tion-with-common-properties-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-f6ac6-tion-with-common-properties-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-f6ac6-tion-with-common-properties-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                        "column": 51,
+                        "line": 214
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
-              "id": "c0e383abccb4d902debc-e3f1def55b4a7c617112",
-              "file": "fill-stroke-functionality.spec.ts",
-              "line": 124,
-              "column": 5
+              "id": "fea000f8a2b273e85159-6f57067e3a1ada950e52",
+              "file": "property-inspector.spec.ts",
+              "line": 195,
+              "column": 3
             },
             {
-              "title": "should change stroke width",
-              "ok": true,
+              "title": "should support undo/redo for property changes",
+              "ok": false,
               "tags": [],
               "tests": [
                 {
-                  "timeout": 30000,
+                  "timeout": 10000,
                   "annotations": [],
                   "expectedStatus": "passed",
                   "projectId": "chromium",
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1245,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T17:52:27.302Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "c0e383abccb4d902debc-4226a2dd5994ca4f7a0a",
-              "file": "fill-stroke-functionality.spec.ts",
-              "line": 145,
-              "column": 5
-            },
-            {
-              "title": "should draw rectangle with custom colors and see it rendered",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
+                      "workerIndex": 6,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1402,
-                      "errors": [],
+                      "status": "timedOut",
+                      "duration": 10859,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 10000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 10000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 10000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                            "column": 40,
+                            "line": 231
+                          },
+                          "message": "Error: locator.inputValue: Test timeout of 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-property=\"x\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 229 |\u001b[39m     \u001b[90m// Change the X position\u001b[39m\n \u001b[90m 230 |\u001b[39m     \u001b[36mconst\u001b[39m xInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-property=\"x\"]'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 231 |\u001b[39m     \u001b[36mconst\u001b[39m originalValue \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m xInput\u001b[33m.\u001b[39minputValue()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 232 |\u001b[39m     \u001b[36mawait\u001b[39m xInput\u001b[33m.\u001b[39mclear()\u001b[33m;\u001b[39m\n \u001b[90m 233 |\u001b[39m     \u001b[36mawait\u001b[39m xInput\u001b[33m.\u001b[39mfill(\u001b[32m'200'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 234 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m400\u001b[39m)\u001b[33m;\u001b[39m \u001b[90m// Wait for debounce\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts:231:40\u001b[22m"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:52:27.846Z",
+                      "startTime": "2025-06-29T18:11:03.879Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-dc85c-o-redo-for-property-changes-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-dc85c-o-redo-for-property-changes-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-dc85c-o-redo-for-property-changes-chromium/error-context.md"
+                        }
+                      ]
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
-              "id": "c0e383abccb4d902debc-1b129d18bc4036948361",
-              "file": "fill-stroke-functionality.spec.ts",
-              "line": 157,
-              "column": 5
+              "id": "fea000f8a2b273e85159-b87c8dd80e1692fe78fd",
+              "file": "property-inspector.spec.ts",
+              "line": 221,
+              "column": 3
             },
             {
-              "title": "should persist style settings when switching tools",
-              "ok": true,
+              "title": "should persist property changes across tool switches",
+              "ok": false,
               "tags": [],
               "tests": [
                 {
-                  "timeout": 30000,
+                  "timeout": 10000,
                   "annotations": [],
                   "expectedStatus": "passed",
                   "projectId": "chromium",
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1504,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T17:52:28.018Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "c0e383abccb4d902debc-f4bc9213cb281006b8c8",
-              "file": "fill-stroke-functionality.spec.ts",
-              "line": 204,
-              "column": 5
-            },
-            {
-              "title": "should show correct tooltips on mode buttons",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1383,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T17:52:28.028Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "c0e383abccb4d902debc-4f9fa34903ea0c64aaae",
-              "file": "fill-stroke-functionality.spec.ts",
-              "line": 226,
-              "column": 5
-            },
-            {
-              "title": "should have proper accessibility labels",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
+                      "workerIndex": 7,
                       "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1176,
-                      "errors": [],
+                      "status": "timedOut",
+                      "duration": 10927,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 10000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 10000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 10000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts",
+                            "column": 26,
+                            "line": 264
+                          },
+                          "message": "Error: locator.fill: Test timeout of 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-property=\"fillColor\"]')\u001b[22m\n\n\n\u001b[0m \u001b[90m 262 |\u001b[39m     \u001b[90m// Change the fill color\u001b[39m\n \u001b[90m 263 |\u001b[39m     \u001b[36mconst\u001b[39m fillColorInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-property=\"fillColor\"]'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 264 |\u001b[39m     \u001b[36mawait\u001b[39m fillColorInput\u001b[33m.\u001b[39mfill(\u001b[32m'#ff0000'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 265 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m400\u001b[39m)\u001b[33m;\u001b[39m \u001b[90m// Wait for debounce\u001b[39m\n \u001b[90m 266 |\u001b[39m     \n \u001b[90m 267 |\u001b[39m     \u001b[90m// Switch to pan tool\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/property-inspector.spec.ts:264:26\u001b[22m"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T17:52:28.554Z",
+                      "startTime": "2025-06-29T18:11:08.665Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-2ed9c-hanges-across-tool-switches-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-2ed9c-hanges-across-tool-switches-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/property-inspector-Propert-2ed9c-hanges-across-tool-switches-chromium/error-context.md"
+                        }
+                      ]
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
-              "id": "c0e383abccb4d902debc-8fc22b3575f573c20e60",
-              "file": "fill-stroke-functionality.spec.ts",
-              "line": 240,
-              "column": 5
-            },
-            {
-              "title": "should properly integrate with the drawing workflow",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1199,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T17:52:29.259Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "c0e383abccb4d902debc-e041f51935d2660c034b",
-              "file": "fill-stroke-functionality.spec.ts",
-              "line": 256,
-              "column": 5
+              "id": "fea000f8a2b273e85159-cb38cc69faf31157af87",
+              "file": "property-inspector.spec.ts",
+              "line": 254,
+              "column": 3
             }
           ]
         }
@@ -559,11 +693,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-06-29T17:52:22.613Z",
-    "duration": 7905.473999999999,
-    "expected": 14,
+    "startTime": "2025-06-29T18:10:52.666Z",
+    "duration": 27392.831,
+    "expected": 1,
     "skipped": 0,
-    "unexpected": 0,
+    "unexpected": 8,
     "flaky": 0
   }
 }
