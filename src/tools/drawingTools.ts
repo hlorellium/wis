@@ -1,7 +1,7 @@
 import type { State, LineShape, RectangleShape, CircleShape, BezierCurveShape } from '../state';
 import { CoordinateTransformer } from '../canvas/coordinates';
 import { generateId } from '../state';
-import { AddShapeCommand } from '../history';
+import { AddShapeCommand } from '../commands';
 import { CommandExecutor } from '../commandExecutor';
 import { PALETTE } from '../constants';
 
