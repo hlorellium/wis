@@ -56,11 +56,21 @@ export class Path2DRenderer {
         // Set style based on shape type and color
         this.setShapeStyle(ctx, shape);
 
-        // Render the path
-        if (shape.type === 'rectangle') {
-            ctx.fill(path);
-        } else {
-            ctx.stroke(path);
+        // Render based on fill mode (use new logic or fall back to legacy)
+        const fillMode = shape.fillMode || (shape.type === 'rectangle' ? 'fill' : 'stroke');
+        
+        switch (fillMode) {
+            case 'fill':
+                ctx.fill(path);
+                break;
+            case 'stroke':
+                ctx.stroke(path);
+                break;
+            case 'both':
+                // Fill first, then stroke
+                ctx.fill(path);
+                ctx.stroke(path);
+                break;
         }
 
         // Render selection highlight if this shape is selected
@@ -94,14 +104,24 @@ export class Path2DRenderer {
     }
 
     private setShapeStyle(ctx: CanvasRenderingContext2D, shape: Shape) {
-        const color = shape.color || this.colorMap[shape.type];
-        
-        if (shape.type === 'rectangle') {
-            ctx.fillStyle = color;
+        // Use new style properties or fall back to legacy behavior
+        const fillMode = shape.fillMode || (shape.type === 'rectangle' ? 'fill' : 'stroke');
+        const strokeColor = shape.strokeColor || shape.color || this.colorMap[shape.type];
+        const fillColor = shape.fillColor || shape.color || this.colorMap[shape.type];
+        const strokeWidth = shape.strokeWidth || 2;
+        const strokeStyle = shape.strokeStyle || 'solid';
+
+        // Set line dash for dotted style
+        if (strokeStyle === 'dotted') {
+            ctx.setLineDash([5, 5]);
         } else {
-            ctx.strokeStyle = color;
-            ctx.lineWidth = 2;
+            ctx.setLineDash([]);
         }
+
+        // Set colors and line width
+        ctx.strokeStyle = strokeColor;
+        ctx.fillStyle = fillColor;
+        ctx.lineWidth = strokeWidth;
     }
 
     private renderPreview(ctx: CanvasRenderingContext2D, shape: Shape, type: string) {
@@ -109,37 +129,24 @@ export class Path2DRenderer {
         ctx.setLineDash([5, 5]);
         ctx.globalAlpha = 0.6;
 
-        const path = new Path2D();
+        // Set style using the same logic as regular rendering
+        this.setShapeStyle(ctx, shape);
 
-        switch (type) {
-            case 'line':
-                const lineShape = shape as LineShape;
-                path.moveTo(lineShape.x1, lineShape.y1);
-                path.lineTo(lineShape.x2, lineShape.y2);
-                ctx.strokeStyle = lineShape.color;
-                ctx.lineWidth = 2;
-                ctx.stroke(path);
-                break;
-            case 'rectangle':
-                const rectShape = shape as RectangleShape;
-                path.rect(rectShape.x, rectShape.y, rectShape.width, rectShape.height);
-                ctx.fillStyle = rectShape.color;
+        const path = this.createPath2D(shape);
+        
+        // Render based on fill mode (use new logic or fall back to legacy)
+        const fillMode = shape.fillMode || (shape.type === 'rectangle' ? 'fill' : 'stroke');
+        
+        switch (fillMode) {
+            case 'fill':
                 ctx.fill(path);
                 break;
-            case 'circle':
-                const circleShape = shape as CircleShape;
-                path.arc(circleShape.x, circleShape.y, circleShape.radius, 0, Math.PI * 2);
-                ctx.strokeStyle = circleShape.color;
-                ctx.lineWidth = 2;
+            case 'stroke':
                 ctx.stroke(path);
                 break;
-            case 'curve':
-                const curveShape = shape as BezierCurveShape;
-                const [p0, cp1, cp2, p1] = curveShape.points;
-                path.moveTo(p0.x, p0.y);
-                path.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, p1.x, p1.y);
-                ctx.strokeStyle = curveShape.color;
-                ctx.lineWidth = 2;
+            case 'both':
+                // Fill first, then stroke
+                ctx.fill(path);
                 ctx.stroke(path);
                 break;
         }
