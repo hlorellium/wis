@@ -3,6 +3,7 @@ import { CommandExecutor } from '../commandExecutor';
 import { HistoryManager } from '../history';
 import { getElements, getOptionalElement } from '../utils/dom';
 import { UI_CONFIG } from '../constants';
+import { SelectionManager } from '../utils/selectionManager';
 
 export class ToolManager {
     private toolButtons: NodeListOf<HTMLButtonElement>;
@@ -95,6 +96,12 @@ export class ToolManager {
     setActiveTool(tool: Tool, state?: State) {
         // Clear previous tool state if we have state and are switching tools
         if (state && state.tool !== tool) {
+            // Clear selection when switching away from select/edit tools to other tools
+            if ((state.tool === 'select' || state.tool === 'edit') && 
+                !['select', 'edit'].includes(tool)) {
+                SelectionManager.clear(state);
+            }
+            
             // Clear select tool drag state when switching away from select
             if (state.tool === 'select' && this.selectTool) {
                 this.selectTool.cancelDrag(state);

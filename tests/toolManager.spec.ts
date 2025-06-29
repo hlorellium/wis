@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { ToolManager } from '../src/tools/toolManager';
 import { HistoryManager } from '../src/history';
 import { CommandExecutor } from '../src/commandExecutor';
+import { SelectionManager } from '../src/utils/selectionManager';
 import { createTestState } from './helpers';
 import type { State, Tool } from '../src/state';
 
@@ -303,6 +304,144 @@ describe('ToolManager', () => {
 
       toolManager.updateCursorForPanning(false);
       expect(canvas.style.cursor).toBe('grab');
+    });
+  });
+
+  describe('selection clearing on tool change', () => {
+    beforeEach(() => {
+      toolManager.setupToolButtons(state);
+    });
+
+    it('should clear selection when switching from select tool to drawing tools', () => {
+      // Set up initial state with selection
+      state.tool = 'select';
+      SelectionManager.setSelection(state, ['shape1', 'shape2']);
+      expect(state.selection).toEqual(['shape1', 'shape2']);
+
+      // Switch to rectangle tool
+      toolManager.setActiveTool('rectangle', state);
+
+      // Selection should be cleared
+      expect(state.selection).toEqual([]);
+      expect(state.tool).toBe('rectangle');
+    });
+
+    it('should clear selection when switching from edit tool to drawing tools', () => {
+      // Set up initial state with selection and edit mode
+      state.tool = 'edit';
+      SelectionManager.setSelection(state, ['shape1']);
+      expect(state.selection).toEqual(['shape1']);
+
+      // Switch to circle tool
+      toolManager.setActiveTool('circle', state);
+
+      // Selection should be cleared and tool should switch to select first (via SelectionManager.clear)
+      expect(state.selection).toEqual([]);
+      expect(state.tool).toBe('circle');
+    });
+
+    it('should clear selection when switching from select tool to pan tool', () => {
+      // Set up initial state with selection
+      state.tool = 'select';
+      SelectionManager.setSelection(state, ['shape1', 'shape2', 'shape3']);
+      expect(state.selection).toEqual(['shape1', 'shape2', 'shape3']);
+
+      // Switch to pan tool
+      toolManager.setActiveTool('pan', state);
+
+      // Selection should be cleared
+      expect(state.selection).toEqual([]);
+      expect(state.tool).toBe('pan');
+    });
+
+    it('should NOT clear selection when switching between select and edit tools', () => {
+      // Set up initial state with selection
+      state.tool = 'select';
+      SelectionManager.setSelection(state, ['shape1']);
+      expect(state.selection).toEqual(['shape1']);
+
+      // Switch to edit tool
+      toolManager.setActiveTool('edit', state);
+
+      // Selection should be preserved
+      expect(state.selection).toEqual(['shape1']);
+      expect(state.tool).toBe('edit');
+
+      // Switch back to select tool
+      toolManager.setActiveTool('select', state);
+
+      // Selection should still be preserved
+      expect(state.selection).toEqual(['shape1']);
+      expect(state.tool).toBe('select');
+    });
+
+    it('should NOT clear selection when switching between drawing tools', () => {
+      // Set up initial state with rectangle tool and no selection
+      state.tool = 'rectangle';
+      SelectionManager.setSelection(state, []); // No selection initially
+      expect(state.selection).toEqual([]);
+
+      // Switch to circle tool
+      toolManager.setActiveTool('circle', state);
+
+      // No selection to clear, should just change tool
+      expect(state.selection).toEqual([]);
+      expect(state.tool).toBe('circle');
+    });
+
+    it('should NOT clear selection when tool does not change', () => {
+      // Set up initial state with selection
+      state.tool = 'select';
+      SelectionManager.setSelection(state, ['shape1', 'shape2']);
+      expect(state.selection).toEqual(['shape1', 'shape2']);
+
+      // "Switch" to same tool
+      toolManager.setActiveTool('select', state);
+
+      // Selection should be preserved
+      expect(state.selection).toEqual(['shape1', 'shape2']);
+      expect(state.tool).toBe('select');
+    });
+
+    it('should handle missing state parameter gracefully', () => {
+      // This should not throw an error even without state
+      expect(() => toolManager.setActiveTool('rectangle')).not.toThrow();
+    });
+
+    it('should clear selection for all drawing tools when switching from select', () => {
+      const drawingTools: Tool[] = ['rectangle', 'circle', 'line', 'curve'];
+      
+      drawingTools.forEach(tool => {
+        // Reset state for each test
+        state.tool = 'select';
+        SelectionManager.setSelection(state, ['shape1', 'shape2']);
+        expect(state.selection).toEqual(['shape1', 'shape2']);
+
+        // Switch to drawing tool
+        toolManager.setActiveTool(tool, state);
+
+        // Selection should be cleared
+        expect(state.selection).toEqual([]);
+        expect(state.tool).toBe(tool);
+      });
+    });
+
+    it('should clear selection for all drawing tools when switching from edit', () => {
+      const drawingTools: Tool[] = ['rectangle', 'circle', 'line', 'curve'];
+      
+      drawingTools.forEach(tool => {
+        // Reset state for each test
+        state.tool = 'edit';
+        SelectionManager.setSelection(state, ['shape1']);
+        expect(state.selection).toEqual(['shape1']);
+
+        // Switch to drawing tool
+        toolManager.setActiveTool(tool, state);
+
+        // Selection should be cleared
+        expect(state.selection).toEqual([]);
+        expect(state.tool).toBe(tool);
+      });
     });
   });
 
