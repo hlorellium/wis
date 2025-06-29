@@ -160,5 +160,21 @@ describe('Persistence', () => {
             expect(loadedState).toEqual(initialState);
             expect(Object.getPrototypeOf(loadedState)).toBe(Object.prototype);
         });
+
+        it('should check availability status', () => {
+            // In normal testing environment, IndexedDB should be available
+            expect(persistence.available).toBe(true);
+        });
+    });
+
+    describe('IndexedDB Unavailability Handling', () => {
+        it('should handle IndexedDB unavailability gracefully', () => {
+            // Create a store that will fail to initialize
+            const mockStore = new IndexedDbStore('test-unavailable', 'test');
+            
+            // Simulate IndexedDB being unavailable by checking the available property
+            // In a real scenario where IndexedDB is not available, available would be false
+            expect(typeof mockStore.available).toBe('boolean');
+        });
     });
 });

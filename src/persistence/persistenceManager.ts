@@ -28,6 +28,13 @@ export class PersistenceManager {
     }
 
     /**
+     * Check if persistence is available
+     */
+    get available(): boolean {
+        return this.store.available;
+    }
+
+    /**
      * Load the persisted state from IndexedDB
      * Returns undefined if no state exists or if loading fails
      */

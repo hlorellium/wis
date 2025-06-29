@@ -37,6 +37,12 @@ class DrawingApp {
     }
 
     private async initializeAsync() {
+        // Check if persistence is available and log status
+        if (!this.persistence.available) {
+            logger.warn('IndexedDB is not available - app will work without persistence', 'DrawingApp');
+            this.showPersistenceWarning();
+        }
+
         // Try to load persisted state
         const persistedState = await this.persistence.loadState();
         const stateToUse = persistedState || initialState;
@@ -169,6 +175,62 @@ class DrawingApp {
                 this.toolManager.updateHistoryButtons();
             }
         });
+    }
+
+    private showPersistenceWarning() {
+        // Show a non-intrusive console warning and optionally a UI notification
+        console.warn(
+            '%c⚠️ Drawing App - Persistence Unavailable',
+            'color: orange; font-weight: bold; font-size: 14px;',
+            '\nYour work will not be saved between sessions because IndexedDB is not available.',
+            '\nThis can happen in private browsing mode or if storage is disabled.',
+            '\nThe app will work normally otherwise.'
+        );
+
+        // Optionally show a temporary toast notification
+        this.showToast('⚠️ Work will not be saved - storage unavailable', 'warning');
+    }
+
+    private showToast(message: string, type: 'info' | 'warning' | 'error' = 'info') {
+        // Create a simple toast notification
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'warning' ? '#ff9800' : type === 'error' ? '#f44336' : '#2196f3'};
+            color: white;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 14px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 10000;
+            max-width: 400px;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        `;
+        toast.textContent = message;
+        
+        document.body.appendChild(toast);
+        
+        // Animate in
+        requestAnimationFrame(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(0)';
+        });
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 300);
+        }, 5000);
     }
 
     private render(force: boolean = false) {
