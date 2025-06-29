@@ -118,3 +118,35 @@ export async function clickRedoWhenEnabled(page: Page, timeout = 10000) {
   await page.waitForSelector('[data-action="redo"]:not([disabled])', { timeout });
   await page.click('[data-action="redo"]');
 }
+
+/**
+ * Draw a line on the canvas
+ * Note: Assumes line tool is already selected
+ */
+export async function drawLine(page: Page, x1: number, y1: number, x2: number, y2: number) {
+  const canvas = getMainCanvas(page);
+  const canvasBox = await canvas.boundingBox();
+  if (!canvasBox) throw new Error('Canvas not found');
+  
+  // Use absolute coordinates to avoid element overlap issues
+  await page.mouse.move(canvasBox.x + x1, canvasBox.y + y1);
+  await page.mouse.down();
+  await page.mouse.move(canvasBox.x + x2, canvasBox.y + y2);
+  await page.mouse.up();
+}
+
+/**
+ * Draw a curve on the canvas
+ * Note: Assumes curve tool is already selected
+ */
+export async function drawCurve(page: Page, x1: number, y1: number, x2: number, y2: number) {
+  const canvas = getMainCanvas(page);
+  const canvasBox = await canvas.boundingBox();
+  if (!canvasBox) throw new Error('Canvas not found');
+  
+  // Use absolute coordinates to avoid element overlap issues
+  await page.mouse.move(canvasBox.x + x1, canvasBox.y + y1);
+  await page.mouse.down();
+  await page.mouse.move(canvasBox.x + x2, canvasBox.y + y2);
+  await page.mouse.up();
+}

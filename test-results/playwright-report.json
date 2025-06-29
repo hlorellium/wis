@@ -64,20 +64,20 @@
   },
   "suites": [
     {
-      "title": "app-loads.spec.ts",
-      "file": "app-loads.spec.ts",
+      "title": "color-selection.spec.ts",
+      "file": "color-selection.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Drawing Application - Basic Setup",
-          "file": "app-loads.spec.ts",
-          "line": 10,
+          "title": "Color Selection E2E Tests",
+          "file": "color-selection.spec.ts",
+          "line": 12,
           "column": 6,
           "specs": [
             {
-              "title": "app loads and displays basic UI elements",
+              "title": "color picker is visible and accessible",
               "ok": true,
               "tags": [],
               "tests": [
@@ -92,12 +92,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1783,
+                      "duration": 3388,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T16:15:55.171Z",
+                      "startTime": "2025-06-29T17:22:37.237Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -105,13 +105,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "fbc7d466f762fa3d6786-852fd2668e7626e860f1",
-              "file": "app-loads.spec.ts",
-              "line": 11,
+              "id": "836b9053b0c718cdad3d-04c4f46b6854979c80a1",
+              "file": "color-selection.spec.ts",
+              "line": 17,
               "column": 3
             },
             {
-              "title": "canvas has correct dimensions",
+              "title": "can select different colors and draw shapes",
               "ok": true,
               "tags": [],
               "tests": [
@@ -126,12 +126,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1687,
+                      "duration": 5417,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T16:15:55.168Z",
+                      "startTime": "2025-06-29T17:22:37.235Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -139,13 +139,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "fbc7d466f762fa3d6786-cedf3e96280b76b8b877",
-              "file": "app-loads.spec.ts",
-              "line": 34,
+              "id": "836b9053b0c718cdad3d-49db6494eff6c654cf4e",
+              "file": "color-selection.spec.ts",
+              "line": 31,
               "column": 3
             },
             {
-              "title": "default tool is selected",
+              "title": "color selection persists across tool switches",
               "ok": true,
               "tags": [],
               "tests": [
@@ -160,12 +160,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1638,
+                      "duration": 4367,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T16:15:55.169Z",
+                      "startTime": "2025-06-29T17:22:37.235Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -173,13 +173,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "fbc7d466f762fa3d6786-402a5c24a7512f42b2cb",
-              "file": "app-loads.spec.ts",
-              "line": 46,
+              "id": "836b9053b0c718cdad3d-529e184cbd0772adea4f",
+              "file": "color-selection.spec.ts",
+              "line": 52,
               "column": 3
             },
             {
-              "title": "can switch between tools",
+              "title": "color picker updates visual indicator",
               "ok": true,
               "tags": [],
               "tests": [
@@ -194,12 +194,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 2105,
+                      "duration": 3280,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T16:15:55.180Z",
+                      "startTime": "2025-06-29T17:22:37.246Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -207,132 +207,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "fbc7d466f762fa3d6786-8bb8f46e4d0732414063",
-              "file": "app-loads.spec.ts",
-              "line": 53,
+              "id": "836b9053b0c718cdad3d-e10a5618ecb7b3bff412",
+              "file": "color-selection.spec.ts",
+              "line": 73,
               "column": 3
             },
             {
-              "title": "console has no errors on load",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 2423,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:15:57.217Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "fbc7d466f762fa3d6786-a19e7610ada5af712c11",
-              "file": "app-loads.spec.ts",
-              "line": 72,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "drawing-flow.spec.ts",
-      "file": "drawing-flow.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "Drawing Application - Drawing Flow",
-          "file": "drawing-flow.spec.ts",
-          "line": 14,
-          "column": 6,
-          "specs": [
-            {
-              "title": "can draw a rectangle",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1606,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:15:57.295Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "e7730580601257518a74-653d9bd4316966db293d",
-              "file": "drawing-flow.spec.ts",
-              "line": 19,
-              "column": 3
-            },
-            {
-              "title": "can draw a circle",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1378,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:15:57.413Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "e7730580601257518a74-5b9d5088926a88f01c4a",
-              "file": "drawing-flow.spec.ts",
-              "line": 36,
-              "column": 3
-            },
-            {
-              "title": "can draw a line",
+              "title": "different shape types use selected color",
               "ok": true,
               "tags": [],
               "tests": [
@@ -347,12 +228,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1599,
+                      "duration": 4499,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T16:15:57.701Z",
+                      "startTime": "2025-06-29T17:22:42.615Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -360,166 +241,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "e7730580601257518a74-ad570df0856f4391132f",
-              "file": "drawing-flow.spec.ts",
-              "line": 50,
-              "column": 3
-            },
-            {
-              "title": "can draw a curve",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1639,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:15:58.829Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "e7730580601257518a74-ab91fbe05d4a40a2e0e4",
-              "file": "drawing-flow.spec.ts",
-              "line": 71,
-              "column": 3
-            },
-            {
-              "title": "can select and move shapes",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1727,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:15:58.914Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "e7730580601257518a74-7e24c4da1f951e4ced2a",
-              "file": "drawing-flow.spec.ts",
+              "id": "836b9053b0c718cdad3d-624365cf7dc76e976fe8",
+              "file": "color-selection.spec.ts",
               "line": 90,
               "column": 3
             },
             {
-              "title": "can use undo and redo",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1749,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:15:59.316Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "e7730580601257518a74-e991b9dd18bf57d04dce",
-              "file": "drawing-flow.spec.ts",
-              "line": 117,
-              "column": 3
-            },
-            {
-              "title": "can select multiple shapes with drag selection",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1778,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:15:59.663Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "e7730580601257518a74-ef169c6a42922b8ee61a",
-              "file": "drawing-flow.spec.ts",
-              "line": 141,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "multi-tab-sync.spec.ts",
-      "file": "multi-tab-sync.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "Drawing Application - Multi-Tab Synchronization",
-          "file": "multi-tab-sync.spec.ts",
-          "line": 14,
-          "column": 6,
-          "specs": [
-            {
-              "title": "shapes drawn in one tab appear in another tab",
+              "title": "color selection works with undo/redo",
               "ok": true,
               "tags": [],
               "tests": [
@@ -534,12 +262,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 4234,
+                      "duration": 4445,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T16:16:00.486Z",
+                      "startTime": "2025-06-29T17:22:42.767Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -547,14 +275,116 @@
                   "status": "expected"
                 }
               ],
-              "id": "f4980c4bb96007f3a3a6-033b701dff13e992b8ec",
-              "file": "multi-tab-sync.spec.ts",
-              "line": 36,
+              "id": "836b9053b0c718cdad3d-a797af35b156248a7101",
+              "file": "color-selection.spec.ts",
+              "line": 118,
               "column": 3
             },
             {
-              "title": "undo/redo operations sync across tabs",
-              "ok": false,
+              "title": "color persists after page reload",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 4509,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T17:22:43.678Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "836b9053b0c718cdad3d-110ea962929b5891fcf5",
+              "file": "color-selection.spec.ts",
+              "line": 146,
+              "column": 3
+            },
+            {
+              "title": "multiple rapid color changes work correctly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 3401,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T17:22:44.724Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "836b9053b0c718cdad3d-2bd82aba405c03ef3b3b",
+              "file": "color-selection.spec.ts",
+              "line": 169,
+              "column": 3
+            },
+            {
+              "title": "color picker keyboard navigation works",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 1974,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T17:22:47.128Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "836b9053b0c718cdad3d-40b5d627b7058f435016",
+              "file": "color-selection.spec.ts",
+              "line": 187,
+              "column": 3
+            },
+            {
+              "title": "color picker respects system accessibility settings",
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -567,87 +397,13 @@
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 13560,
-                      "error": {
-                        "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"redo\"]:not([disabled])') to be visible\u001b[22m\n",
-                        "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"redo\"]:not([disabled])') to be visible\u001b[22m\n\n    at clickRedoWhenEnabled (/Users/hlorella/code/wis/wis/tests/e2e/utils.ts:118:14)\n    at /Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts:92:11",
-                        "location": {
-                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/utils.ts",
-                          "column": 14,
-                          "line": 118
-                        },
-                        "snippet": "\u001b[90m   at \u001b[39mutils.ts:118\n\n\u001b[0m \u001b[90m 116 |\u001b[39m \u001b[90m */\u001b[39m\n \u001b[90m 117 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36masync\u001b[39m \u001b[36mfunction\u001b[39m clickRedoWhenEnabled(page\u001b[33m:\u001b[39m \u001b[33mPage\u001b[39m\u001b[33m,\u001b[39m timeout \u001b[33m=\u001b[39m \u001b[35m10000\u001b[39m) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 118 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForSelector(\u001b[32m'[data-action=\"redo\"]:not([disabled])'\u001b[39m\u001b[33m,\u001b[39m { timeout })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 119 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-action=\"redo\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 120 |\u001b[39m }\n \u001b[90m 121 |\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/utils.ts",
-                            "column": 14,
-                            "line": 118
-                          },
-                          "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"redo\"]:not([disabled])') to be visible\u001b[22m\n\n\n\u001b[90m   at \u001b[39mutils.ts:118\n\n\u001b[0m \u001b[90m 116 |\u001b[39m \u001b[90m */\u001b[39m\n \u001b[90m 117 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36masync\u001b[39m \u001b[36mfunction\u001b[39m clickRedoWhenEnabled(page\u001b[33m:\u001b[39m \u001b[33mPage\u001b[39m\u001b[33m,\u001b[39m timeout \u001b[33m=\u001b[39m \u001b[35m10000\u001b[39m) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 118 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForSelector(\u001b[32m'[data-action=\"redo\"]:not([disabled])'\u001b[39m\u001b[33m,\u001b[39m { timeout })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 119 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-action=\"redo\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 120 |\u001b[39m }\n \u001b[90m 121 |\u001b[39m\u001b[0m\n\u001b[2m    at clickRedoWhenEnabled (/Users/hlorella/code/wis/wis/tests/e2e/utils.ts:118:14)\u001b[22m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts:92:11\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:16:04.733Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/multi-tab-sync-Drawing-App-84894-operations-sync-across-tabs-chromium/test-failed-2.png"
-                        },
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/multi-tab-sync-Drawing-App-84894-operations-sync-across-tabs-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/multi-tab-sync-Drawing-App-84894-operations-sync-across-tabs-chromium/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/utils.ts",
-                        "column": 14,
-                        "line": 118
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f4980c4bb96007f3a3a6-f8567701f9d91ae67495",
-              "file": "multi-tab-sync.spec.ts",
-              "line": 65,
-              "column": 3
-            },
-            {
-              "title": "shape movements sync across tabs",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 3943,
+                      "duration": 1968,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T16:16:00.666Z",
+                      "startTime": "2025-06-29T17:22:47.221Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -655,446 +411,9 @@
                   "status": "expected"
                 }
               ],
-              "id": "f4980c4bb96007f3a3a6-eef968d854b48fdc02ec",
-              "file": "multi-tab-sync.spec.ts",
-              "line": 102,
-              "column": 3
-            },
-            {
-              "title": "shape deletions sync across tabs",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 3682,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:16:04.622Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "f4980c4bb96007f3a3a6-cf76a067e7ac26cc378b",
-              "file": "multi-tab-sync.spec.ts",
-              "line": 143,
-              "column": 3
-            },
-            {
-              "title": "edit mode operations sync across tabs",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 4126,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:16:01.113Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "f4980c4bb96007f3a3a6-8cfa12ab50ee0af73514",
-              "file": "multi-tab-sync.spec.ts",
-              "line": 182,
-              "column": 3
-            },
-            {
-              "title": "multiple concurrent operations handle conflicts gracefully",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 7018,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:16:05.245Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "f4980c4bb96007f3a3a6-918d1a76057225b6a8d0",
-              "file": "multi-tab-sync.spec.ts",
-              "line": 208,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "persistence.spec.ts",
-      "file": "persistence.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "Drawing Application - Persistence & Recovery",
-          "file": "persistence.spec.ts",
-          "line": 15,
-          "column": 6,
-          "specs": [
-            {
-              "title": "drawing persists after page reload",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 3672,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:16:01.458Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a5ef73a4e2a1baaea746-1073f1fa42f4c8a2a04c",
-              "file": "persistence.spec.ts",
-              "line": 20,
-              "column": 3
-            },
-            {
-              "title": "undo/redo history persists after reload",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "failed",
-                      "duration": 13650,
-                      "error": {
-                        "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"undo\"]:not([disabled])') to be visible\u001b[22m\n",
-                        "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"undo\"]:not([disabled])') to be visible\u001b[22m\n\n    at clickUndoWhenEnabled (/Users/hlorella/code/wis/wis/tests/e2e/utils.ts:110:14)\n    at /Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts:81:11",
-                        "location": {
-                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/utils.ts",
-                          "column": 14,
-                          "line": 110
-                        },
-                        "snippet": "\u001b[90m   at \u001b[39mutils.ts:110\n\n\u001b[0m \u001b[90m 108 |\u001b[39m \u001b[90m */\u001b[39m\n \u001b[90m 109 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36masync\u001b[39m \u001b[36mfunction\u001b[39m clickUndoWhenEnabled(page\u001b[33m:\u001b[39m \u001b[33mPage\u001b[39m\u001b[33m,\u001b[39m timeout \u001b[33m=\u001b[39m \u001b[35m10000\u001b[39m) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 110 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForSelector(\u001b[32m'[data-action=\"undo\"]:not([disabled])'\u001b[39m\u001b[33m,\u001b[39m { timeout })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 111 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-action=\"undo\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 112 |\u001b[39m }\n \u001b[90m 113 |\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/utils.ts",
-                            "column": 14,
-                            "line": 110
-                          },
-                          "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"undo\"]:not([disabled])') to be visible\u001b[22m\n\n\n\u001b[90m   at \u001b[39mutils.ts:110\n\n\u001b[0m \u001b[90m 108 |\u001b[39m \u001b[90m */\u001b[39m\n \u001b[90m 109 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36masync\u001b[39m \u001b[36mfunction\u001b[39m clickUndoWhenEnabled(page\u001b[33m:\u001b[39m \u001b[33mPage\u001b[39m\u001b[33m,\u001b[39m timeout \u001b[33m=\u001b[39m \u001b[35m10000\u001b[39m) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 110 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForSelector(\u001b[32m'[data-action=\"undo\"]:not([disabled])'\u001b[39m\u001b[33m,\u001b[39m { timeout })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 111 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-action=\"undo\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 112 |\u001b[39m }\n \u001b[90m 113 |\u001b[39m\u001b[0m\n\u001b[2m    at clickUndoWhenEnabled (/Users/hlorella/code/wis/wis/tests/e2e/utils.ts:110:14)\u001b[22m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts:81:11\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:16:05.140Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/persistence-Drawing-Applic-00419-story-persists-after-reload-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/persistence-Drawing-Applic-00419-story-persists-after-reload-chromium/video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/persistence-Drawing-Applic-00419-story-persists-after-reload-chromium/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/utils.ts",
-                        "column": 14,
-                        "line": 110
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "a5ef73a4e2a1baaea746-743e746e4c8b85c142fb",
-              "file": "persistence.spec.ts",
-              "line": 63,
-              "column": 3
-            },
-            {
-              "title": "app handles IndexedDB not being available gracefully",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1534,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:16:08.318Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a5ef73a4e2a1baaea746-147e90f6cf4227858316",
-              "file": "persistence.spec.ts",
-              "line": 99,
-              "column": 3
-            },
-            {
-              "title": "app recovers from corrupted storage data",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 3302,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:16:09.858Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a5ef73a4e2a1baaea746-1e7d630db3db94aed618",
-              "file": "persistence.spec.ts",
-              "line": 140,
-              "column": 3
-            },
-            {
-              "title": "large drawings with many shapes persist correctly",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 5675,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:16:12.281Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a5ef73a4e2a1baaea746-8af6f231dd8a1053f651",
-              "file": "persistence.spec.ts",
-              "line": 177,
-              "column": 3
-            },
-            {
-              "title": "persistence works correctly across different browsers/sessions",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 3302,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:16:13.165Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "a5ef73a4e2a1baaea746-c2b562a28aae3cb4ec30",
-              "file": "persistence.spec.ts",
-              "line": 209,
-              "column": 3
-            },
-            {
-              "title": "persistence handles rapid save/load cycles",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "failed",
-                      "duration": 11261,
-                      "error": {
-                        "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"undo\"]:not([disabled])') to be visible\u001b[22m\n",
-                        "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"undo\"]:not([disabled])') to be visible\u001b[22m\n\n    at clickUndoWhenEnabled (/Users/hlorella/code/wis/wis/tests/e2e/utils.ts:110:14)\n    at /Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts:237:13",
-                        "location": {
-                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/utils.ts",
-                          "column": 14,
-                          "line": 110
-                        },
-                        "snippet": "\u001b[90m   at \u001b[39mutils.ts:110\n\n\u001b[0m \u001b[90m 108 |\u001b[39m \u001b[90m */\u001b[39m\n \u001b[90m 109 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36masync\u001b[39m \u001b[36mfunction\u001b[39m clickUndoWhenEnabled(page\u001b[33m:\u001b[39m \u001b[33mPage\u001b[39m\u001b[33m,\u001b[39m timeout \u001b[33m=\u001b[39m \u001b[35m10000\u001b[39m) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 110 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForSelector(\u001b[32m'[data-action=\"undo\"]:not([disabled])'\u001b[39m\u001b[33m,\u001b[39m { timeout })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 111 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-action=\"undo\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 112 |\u001b[39m }\n \u001b[90m 113 |\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/utils.ts",
-                            "column": 14,
-                            "line": 110
-                          },
-                          "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"undo\"]:not([disabled])') to be visible\u001b[22m\n\n\n\u001b[90m   at \u001b[39mutils.ts:110\n\n\u001b[0m \u001b[90m 108 |\u001b[39m \u001b[90m */\u001b[39m\n \u001b[90m 109 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36masync\u001b[39m \u001b[36mfunction\u001b[39m clickUndoWhenEnabled(page\u001b[33m:\u001b[39m \u001b[33mPage\u001b[39m\u001b[33m,\u001b[39m timeout \u001b[33m=\u001b[39m \u001b[35m10000\u001b[39m) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 110 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForSelector(\u001b[32m'[data-action=\"undo\"]:not([disabled])'\u001b[39m\u001b[33m,\u001b[39m { timeout })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 111 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-action=\"undo\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 112 |\u001b[39m }\n \u001b[90m 113 |\u001b[39m\u001b[0m\n\u001b[2m    at clickUndoWhenEnabled (/Users/hlorella/code/wis/wis/tests/e2e/utils.ts:110:14)\u001b[22m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts:237:13\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-06-29T16:16:16.470Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/persistence-Drawing-Applic-b93b9-dles-rapid-save-load-cycles-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/persistence-Drawing-Applic-b93b9-dles-rapid-save-load-cycles-chromium/video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/persistence-Drawing-Applic-b93b9-dles-rapid-save-load-cycles-chromium/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/utils.ts",
-                        "column": 14,
-                        "line": 110
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "a5ef73a4e2a1baaea746-19fb3be99b5e27229ac8",
-              "file": "persistence.spec.ts",
-              "line": 228,
+              "id": "836b9053b0c718cdad3d-449c86072e2f57949828",
+              "file": "color-selection.spec.ts",
+              "line": 204,
               "column": 3
             }
           ]
@@ -1104,11 +423,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-06-29T16:15:54.101Z",
-    "duration": 33714.922000000006,
-    "expected": 22,
+    "startTime": "2025-06-29T17:22:35.938Z",
+    "duration": 13590.446,
+    "expected": 10,
     "skipped": 0,
-    "unexpected": 3,
+    "unexpected": 0,
     "flaky": 0
   }
 }

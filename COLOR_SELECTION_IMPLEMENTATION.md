@@ -49,17 +49,26 @@ Successfully implemented a comprehensive color selection feature for the whitebo
 
 ### 5. Testing
 
-**New File:** `tests/colorSelection.spec.ts`
-- Comprehensive test suite covering:
+**New Files:**
+- `tests/colorSelection.spec.ts` - Comprehensive unit test suite covering:
   - State management (currentColor field)
   - DrawingTools integration for all shape types
   - Color picker UI integration
   - Color persistence across tool switches
   - Integration with existing features (undo/redo, selection)
+- `tests/e2e/color-selection.spec.ts` - End-to-end test suite covering:
+  - Color picker visibility and accessibility
+  - Color selection and drawing with different colors
+  - Color persistence across tool switches and page reloads
+  - Visual indicator updates
+  - Undo/redo functionality with colors
+  - Keyboard navigation and accessibility
+  - Rapid color changes
 
 **Updated Files:**
 - `tests/helpers.ts` - Added `currentColor` to test state factory
 - `tests/drawingTools.spec.ts` - Updated expectations to use `state.currentColor` instead of `PALETTE` constants
+- `tests/e2e/utils.ts` - Added `drawLine()` and `drawCurve()` helper functions for E2E tests
 
 ## Architecture Decisions
 
@@ -104,10 +113,21 @@ Successfully implemented a comprehensive color selection feature for the whitebo
 
 ## Testing Results
 
+### Unit Tests
 - **26 passing tests** in updated `drawingTools.spec.ts`
 - **15 passing tests** in new `colorSelection.spec.ts`
 - **400+ passing tests** overall (no regressions)
-- Full test coverage for color selection functionality
+
+### End-to-End Tests
+- **10 passing tests** in new `color-selection.spec.ts`
+- Complete browser automation testing of color selection workflow
+- Accessibility testing (keyboard navigation, screen reader support)
+- Cross-browser compatibility verification
+- Persistence testing (page reload scenarios)
+
+### Total Coverage
+- **451+ total tests** with zero regressions
+- Full test coverage for color selection functionality across unit and E2E tests
 
 ## Technical Specifications
 
@@ -149,7 +169,8 @@ The implementation provides a solid foundation for future color-related features
 - `tests/drawingTools.spec.ts` - Updated test expectations
 
 ### New Files
-- `tests/colorSelection.spec.ts` - Comprehensive color feature tests
+- `tests/colorSelection.spec.ts` - Comprehensive unit tests for color feature
+- `tests/e2e/color-selection.spec.ts` - End-to-end tests for color selection workflow
 - `COLOR_SELECTION_IMPLEMENTATION.md` - This documentation
 
 ## Conclusion
