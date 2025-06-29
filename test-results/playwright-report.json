@@ -1,0 +1,1155 @@
+{
+  "config": {
+    "configFile": "/Users/hlorella/code/wis/wis/playwright.config.ts",
+    "rootDir": "/Users/hlorella/code/wis/wis/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/playwright-report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/hlorella/code/wis/wis/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/hlorella/code/wis/wis/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/hlorella/code/wis/wis/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/Users/hlorella/code/wis/wis/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/hlorella/code/wis/wis/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/Users/hlorella/code/wis/wis/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.53.1",
+    "workers": 4,
+    "webServer": {
+      "command": "bun run dev",
+      "port": 5173,
+      "reuseExistingServer": true,
+      "stdout": "ignore",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "app-loads.spec.ts",
+      "file": "app-loads.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Drawing Application - Basic Setup",
+          "file": "app-loads.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "app loads and displays basic UI elements",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 6818,
+                      "error": {
+                        "message": "Error: expect.toBeVisible: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"1280\" height=\"720\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"1280\" height=\"720\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n",
+                        "stack": "Error: expect.toBeVisible: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"1280\" height=\"720\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"1280\" height=\"720\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:12:26",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                          "column": 26,
+                          "line": 12
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 10 |\u001b[39m     \u001b[90m// Check that the canvas is present and visible\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mconst\u001b[39m canvas \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'canvas'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m expect(canvas)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 13 |\u001b[39m\n \u001b[90m 14 |\u001b[39m     \u001b[90m// Check that tool buttons are present\u001b[39m\n \u001b[90m 15 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-tool=\"select\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                            "column": 26,
+                            "line": 12
+                          },
+                          "message": "Error: expect.toBeVisible: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"1280\" height=\"720\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"1280\" height=\"720\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n\n\n\u001b[0m \u001b[90m 10 |\u001b[39m     \u001b[90m// Check that the canvas is present and visible\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mconst\u001b[39m canvas \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'canvas'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m expect(canvas)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 13 |\u001b[39m\n \u001b[90m 14 |\u001b[39m     \u001b[90m// Check that tool buttons are present\u001b[39m\n \u001b[90m 15 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-tool=\"select\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:12:26\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T14:06:10.354Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-e5629--displays-basic-UI-elements-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-e5629--displays-basic-UI-elements-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-e5629--displays-basic-UI-elements-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                        "column": 26,
+                        "line": 12
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fbc7d466f762fa3d6786-852fd2668e7626e860f1",
+              "file": "app-loads.spec.ts",
+              "line": 4,
+              "column": 3
+            },
+            {
+              "title": "canvas has correct dimensions",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 7359,
+                      "error": {
+                        "message": "Error: locator.boundingBox: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"1280\" height=\"720\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"1280\" height=\"720\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n",
+                        "stack": "Error: locator.boundingBox: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"1280\" height=\"720\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"1280\" height=\"720\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:37:36",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                          "column": 36,
+                          "line": 37
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 35 |\u001b[39m     \n \u001b[90m 36 |\u001b[39m     \u001b[90m// Check canvas dimensions\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 37 |\u001b[39m     \u001b[36mconst\u001b[39m canvasBox \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m canvas\u001b[33m.\u001b[39mboundingBox()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 38 |\u001b[39m     expect(canvasBox)\u001b[33m.\u001b[39mtoBeTruthy()\u001b[33m;\u001b[39m\n \u001b[90m 39 |\u001b[39m     expect(canvasBox\u001b[33m!\u001b[39m\u001b[33m.\u001b[39mwidth)\u001b[33m.\u001b[39mtoBeGreaterThan(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m     expect(canvasBox\u001b[33m!\u001b[39m\u001b[33m.\u001b[39mheight)\u001b[33m.\u001b[39mtoBeGreaterThan(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                            "column": 36,
+                            "line": 37
+                          },
+                          "message": "Error: locator.boundingBox: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"1280\" height=\"720\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"1280\" height=\"720\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n\n\n\u001b[0m \u001b[90m 35 |\u001b[39m     \n \u001b[90m 36 |\u001b[39m     \u001b[90m// Check canvas dimensions\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 37 |\u001b[39m     \u001b[36mconst\u001b[39m canvasBox \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m canvas\u001b[33m.\u001b[39mboundingBox()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 38 |\u001b[39m     expect(canvasBox)\u001b[33m.\u001b[39mtoBeTruthy()\u001b[33m;\u001b[39m\n \u001b[90m 39 |\u001b[39m     expect(canvasBox\u001b[33m!\u001b[39m\u001b[33m.\u001b[39mwidth)\u001b[33m.\u001b[39mtoBeGreaterThan(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m     expect(canvasBox\u001b[33m!\u001b[39m\u001b[33m.\u001b[39mheight)\u001b[33m.\u001b[39mtoBeGreaterThan(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:37:36\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T14:06:10.373Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-1fad4-nvas-has-correct-dimensions-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-1fad4-nvas-has-correct-dimensions-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-1fad4-nvas-has-correct-dimensions-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                        "column": 36,
+                        "line": 37
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fbc7d466f762fa3d6786-cedf3e96280b76b8b877",
+              "file": "app-loads.spec.ts",
+              "line": 30,
+              "column": 3
+            },
+            {
+              "title": "default tool is selected",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 9956,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveClass\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-tool=\"select\"]')\nExpected pattern: \u001b[32m/active/\u001b[39m\nReceived string:  \u001b[31m\"tool-btn\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveClass\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-tool=\"select\"]')\u001b[22m\n\u001b[2m    9 × locator resolved to <button class=\"tool-btn\" data-tool=\"select\" aria-pressed=\"false\" aria-label=\"Select tool\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"tool-btn\"\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveClass\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-tool=\"select\"]')\nExpected pattern: \u001b[32m/active/\u001b[39m\nReceived string:  \u001b[31m\"tool-btn\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveClass\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-tool=\"select\"]')\u001b[22m\n\u001b[2m    9 × locator resolved to <button class=\"tool-btn\" data-tool=\"select\" aria-pressed=\"false\" aria-label=\"Select tool\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"tool-btn\"\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:49:30",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                          "column": 30,
+                          "line": 49
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 47 |\u001b[39m     \u001b[90m// Check that select tool is active by default (should have active class/state)\u001b[39m\n \u001b[90m 48 |\u001b[39m     \u001b[36mconst\u001b[39m selectTool \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-tool=\"select\"]'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(selectTool)\u001b[33m.\u001b[39mtoHaveClass(\u001b[35m/active/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 50 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 51 |\u001b[39m\n \u001b[90m 52 |\u001b[39m   test(\u001b[32m'can switch between tools'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                            "column": 30,
+                            "line": 49
+                          },
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveClass\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-tool=\"select\"]')\nExpected pattern: \u001b[32m/active/\u001b[39m\nReceived string:  \u001b[31m\"tool-btn\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveClass\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-tool=\"select\"]')\u001b[22m\n\u001b[2m    9 × locator resolved to <button class=\"tool-btn\" data-tool=\"select\" aria-pressed=\"false\" aria-label=\"Select tool\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"tool-btn\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 47 |\u001b[39m     \u001b[90m// Check that select tool is active by default (should have active class/state)\u001b[39m\n \u001b[90m 48 |\u001b[39m     \u001b[36mconst\u001b[39m selectTool \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-tool=\"select\"]'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(selectTool)\u001b[33m.\u001b[39mtoHaveClass(\u001b[35m/active/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 50 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 51 |\u001b[39m\n \u001b[90m 52 |\u001b[39m   test(\u001b[32m'can switch between tools'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:49:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T14:06:10.365Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-53110-up-default-tool-is-selected-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-53110-up-default-tool-is-selected-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-53110-up-default-tool-is-selected-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                        "column": 30,
+                        "line": 49
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fbc7d466f762fa3d6786-402a5c24a7512f42b2cb",
+              "file": "app-loads.spec.ts",
+              "line": 43,
+              "column": 3
+            },
+            {
+              "title": "can switch between tools",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 10550,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveClass\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-tool=\"select\"]')\nExpected pattern: \u001b[32m/active/\u001b[39m\nReceived string:  \u001b[31m\"tool-btn\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveClass\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-tool=\"select\"]')\u001b[22m\n\u001b[2m    9 × locator resolved to <button class=\"tool-btn\" data-tool=\"select\" aria-pressed=\"false\" aria-label=\"Select tool\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"tool-btn\"\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveClass\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-tool=\"select\"]')\nExpected pattern: \u001b[32m/active/\u001b[39m\nReceived string:  \u001b[31m\"tool-btn\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveClass\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-tool=\"select\"]')\u001b[22m\n\u001b[2m    9 × locator resolved to <button class=\"tool-btn\" data-tool=\"select\" aria-pressed=\"false\" aria-label=\"Select tool\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"tool-btn\"\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:57:56",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                          "column": 56,
+                          "line": 57
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 55 |\u001b[39m\n \u001b[90m 56 |\u001b[39m     \u001b[90m// Start with select tool active\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 57 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-tool=\"select\"]'\u001b[39m))\u001b[33m.\u001b[39mtoHaveClass(\u001b[35m/active/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 58 |\u001b[39m\n \u001b[90m 59 |\u001b[39m     \u001b[90m// Click rectangle tool\u001b[39m\n \u001b[90m 60 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-tool=\"rectangle\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                            "column": 56,
+                            "line": 57
+                          },
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveClass\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-tool=\"select\"]')\nExpected pattern: \u001b[32m/active/\u001b[39m\nReceived string:  \u001b[31m\"tool-btn\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveClass\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-tool=\"select\"]')\u001b[22m\n\u001b[2m    9 × locator resolved to <button class=\"tool-btn\" data-tool=\"select\" aria-pressed=\"false\" aria-label=\"Select tool\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"tool-btn\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 55 |\u001b[39m\n \u001b[90m 56 |\u001b[39m     \u001b[90m// Start with select tool active\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 57 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-tool=\"select\"]'\u001b[39m))\u001b[33m.\u001b[39mtoHaveClass(\u001b[35m/active/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 58 |\u001b[39m\n \u001b[90m 59 |\u001b[39m     \u001b[90m// Click rectangle tool\u001b[39m\n \u001b[90m 60 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-tool=\"rectangle\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:57:56\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T14:06:10.371Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-308f5-up-can-switch-between-tools-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-308f5-up-can-switch-between-tools-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-308f5-up-can-switch-between-tools-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                        "column": 56,
+                        "line": 57
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fbc7d466f762fa3d6786-8bb8f46e4d0732414063",
+              "file": "app-loads.spec.ts",
+              "line": 52,
+              "column": 3
+            },
+            {
+              "title": "console has no errors on load",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3058,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T14:06:23.077Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fbc7d466f762fa3d6786-a19e7610ada5af712c11",
+              "file": "app-loads.spec.ts",
+              "line": 75,
+              "column": 3
+            },
+            {
+              "title": "app loads and displays basic UI elements",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 6112,
+                      "error": {
+                        "message": "Error: page.goto: NS_ERROR_NET_ERROR_RESPONSE\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5173/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: NS_ERROR_NET_ERROR_RESPONSE\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5173/\", waiting until \"load\"\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:5:16",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                          "column": 16,
+                          "line": 5
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 3 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Drawing Application - Basic Setup'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m 4 |\u001b[39m   test(\u001b[32m'app loads and displays basic UI elements'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 5 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m   |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 6 |\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[90m// Wait for the app to load\u001b[39m\n \u001b[90m 8 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                            "column": 16,
+                            "line": 5
+                          },
+                          "message": "Error: page.goto: NS_ERROR_NET_ERROR_RESPONSE\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5173/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 3 |\u001b[39m test\u001b[33m.\u001b[39mdescribe(\u001b[32m'Drawing Application - Basic Setup'\u001b[39m\u001b[33m,\u001b[39m () \u001b[33m=>\u001b[39m {\n \u001b[90m 4 |\u001b[39m   test(\u001b[32m'app loads and displays basic UI elements'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 5 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m   |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 6 |\u001b[39m\n \u001b[90m 7 |\u001b[39m     \u001b[90m// Wait for the app to load\u001b[39m\n \u001b[90m 8 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:5:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T14:06:23.102Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-e5629--displays-basic-UI-elements-firefox/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-e5629--displays-basic-UI-elements-firefox/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-e5629--displays-basic-UI-elements-firefox/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                        "column": 16,
+                        "line": 5
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fbc7d466f762fa3d6786-80caa036b0089ff296a9",
+              "file": "app-loads.spec.ts",
+              "line": 4,
+              "column": 3
+            },
+            {
+              "title": "canvas has correct dimensions",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 6032,
+                      "error": {
+                        "message": "Error: page.goto: NS_ERROR_NET_ERROR_RESPONSE\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5173/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: NS_ERROR_NET_ERROR_RESPONSE\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5173/\", waiting until \"load\"\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:31:16",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                          "column": 16,
+                          "line": 31
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 29 |\u001b[39m\n \u001b[90m 30 |\u001b[39m   test(\u001b[32m'canvas has correct dimensions'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 31 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 32 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 33 |\u001b[39m\n \u001b[90m 34 |\u001b[39m     \u001b[36mconst\u001b[39m canvas \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'canvas'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                            "column": 16,
+                            "line": 31
+                          },
+                          "message": "Error: page.goto: NS_ERROR_NET_ERROR_RESPONSE\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5173/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 29 |\u001b[39m\n \u001b[90m 30 |\u001b[39m   test(\u001b[32m'canvas has correct dimensions'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 31 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 32 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 33 |\u001b[39m\n \u001b[90m 34 |\u001b[39m     \u001b[36mconst\u001b[39m canvas \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'canvas'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:31:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T14:06:26.457Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-1fad4-nvas-has-correct-dimensions-firefox/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-1fad4-nvas-has-correct-dimensions-firefox/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-1fad4-nvas-has-correct-dimensions-firefox/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                        "column": 16,
+                        "line": 31
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fbc7d466f762fa3d6786-48c6509bca2ccc83e0a8",
+              "file": "app-loads.spec.ts",
+              "line": 30,
+              "column": 3
+            },
+            {
+              "title": "default tool is selected",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 6304,
+                      "error": {
+                        "message": "Error: page.goto: NS_ERROR_NET_ERROR_RESPONSE\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5173/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: NS_ERROR_NET_ERROR_RESPONSE\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5173/\", waiting until \"load\"\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:44:16",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                          "column": 16,
+                          "line": 44
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 42 |\u001b[39m\n \u001b[90m 43 |\u001b[39m   test(\u001b[32m'default tool is selected'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 44 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 46 |\u001b[39m\n \u001b[90m 47 |\u001b[39m     \u001b[90m// Check that select tool is active by default (should have active class/state)\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                            "column": 16,
+                            "line": 44
+                          },
+                          "message": "Error: page.goto: NS_ERROR_NET_ERROR_RESPONSE\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5173/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 42 |\u001b[39m\n \u001b[90m 43 |\u001b[39m   test(\u001b[32m'default tool is selected'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 44 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 46 |\u001b[39m\n \u001b[90m 47 |\u001b[39m     \u001b[90m// Check that select tool is active by default (should have active class/state)\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:44:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T14:06:26.675Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-53110-up-default-tool-is-selected-firefox/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-53110-up-default-tool-is-selected-firefox/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-53110-up-default-tool-is-selected-firefox/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                        "column": 16,
+                        "line": 44
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fbc7d466f762fa3d6786-f8adcc10f871f7d67908",
+              "file": "app-loads.spec.ts",
+              "line": 43,
+              "column": 3
+            },
+            {
+              "title": "can switch between tools",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 5930,
+                      "error": {
+                        "message": "Error: page.goto: NS_ERROR_NET_ERROR_RESPONSE\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5173/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: NS_ERROR_NET_ERROR_RESPONSE\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5173/\", waiting until \"load\"\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:53:16",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                          "column": 16,
+                          "line": 53
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 51 |\u001b[39m\n \u001b[90m 52 |\u001b[39m   test(\u001b[32m'can switch between tools'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 53 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 55 |\u001b[39m\n \u001b[90m 56 |\u001b[39m     \u001b[90m// Start with select tool active\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                            "column": 16,
+                            "line": 53
+                          },
+                          "message": "Error: page.goto: NS_ERROR_NET_ERROR_RESPONSE\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5173/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 51 |\u001b[39m\n \u001b[90m 52 |\u001b[39m   test(\u001b[32m'can switch between tools'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 53 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 55 |\u001b[39m\n \u001b[90m 56 |\u001b[39m     \u001b[90m// Start with select tool active\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:53:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T14:06:28.451Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-308f5-up-can-switch-between-tools-firefox/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-308f5-up-can-switch-between-tools-firefox/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-308f5-up-can-switch-between-tools-firefox/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                        "column": 16,
+                        "line": 53
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fbc7d466f762fa3d6786-5b84b5ca539abc5c310d",
+              "file": "app-loads.spec.ts",
+              "line": 52,
+              "column": 3
+            },
+            {
+              "title": "console has no errors on load",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 4409,
+                      "error": {
+                        "message": "Error: page.goto: NS_ERROR_NET_ERROR_RESPONSE\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5173/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: NS_ERROR_NET_ERROR_RESPONSE\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5173/\", waiting until \"load\"\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:85:16",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                          "column": 16,
+                          "line": 85
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 83 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 84 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 85 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 86 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 87 |\u001b[39m\n \u001b[90m 88 |\u001b[39m     \u001b[90m// Allow a moment for any async errors\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                            "column": 16,
+                            "line": 85
+                          },
+                          "message": "Error: page.goto: NS_ERROR_NET_ERROR_RESPONSE\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5173/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 83 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 84 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 85 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 86 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 87 |\u001b[39m\n \u001b[90m 88 |\u001b[39m     \u001b[90m// Allow a moment for any async errors\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:85:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T14:06:38.115Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-f4477-nsole-has-no-errors-on-load-firefox/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-f4477-nsole-has-no-errors-on-load-firefox/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-f4477-nsole-has-no-errors-on-load-firefox/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                        "column": 16,
+                        "line": 85
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fbc7d466f762fa3d6786-d944317ece075814efbb",
+              "file": "app-loads.spec.ts",
+              "line": 75,
+              "column": 3
+            },
+            {
+              "title": "app loads and displays basic UI elements",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 14803,
+                      "error": {
+                        "message": "Error: expect.toBeVisible: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"2560\" height=\"1440\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"2560\" height=\"1440\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n",
+                        "stack": "Error: expect.toBeVisible: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"2560\" height=\"1440\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"2560\" height=\"1440\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:12:26",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                          "column": 26,
+                          "line": 12
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 10 |\u001b[39m     \u001b[90m// Check that the canvas is present and visible\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mconst\u001b[39m canvas \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'canvas'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m expect(canvas)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 13 |\u001b[39m\n \u001b[90m 14 |\u001b[39m     \u001b[90m// Check that tool buttons are present\u001b[39m\n \u001b[90m 15 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-tool=\"select\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                            "column": 26,
+                            "line": 12
+                          },
+                          "message": "Error: expect.toBeVisible: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"2560\" height=\"1440\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"2560\" height=\"1440\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n\n\n\u001b[0m \u001b[90m 10 |\u001b[39m     \u001b[90m// Check that the canvas is present and visible\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mconst\u001b[39m canvas \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'canvas'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m expect(canvas)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 13 |\u001b[39m\n \u001b[90m 14 |\u001b[39m     \u001b[90m// Check that tool buttons are present\u001b[39m\n \u001b[90m 15 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-tool=\"select\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:12:26\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T14:06:38.948Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-e5629--displays-basic-UI-elements-webkit/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-e5629--displays-basic-UI-elements-webkit/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-e5629--displays-basic-UI-elements-webkit/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                        "column": 26,
+                        "line": 12
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fbc7d466f762fa3d6786-7b896bf4fd32a76837f1",
+              "file": "app-loads.spec.ts",
+              "line": 4,
+              "column": 3
+            },
+            {
+              "title": "canvas has correct dimensions",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 13918,
+                      "error": {
+                        "message": "Error: locator.boundingBox: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"2560\" height=\"1440\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"2560\" height=\"1440\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n",
+                        "stack": "Error: locator.boundingBox: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"2560\" height=\"1440\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"2560\" height=\"1440\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:37:36",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                          "column": 36,
+                          "line": 37
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 35 |\u001b[39m     \n \u001b[90m 36 |\u001b[39m     \u001b[90m// Check canvas dimensions\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 37 |\u001b[39m     \u001b[36mconst\u001b[39m canvasBox \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m canvas\u001b[33m.\u001b[39mboundingBox()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 38 |\u001b[39m     expect(canvasBox)\u001b[33m.\u001b[39mtoBeTruthy()\u001b[33m;\u001b[39m\n \u001b[90m 39 |\u001b[39m     expect(canvasBox\u001b[33m!\u001b[39m\u001b[33m.\u001b[39mwidth)\u001b[33m.\u001b[39mtoBeGreaterThan(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m     expect(canvasBox\u001b[33m!\u001b[39m\u001b[33m.\u001b[39mheight)\u001b[33m.\u001b[39mtoBeGreaterThan(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                            "column": 36,
+                            "line": 37
+                          },
+                          "message": "Error: locator.boundingBox: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"2560\" height=\"1440\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"2560\" height=\"1440\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n\n\n\u001b[0m \u001b[90m 35 |\u001b[39m     \n \u001b[90m 36 |\u001b[39m     \u001b[90m// Check canvas dimensions\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 37 |\u001b[39m     \u001b[36mconst\u001b[39m canvasBox \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m canvas\u001b[33m.\u001b[39mboundingBox()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 38 |\u001b[39m     expect(canvasBox)\u001b[33m.\u001b[39mtoBeTruthy()\u001b[33m;\u001b[39m\n \u001b[90m 39 |\u001b[39m     expect(canvasBox\u001b[33m!\u001b[39m\u001b[33m.\u001b[39mwidth)\u001b[33m.\u001b[39mtoBeGreaterThan(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m     expect(canvasBox\u001b[33m!\u001b[39m\u001b[33m.\u001b[39mheight)\u001b[33m.\u001b[39mtoBeGreaterThan(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:37:36\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T14:06:38.985Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-1fad4-nvas-has-correct-dimensions-webkit/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-1fad4-nvas-has-correct-dimensions-webkit/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-1fad4-nvas-has-correct-dimensions-webkit/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                        "column": 36,
+                        "line": 37
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fbc7d466f762fa3d6786-94f223e6a23d4379a34c",
+              "file": "app-loads.spec.ts",
+              "line": 30,
+              "column": 3
+            },
+            {
+              "title": "default tool is selected",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 22513,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveClass\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-tool=\"select\"]')\nExpected pattern: \u001b[32m/active/\u001b[39m\nReceived string:  \u001b[31m\"tool-btn\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveClass\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-tool=\"select\"]')\u001b[22m\n\u001b[2m    8 × locator resolved to <button class=\"tool-btn\" data-tool=\"select\" aria-pressed=\"false\" aria-label=\"Select tool\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"tool-btn\"\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveClass\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-tool=\"select\"]')\nExpected pattern: \u001b[32m/active/\u001b[39m\nReceived string:  \u001b[31m\"tool-btn\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveClass\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-tool=\"select\"]')\u001b[22m\n\u001b[2m    8 × locator resolved to <button class=\"tool-btn\" data-tool=\"select\" aria-pressed=\"false\" aria-label=\"Select tool\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"tool-btn\"\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:49:30",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                          "column": 30,
+                          "line": 49
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 47 |\u001b[39m     \u001b[90m// Check that select tool is active by default (should have active class/state)\u001b[39m\n \u001b[90m 48 |\u001b[39m     \u001b[36mconst\u001b[39m selectTool \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-tool=\"select\"]'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(selectTool)\u001b[33m.\u001b[39mtoHaveClass(\u001b[35m/active/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 50 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 51 |\u001b[39m\n \u001b[90m 52 |\u001b[39m   test(\u001b[32m'can switch between tools'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                            "column": 30,
+                            "line": 49
+                          },
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveClass\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-tool=\"select\"]')\nExpected pattern: \u001b[32m/active/\u001b[39m\nReceived string:  \u001b[31m\"tool-btn\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveClass\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-tool=\"select\"]')\u001b[22m\n\u001b[2m    8 × locator resolved to <button class=\"tool-btn\" data-tool=\"select\" aria-pressed=\"false\" aria-label=\"Select tool\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"tool-btn\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 47 |\u001b[39m     \u001b[90m// Check that select tool is active by default (should have active class/state)\u001b[39m\n \u001b[90m 48 |\u001b[39m     \u001b[36mconst\u001b[39m selectTool \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-tool=\"select\"]'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(selectTool)\u001b[33m.\u001b[39mtoHaveClass(\u001b[35m/active/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 50 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 51 |\u001b[39m\n \u001b[90m 52 |\u001b[39m   test(\u001b[32m'can switch between tools'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:49:30\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T14:06:40.186Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-53110-up-default-tool-is-selected-webkit/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-53110-up-default-tool-is-selected-webkit/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-53110-up-default-tool-is-selected-webkit/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                        "column": 30,
+                        "line": 49
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fbc7d466f762fa3d6786-325da87f6d32abcae8cf",
+              "file": "app-loads.spec.ts",
+              "line": 43,
+              "column": 3
+            },
+            {
+              "title": "can switch between tools",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 13,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 22838,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveClass\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-tool=\"select\"]')\nExpected pattern: \u001b[32m/active/\u001b[39m\nReceived string:  \u001b[31m\"tool-btn\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveClass\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-tool=\"select\"]')\u001b[22m\n\u001b[2m    8 × locator resolved to <button class=\"tool-btn\" data-tool=\"select\" aria-pressed=\"false\" aria-label=\"Select tool\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"tool-btn\"\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveClass\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-tool=\"select\"]')\nExpected pattern: \u001b[32m/active/\u001b[39m\nReceived string:  \u001b[31m\"tool-btn\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveClass\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-tool=\"select\"]')\u001b[22m\n\u001b[2m    8 × locator resolved to <button class=\"tool-btn\" data-tool=\"select\" aria-pressed=\"false\" aria-label=\"Select tool\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"tool-btn\"\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:57:56",
+                        "location": {
+                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                          "column": 56,
+                          "line": 57
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 55 |\u001b[39m\n \u001b[90m 56 |\u001b[39m     \u001b[90m// Start with select tool active\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 57 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-tool=\"select\"]'\u001b[39m))\u001b[33m.\u001b[39mtoHaveClass(\u001b[35m/active/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 58 |\u001b[39m\n \u001b[90m 59 |\u001b[39m     \u001b[90m// Click rectangle tool\u001b[39m\n \u001b[90m 60 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-tool=\"rectangle\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                            "column": 56,
+                            "line": 57
+                          },
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveClass\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-tool=\"select\"]')\nExpected pattern: \u001b[32m/active/\u001b[39m\nReceived string:  \u001b[31m\"tool-btn\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveClass\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-tool=\"select\"]')\u001b[22m\n\u001b[2m    8 × locator resolved to <button class=\"tool-btn\" data-tool=\"select\" aria-pressed=\"false\" aria-label=\"Select tool\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"tool-btn\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 55 |\u001b[39m\n \u001b[90m 56 |\u001b[39m     \u001b[90m// Start with select tool active\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 57 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-tool=\"select\"]'\u001b[39m))\u001b[33m.\u001b[39mtoHaveClass(\u001b[35m/active/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 58 |\u001b[39m\n \u001b[90m 59 |\u001b[39m     \u001b[90m// Click rectangle tool\u001b[39m\n \u001b[90m 60 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-tool=\"rectangle\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts:57:56\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T14:06:46.210Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-308f5-up-can-switch-between-tools-webkit/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-308f5-up-can-switch-between-tools-webkit/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/hlorella/code/wis/wis/test-results/app-loads-Drawing-Applicat-308f5-up-can-switch-between-tools-webkit/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/app-loads.spec.ts",
+                        "column": 56,
+                        "line": 57
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "fbc7d466f762fa3d6786-eda739358c35732426e0",
+              "file": "app-loads.spec.ts",
+              "line": 52,
+              "column": 3
+            },
+            {
+              "title": "console has no errors on load",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 14,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4750,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-29T14:07:10.608Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "fbc7d466f762fa3d6786-6e5f4f61f863d0e8b21f",
+              "file": "app-loads.spec.ts",
+              "line": 75,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-06-29T14:06:09.337Z",
+    "duration": 67304.634,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 13,
+    "flaky": 0
+  }
+}
