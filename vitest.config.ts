@@ -4,10 +4,16 @@ export default defineConfig({
   test: {
     environment: 'happy-dom',
     globals: true,
-    setupFiles: [],
+    setupFiles: ['tests/setup.ts'],
     coverage: { 
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
+      thresholds: {
+        lines: 80,
+        functions: 80,
+        branches: 75,
+        statements: 80
+      },
       exclude: [
         'coverage/**',
         'dist/**',
