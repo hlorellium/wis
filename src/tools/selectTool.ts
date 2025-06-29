@@ -6,9 +6,6 @@ import { HIT_CONFIG } from '../constants';
 
 export class SelectTool {
     private coordinateTransformer: CoordinateTransformer;
-    private dragStart: { x: number; y: number } | null = null;
-    private dragCurrent: { x: number; y: number } | null = null;
-    private isDragging = false;
 
     constructor(canvas: HTMLCanvasElement) {
         this.coordinateTransformer = new CoordinateTransformer(canvas);
@@ -18,10 +15,10 @@ export class SelectTool {
         if (e.button === 0 && (state.tool === 'select' || state.tool === 'edit')) {
             const worldPos = this.coordinateTransformer.screenToWorld(e.clientX, e.clientY, state);
             
-            // Start drag operation
-            this.dragStart = { x: worldPos.x, y: worldPos.y };
-            this.dragCurrent = { x: worldPos.x, y: worldPos.y };
-            this.isDragging = true;
+            // Start drag operation in state
+            state.ui.selectionDrag.isActive = true;
+            state.ui.selectionDrag.start = { x: worldPos.x, y: worldPos.y };
+            state.ui.selectionDrag.current = { x: worldPos.x, y: worldPos.y };
             
             // Check for single-click hit test with small tolerance
             const clickTolerance = HIT_CONFIG.CLICK_TOLERANCE;
@@ -31,9 +28,9 @@ export class SelectTool {
                     // Single click on shape - select it and exit early
                     SelectionManager.setSelection(state, [shapes[i].id]);
                     console.log('selected', state.selection);
-                    this.isDragging = false;
-                    this.dragStart = null;
-                    this.dragCurrent = null;
+                    state.ui.selectionDrag.isActive = false;
+                    state.ui.selectionDrag.start = null;
+                    state.ui.selectionDrag.current = null;
                     return true;
                 }
             }
@@ -42,9 +39,9 @@ export class SelectTool {
             if (state.tool === 'edit') {
                 const result = SelectionManager.clear(state);
                 console.log('cleared selection (click on empty space in edit mode)');
-                this.isDragging = false;
-                this.dragStart = null;
-                this.dragCurrent = null;
+                state.ui.selectionDrag.isActive = false;
+                state.ui.selectionDrag.start = null;
+                state.ui.selectionDrag.current = null;
                 return true;
             }
             
@@ -54,24 +51,24 @@ export class SelectTool {
     }
 
     handleMouseMove(e: MouseEvent, state: State): boolean {
-        if (this.isDragging && (state.tool === 'select' || state.tool === 'edit')) {
+        if (state.ui.selectionDrag.isActive && (state.tool === 'select' || state.tool === 'edit')) {
             const worldPos = this.coordinateTransformer.screenToWorld(e.clientX, e.clientY, state);
-            this.dragCurrent = { x: worldPos.x, y: worldPos.y };
+            state.ui.selectionDrag.current = { x: worldPos.x, y: worldPos.y };
             return state.tool === 'select'; // Only return true for select mode to show drag preview
         }
         return false;
     }
 
     handleMouseUp(state: State): boolean {
-        if (this.isDragging && (state.tool === 'select' || state.tool === 'edit')) {
+        if (state.ui.selectionDrag.isActive && (state.tool === 'select' || state.tool === 'edit')) {
             // Only perform drag selection in select mode, not in edit mode
             if (state.tool === 'select') {
                 this.performDragSelection(state);
             } else if (state.tool === 'edit') {
                 // In edit mode, if there was a significant drag, clear selection
-                if (this.dragStart && this.dragCurrent) {
-                    const dragDistance = Math.abs(this.dragCurrent.x - this.dragStart.x) + 
-                                       Math.abs(this.dragCurrent.y - this.dragStart.y);
+                if (state.ui.selectionDrag.start && state.ui.selectionDrag.current) {
+                    const dragDistance = Math.abs(state.ui.selectionDrag.current.x - state.ui.selectionDrag.start.x) + 
+                                       Math.abs(state.ui.selectionDrag.current.y - state.ui.selectionDrag.start.y);
                     if (dragDistance > HIT_CONFIG.DRAG_THRESHOLD) {
                         SelectionManager.clear(state);
                         console.log('cleared selection (drag in edit mode)');
@@ -79,9 +76,9 @@ export class SelectTool {
                 }
             }
             
-            this.isDragging = false;
-            this.dragStart = null;
-            this.dragCurrent = null;
+            state.ui.selectionDrag.isActive = false;
+            state.ui.selectionDrag.start = null;
+            state.ui.selectionDrag.current = null;
             return true;
         }
         return false;
@@ -168,19 +165,19 @@ export class SelectTool {
     }
 
     private performDragSelection(state: State): void {
-        if (!this.dragStart || !this.dragCurrent) return;
+        if (!state.ui.selectionDrag.start || !state.ui.selectionDrag.current) return;
 
         // Create selection rectangle
         const selectionRect: BoundingBox = {
-            x: Math.min(this.dragStart.x, this.dragCurrent.x),
-            y: Math.min(this.dragStart.y, this.dragCurrent.y),
-            width: Math.abs(this.dragCurrent.x - this.dragStart.x),
-            height: Math.abs(this.dragCurrent.y - this.dragStart.y)
+            x: Math.min(state.ui.selectionDrag.start.x, state.ui.selectionDrag.current.x),
+            y: Math.min(state.ui.selectionDrag.start.y, state.ui.selectionDrag.current.y),
+            width: Math.abs(state.ui.selectionDrag.current.x - state.ui.selectionDrag.start.x),
+            height: Math.abs(state.ui.selectionDrag.current.y - state.ui.selectionDrag.start.y)
         };
 
         // Determine selection mode based on drag direction
-        const isWindow = this.dragStart.x < this.dragCurrent.x; // Left-to-right = window
-        const isCrossing = this.dragStart.x > this.dragCurrent.x; // Right-to-left = crossing
+        const isWindow = state.ui.selectionDrag.start.x < state.ui.selectionDrag.current.x; // Left-to-right = window
+        const isCrossing = state.ui.selectionDrag.start.x > state.ui.selectionDrag.current.x; // Right-to-left = crossing
 
         // If no significant drag, clear selection
         if (selectionRect.width < HIT_CONFIG.SELECTION_RECT_MIN && selectionRect.height < HIT_CONFIG.SELECTION_RECT_MIN) {
@@ -235,22 +232,16 @@ export class SelectTool {
         }
     }
 
-    // Getter for current drag state (for renderer to show preview)
+    // Getter for current drag state (for backward compatibility)
     getDragState(): { start: { x: number; y: number }; current: { x: number; y: number }; isDragging: boolean } | null {
-        if (!this.isDragging || !this.dragStart || !this.dragCurrent) {
-            return null;
-        }
-        return {
-            start: this.dragStart,
-            current: this.dragCurrent,
-            isDragging: this.isDragging
-        };
+        // This method is deprecated - state.ui.selectionDrag should be used directly
+        return null;
     }
 
     // Cancel any active drag operation
-    cancelDrag(): void {
-        this.isDragging = false;
-        this.dragStart = null;
-        this.dragCurrent = null;
+    cancelDrag(state: State): void {
+        state.ui.selectionDrag.isActive = false;
+        state.ui.selectionDrag.start = null;
+        state.ui.selectionDrag.current = null;
     }
 }

@@ -89,8 +89,11 @@ class DrawingApp {
     }
 
     private initialize() {
-        // Setup canvas resizing
-        this.canvasSetup.setupResizeObserver(() => this.render());
+        // Setup canvas resizing - trigger state change to cause re-render
+        this.canvasSetup.setupResizeObserver(() => {
+            // Trigger a state change to force re-render via StateProxy
+            this.state.view = { ...this.state.view };
+        });
         this.canvasSetup.resizeCanvases();
 
         // Setup tool management
@@ -106,8 +109,8 @@ class DrawingApp {
         // Setup input handling
         this.mouseHandler.setupEventListeners(this.canvasSetup.getCanvas(), this.state);
         
-        // Set force render callback for selection rectangle preview
-        this.mouseHandler.setForceRenderCallback(() => this.render(true));
+        // MouseHandler will update state.ui.selectionDrag for preview rendering
+        // No direct render callback needed - StateProxy handles all rendering
 
         // Setup keyboard shortcuts
         this.setupKeyboardShortcuts();
@@ -115,9 +118,9 @@ class DrawingApp {
         // Setup persistence
         this.setupPersistence();
 
-        // Subscribe to state change events to trigger re-renders
+        // Subscribe to state change events for UI updates (history buttons only)
+        // Note: StateProxy handles all rendering automatically
         eventBus.subscribe('stateChanged', () => {
-            this.render(true);
             this.toolManager.updateHistoryButtons();
         });
 

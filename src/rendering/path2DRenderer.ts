@@ -200,16 +200,14 @@ export class Path2DRenderer {
 
     private renderSelectionRectPreview(ctx: CanvasRenderingContext2D, state: State, selectTool?: SelectTool) {
         // Only render selection preview when the select tool is active and dragging
-        if (!selectTool || state.tool !== 'select') {
+        if (state.tool !== 'select' || !state.ui.selectionDrag.isActive) {
             return;
         }
 
-        const dragState = selectTool.getDragState();
-        if (!dragState || !dragState.isDragging) {
+        const { start, current } = state.ui.selectionDrag;
+        if (!start || !current) {
             return;
         }
-
-        const { start, current } = dragState;
         
         // Calculate rectangle bounds
         const x = Math.min(start.x, current.x);

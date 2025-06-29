@@ -17,6 +17,13 @@ export function createTestState(): State {
       isDragging: false,
       isGroupMove: false,
       dragStart: null
+    },
+    ui: {
+      selectionDrag: {
+        isActive: false,
+        start: null,
+        current: null
+      }
     }
   };
 }

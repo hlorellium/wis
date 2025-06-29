@@ -8,7 +8,7 @@ const STORE_NAME = 'state';
 const STATE_KEY = 'snapshot';
 
 // Schema versioning
-const CURRENT_SCHEMA_VERSION = 3;
+const CURRENT_SCHEMA_VERSION = 4;
 
 type PersistedState = {
     schemaVersion: number;
@@ -151,9 +151,13 @@ export class PersistenceManager {
         try {
             if (persistedState.schemaVersion === 1) {
                 const v2State = this.migrateV1toV2(persistedState);
-                return v2State ? this.migrateV2toV3(v2State) : null;
+                const v3State = v2State ? this.migrateV2toV3(v2State) : null;
+                return v3State ? this.migrateV3toV4(v3State) : null;
             } else if (persistedState.schemaVersion === 2) {
-                return this.migrateV2toV3(persistedState);
+                const v3State = this.migrateV2toV3(persistedState);
+                return v3State ? this.migrateV3toV4(v3State) : null;
+            } else if (persistedState.schemaVersion === 3) {
+                return this.migrateV3toV4(persistedState);
             }
             // Add more migrations here as needed
             logger.warn(`No migration path from version ${persistedState.schemaVersion} to ${CURRENT_SCHEMA_VERSION}`, 'PersistenceManager');
@@ -175,7 +179,8 @@ export class PersistenceManager {
                 data: legacyState
             };
             const v2State = this.migrateV1toV2(v1State);
-            return v2State ? this.migrateV2toV3(v2State) : null;
+            const v3State = v2State ? this.migrateV2toV3(v2State) : null;
+            return v3State ? this.migrateV3toV4(v3State) : null;
         } catch (error) {
             logger.warn('Legacy state migration failed', 'PersistenceManager', error);
             return null;
@@ -229,6 +234,29 @@ export class PersistenceManager {
     }
 
     /**
+     * Migrate from version 3 to version 4
+     * Main change: add ui field for unified rendering architecture
+     */
+    private migrateV3toV4(v3State: PersistedState): PersistedState {
+        const state = JSON.parse(JSON.stringify(v3State.data));
+        
+        // Add ui field with defaults
+        state.ui = {
+            selectionDrag: {
+                isActive: false,
+                start: null,
+                current: null
+            }
+        };
+
+        logger.info('Migrated state from v3 to v4', 'PersistenceManager');
+        return {
+            schemaVersion: 4,
+            data: state
+        };
+    }
+
+    /**
      * Normalize state to ensure runtime invariants
      */
     private normalizeState(state: any): State {
@@ -245,6 +273,23 @@ export class PersistenceManager {
                 isDragging: false,
                 isGroupMove: false,
                 dragStart: null
+            };
+        }
+
+        // Ensure ui field exists with defaults
+        if (!state.ui || typeof state.ui !== 'object') {
+            state.ui = {
+                selectionDrag: {
+                    isActive: false,
+                    start: null,
+                    current: null
+                }
+            };
+        } else if (!state.ui.selectionDrag || typeof state.ui.selectionDrag !== 'object') {
+            state.ui.selectionDrag = {
+                isActive: false,
+                start: null,
+                current: null
             };
         }
 
@@ -270,7 +315,11 @@ export class PersistenceManager {
             typeof state.tool === 'string' &&
             state.currentDrawing &&
             state.hasOwnProperty('selection') &&
-            Array.isArray(state.selection)
+            Array.isArray(state.selection) &&
+            state.ui &&
+            typeof state.ui === 'object' &&
+            state.ui.selectionDrag &&
+            typeof state.ui.selectionDrag === 'object'
         );
     }
 }

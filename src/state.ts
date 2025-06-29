@@ -68,6 +68,13 @@ export type State = {
         isGroupMove: boolean;
         dragStart: { x: number; y: number } | null;
     };
+    ui: {
+        selectionDrag: {
+            isActive: boolean;
+            start: { x: number; y: number } | null;
+            current: { x: number; y: number } | null;
+        };
+    };
 };
 
 export const initialState: State = {
@@ -95,6 +102,13 @@ export const initialState: State = {
         isDragging: false,
         isGroupMove: false,
         dragStart: null
+    },
+    ui: {
+        selectionDrag: {
+            isActive: false,
+            start: null,
+            current: null
+        }
     }
 };
 

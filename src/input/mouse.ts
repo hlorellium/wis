@@ -17,8 +17,6 @@ export class MouseHandler {
     private editTool: EditTool;
     private toolManager: ToolManager;
     private executor: CommandExecutor;
-    private forceRenderCallback?: () => void;
-
     constructor(
         canvas: HTMLCanvasElement,
         toolManager: ToolManager,
@@ -32,11 +30,6 @@ export class MouseHandler {
         this.editTool = new EditTool(canvas, executor, renderer, onHistoryChange);
         this.toolManager = toolManager;
         this.executor = executor;
-    }
-
-    // Set callback to force re-renders during drag operations
-    setForceRenderCallback(callback: () => void) {
-        this.forceRenderCallback = callback;
     }
 
     setupEventListeners(canvas: HTMLCanvasElement, state: State) {
@@ -67,7 +60,7 @@ export class MouseHandler {
             if (hit) {
                 this.toolManager.setActiveTool('edit', state);
                 // Clear any active selection drag state when entering edit mode
-                this.selectTool.cancelDrag();
+                this.selectTool.cancelDrag(state);
                 // fall through to edit handler
             }
         }
@@ -118,7 +111,7 @@ export class MouseHandler {
                     // Switch to edit mode
                     this.toolManager.setActiveTool('edit', state);
                     // Clear any active selection drag state when entering edit mode
-                    this.selectTool.cancelDrag();
+                    this.selectTool.cancelDrag(state);
                     console.log('Entered edit mode for shape:', shape.id);
                     return;
                 }
@@ -127,24 +120,17 @@ export class MouseHandler {
     }
 
     private handleMouseMove(e: MouseEvent, state: State) {
-        let shouldForceRender = false;
-        
         // Handle edit tool first when in edit mode
         if (state.tool === 'edit') {
-            const editHandled = this.editTool.handleMouseMove(e, state);
-            if (editHandled) {
-                shouldForceRender = true;
-            }
+            this.editTool.handleMouseMove(e, state);
         }
         
-        const selectToolHandled = this.selectTool.handleMouseMove(e, state);
+        this.selectTool.handleMouseMove(e, state);
         this.panTool.handleMouseMove(e, state);
         this.drawingTools.handleMouseMove(e, state);
         
-        // Force re-render if SelectTool or EditTool is dragging
-        if ((selectToolHandled || shouldForceRender) && this.forceRenderCallback) {
-            this.forceRenderCallback();
-        }
+        // Note: SelectTool and EditTool now update state directly for preview rendering
+        // StateProxy automatically triggers re-renders when state changes
     }
 
     private handleMouseUp(state: State) {

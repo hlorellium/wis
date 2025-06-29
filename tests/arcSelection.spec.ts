@@ -4,6 +4,7 @@ import { EditTool } from '../src/tools/editTool';
 import type { State, BezierCurveShape, CircleShape } from '../src/state';
 import { generateId } from '../src/constants';
 import { SelectionManager } from '../src/utils/selectionManager';
+import { createTestState } from './helpers';
 
 // Mock canvas and dependencies
 const mockCanvas = {
@@ -31,20 +32,8 @@ describe('Arc Selection and Circle Editing', () => {
         selectTool = new SelectTool(mockCanvas);
         editTool = new EditTool(mockCanvas, mockExecutor, mockRenderer, mockOnHistoryChange);
         
-        state = {
-            scene: { shapes: [] },
-            view: { panX: 0, panY: 0, zoom: 1 },
-            tool: 'select',
-            currentDrawing: { shape: null, type: null },
-            selection: [],
-            currentEditing: {
-                shapeId: null,
-                vertexIndex: null,
-                isDragging: false,
-                isGroupMove: false,
-                dragStart: null
-            }
-        };
+        state = createTestState();
+        state.tool = 'select';
     });
 
     describe('Bezier/Arc Selection', () => {

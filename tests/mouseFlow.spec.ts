@@ -59,9 +59,8 @@ describe('MouseFlow Integration Tests', () => {
         toolManager = new ToolManager(canvas, executor, history);
         mouseHandler = new MouseHandler(canvas, toolManager, executor, renderer);
         
-        // Mock force render callback
+        // Note: Force render callback is no longer needed - StateProxy handles all rendering
         mockForceRender = vi.fn();
-        mouseHandler.setForceRenderCallback(mockForceRender);
         
         // Setup event listeners
         mouseHandler.setupEventListeners(canvas, state);
@@ -274,39 +273,48 @@ describe('MouseFlow Integration Tests', () => {
         });
     });
 
-    describe('Force Render Callbacks', () => {
-        it('should trigger force render during drag selection', () => {
-            mockForceRender.mockClear();
-            
+    describe('State-Driven Rendering', () => {
+        it('should update state during drag selection (StateProxy handles rendering)', () => {
             // Start drag selection
             const dragStartEvent = createMouseEvent('mousedown', 5, 5);
             canvas.dispatchEvent(dragStartEvent);
+            
+            // State should show active selection drag
+            expect(state.ui.selectionDrag.isActive).toBe(true);
+            expect(state.ui.selectionDrag.start).toEqual({ x: 5, y: 5 });
             
             // Move during drag
             const dragMoveEvent = createMouseEvent('mousemove', 35, 35);
             window.dispatchEvent(dragMoveEvent);
             
-            // Should have triggered force render during the drag
-            expect(mockForceRender).toHaveBeenCalled();
+            // State should be updated with current drag position
+            expect(state.ui.selectionDrag.current).toEqual({ x: 35, y: 35 });
+            
+            // End drag
+            window.dispatchEvent(new MouseEvent('mouseup'));
+            
+            // Selection drag should be cleared
+            expect(state.ui.selectionDrag.isActive).toBe(false);
         });
 
-        it('should trigger force render during edit mode dragging', () => {
+        it('should update state during edit mode interactions (StateProxy handles rendering)', () => {
             // Setup: in edit mode with selection
             SelectionManager.setSelection(state, [state.scene.shapes[0].id]);
             state.tool = 'edit';
             
-            mockForceRender.mockClear();
-            
-            // Start drag on a shape handle/area
+            // Start interaction on a shape
             const dragStartEvent = createMouseEvent('mousedown', 20, 20);
             canvas.dispatchEvent(dragStartEvent);
             
-            // Move during drag
+            // State should reflect edit tool is handling the interaction
+            expect(state.currentEditing.isDragging || state.ui.selectionDrag.isActive).toBe(true);
+            
+            // Move during interaction
             const dragMoveEvent = createMouseEvent('mousemove', 25, 25);
             window.dispatchEvent(dragMoveEvent);
             
-            // Should have triggered force render during the edit drag
-            expect(mockForceRender).toHaveBeenCalled();
+            // State mutations trigger rendering via StateProxy automatically
+            // No manual force render calls needed
         });
     });
 });
