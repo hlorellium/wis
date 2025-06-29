@@ -92,12 +92,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1742,
+                      "duration": 1805,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:07.268Z",
+                      "startTime": "2025-06-29T14:37:45.721Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -126,12 +126,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1528,
+                      "duration": 1505,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:07.283Z",
+                      "startTime": "2025-06-29T14:37:45.714Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -160,12 +160,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1553,
+                      "duration": 1641,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:07.280Z",
+                      "startTime": "2025-06-29T14:37:45.721Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -194,12 +194,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 2213,
+                      "duration": 2223,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:07.268Z",
+                      "startTime": "2025-06-29T14:37:45.714Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -228,12 +228,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2392,
+                      "duration": 2482,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:09.237Z",
+                      "startTime": "2025-06-29T14:37:47.553Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -279,12 +279,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1526,
+                      "duration": 1555,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:09.282Z",
+                      "startTime": "2025-06-29T14:37:47.713Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -313,12 +313,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1449,
+                      "duration": 1516,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:09.430Z",
+                      "startTime": "2025-06-29T14:37:47.858Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -347,12 +347,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1398,
+                      "duration": 1419,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:09.946Z",
+                      "startTime": "2025-06-29T14:37:48.328Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -381,12 +381,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1610,
+                      "duration": 1522,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:10.819Z",
+                      "startTime": "2025-06-29T14:37:49.289Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -415,12 +415,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1591,
+                      "duration": 1514,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:10.925Z",
+                      "startTime": "2025-06-29T14:37:49.388Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -449,12 +449,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1478,
+                      "duration": 1572,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:11.358Z",
+                      "startTime": "2025-06-29T14:37:49.761Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -483,12 +483,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1756,
+                      "duration": 1796,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:11.652Z",
+                      "startTime": "2025-06-29T14:37:50.062Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -534,12 +534,12 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 4375,
+                      "duration": 4441,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:12.451Z",
+                      "startTime": "2025-06-29T14:37:50.834Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -568,7 +568,7 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "timedOut",
-                      "duration": 30188,
+                      "duration": 30160,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -583,24 +583,24 @@
                             "column": 17,
                             "line": 78
                           },
-                          "message": "Error: page.click: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"undo\"]')\u001b[22m\n\u001b[2m    - locator resolved to <button disabled class=\"tool-btn\" data-action=\"undo\" aria-label=\"Undo (⌘Z)\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    54 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n\u001b[0m \u001b[90m 76 |\u001b[39m\n \u001b[90m 77 |\u001b[39m     \u001b[90m// Undo in tab 2\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 78 |\u001b[39m     \u001b[36mawait\u001b[39m page2\u001b[33m.\u001b[39mclick(\u001b[32m'[data-action=\"undo\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 79 |\u001b[39m\n \u001b[90m 80 |\u001b[39m     \u001b[90m// Wait for sync back to tab 1\u001b[39m\n \u001b[90m 81 |\u001b[39m     \u001b[36mawait\u001b[39m page1\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts:78:17\u001b[22m"
+                          "message": "Error: page.click: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"undo\"]')\u001b[22m\n\u001b[2m    - locator resolved to <button disabled class=\"tool-btn\" data-action=\"undo\" aria-label=\"Undo (⌘Z)\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    53 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n\u001b[0m \u001b[90m 76 |\u001b[39m\n \u001b[90m 77 |\u001b[39m     \u001b[90m// Undo in tab 2\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 78 |\u001b[39m     \u001b[36mawait\u001b[39m page2\u001b[33m.\u001b[39mclick(\u001b[32m'[data-action=\"undo\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 79 |\u001b[39m\n \u001b[90m 80 |\u001b[39m     \u001b[90m// Wait for sync back to tab 1\u001b[39m\n \u001b[90m 81 |\u001b[39m     \u001b[36mawait\u001b[39m page1\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts:78:17\u001b[22m"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:16.835Z",
+                      "startTime": "2025-06-29T14:37:55.285Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/multi-tab-sync-Drawing-App-84894-operations-sync-across-tabs-chromium/test-failed-2.png"
+                          "path": "/Users/hlorella/code/wis/wis/test-results/multi-tab-sync-Drawing-App-84894-operations-sync-across-tabs-chromium/test-failed-1.png"
                         },
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/multi-tab-sync-Drawing-App-84894-operations-sync-across-tabs-chromium/test-failed-1.png"
+                          "path": "/Users/hlorella/code/wis/wis/test-results/multi-tab-sync-Drawing-App-84894-operations-sync-across-tabs-chromium/test-failed-2.png"
                         },
                         {
                           "name": "error-context",
@@ -634,12 +634,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3872,
+                      "duration": 3862,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:12.544Z",
+                      "startTime": "2025-06-29T14:37:50.940Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -668,12 +668,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3467,
+                      "duration": 3742,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:16.427Z",
+                      "startTime": "2025-06-29T14:37:54.814Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -688,7 +688,7 @@
             },
             {
               "title": "edit mode operations sync across tabs",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -701,58 +701,18 @@
                     {
                       "workerIndex": 3,
                       "parallelIndex": 3,
-                      "status": "failed",
-                      "duration": 1311,
-                      "error": {
-                        "message": "Error: locator.hover: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"1280\" height=\"720\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"1280\" height=\"720\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n",
-                        "stack": "Error: locator.hover: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"1280\" height=\"720\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"1280\" height=\"720\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts:191:19",
-                        "location": {
-                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts",
-                          "column": 19,
-                          "line": 191
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 189 |\u001b[39m     \u001b[36mconst\u001b[39m canvas1 \u001b[33m=\u001b[39m page1\u001b[33m.\u001b[39mlocator(\u001b[32m'canvas'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 190 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 191 |\u001b[39m     \u001b[36mawait\u001b[39m canvas1\u001b[33m.\u001b[39mhover({ position\u001b[33m:\u001b[39m { x\u001b[33m:\u001b[39m \u001b[35m100\u001b[39m\u001b[33m,\u001b[39m y\u001b[33m:\u001b[39m \u001b[35m100\u001b[39m } })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 192 |\u001b[39m     \u001b[36mawait\u001b[39m page1\u001b[33m.\u001b[39mmouse\u001b[33m.\u001b[39mdown()\u001b[33m;\u001b[39m\n \u001b[90m 193 |\u001b[39m     \u001b[36mawait\u001b[39m canvas1\u001b[33m.\u001b[39mhover({ position\u001b[33m:\u001b[39m { x\u001b[33m:\u001b[39m \u001b[35m200\u001b[39m\u001b[33m,\u001b[39m y\u001b[33m:\u001b[39m \u001b[35m150\u001b[39m } })\u001b[33m;\u001b[39m\n \u001b[90m 194 |\u001b[39m     \u001b[36mawait\u001b[39m page1\u001b[33m.\u001b[39mmouse\u001b[33m.\u001b[39mup()\u001b[33m;\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts",
-                            "column": 19,
-                            "line": 191
-                          },
-                          "message": "Error: locator.hover: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"1280\" height=\"720\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"1280\" height=\"720\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n\n\n\u001b[0m \u001b[90m 189 |\u001b[39m     \u001b[36mconst\u001b[39m canvas1 \u001b[33m=\u001b[39m page1\u001b[33m.\u001b[39mlocator(\u001b[32m'canvas'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 190 |\u001b[39m     \n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 191 |\u001b[39m     \u001b[36mawait\u001b[39m canvas1\u001b[33m.\u001b[39mhover({ position\u001b[33m:\u001b[39m { x\u001b[33m:\u001b[39m \u001b[35m100\u001b[39m\u001b[33m,\u001b[39m y\u001b[33m:\u001b[39m \u001b[35m100\u001b[39m } })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 192 |\u001b[39m     \u001b[36mawait\u001b[39m page1\u001b[33m.\u001b[39mmouse\u001b[33m.\u001b[39mdown()\u001b[33m;\u001b[39m\n \u001b[90m 193 |\u001b[39m     \u001b[36mawait\u001b[39m canvas1\u001b[33m.\u001b[39mhover({ position\u001b[33m:\u001b[39m { x\u001b[33m:\u001b[39m \u001b[35m200\u001b[39m\u001b[33m,\u001b[39m y\u001b[33m:\u001b[39m \u001b[35m150\u001b[39m } })\u001b[33m;\u001b[39m\n \u001b[90m 194 |\u001b[39m     \u001b[36mawait\u001b[39m page1\u001b[33m.\u001b[39mmouse\u001b[33m.\u001b[39mup()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts:191:19\u001b[22m"
-                        }
-                      ],
+                      "status": "passed",
+                      "duration": 4236,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:12.864Z",
+                      "startTime": "2025-06-29T14:37:51.345Z",
                       "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/multi-tab-sync-Drawing-App-e380a-operations-sync-across-tabs-chromium/test-failed-2.png"
-                        },
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/multi-tab-sync-Drawing-App-e380a-operations-sync-across-tabs-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/multi-tab-sync-Drawing-App-e380a-operations-sync-across-tabs-chromium/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts",
-                        "column": 19,
-                        "line": 191
-                      }
+                      "attachments": []
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "f4980c4bb96007f3a3a6-8cfa12ab50ee0af73514",
@@ -762,7 +722,7 @@
             },
             {
               "title": "multiple concurrent operations handle conflicts gracefully",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -773,77 +733,25 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 4,
+                      "workerIndex": 3,
                       "parallelIndex": 3,
-                      "status": "failed",
-                      "duration": 1446,
-                      "error": {
-                        "message": "Error: locator.hover: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"1280\" height=\"720\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"1280\" height=\"720\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n",
-                        "stack": "Error: locator.hover: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"1280\" height=\"720\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"1280\" height=\"720\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n\n    at /Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts:242:21\n    at /Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts:246:6",
-                        "location": {
-                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts",
-                          "column": 21,
-                          "line": 242
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 240 |\u001b[39m     \u001b[36mawait\u001b[39m page1\u001b[33m.\u001b[39mclick(\u001b[32m'[data-tool=\"rectangle\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 241 |\u001b[39m     \u001b[36mconst\u001b[39m rect1Promise \u001b[33m=\u001b[39m (\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 242 |\u001b[39m       \u001b[36mawait\u001b[39m canvas1\u001b[33m.\u001b[39mhover({ position\u001b[33m:\u001b[39m { x\u001b[33m:\u001b[39m \u001b[35m50\u001b[39m\u001b[33m,\u001b[39m y\u001b[33m:\u001b[39m \u001b[35m50\u001b[39m } })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 243 |\u001b[39m       \u001b[36mawait\u001b[39m page1\u001b[33m.\u001b[39mmouse\u001b[33m.\u001b[39mdown()\u001b[33m;\u001b[39m\n \u001b[90m 244 |\u001b[39m       \u001b[36mawait\u001b[39m canvas1\u001b[33m.\u001b[39mhover({ position\u001b[33m:\u001b[39m { x\u001b[33m:\u001b[39m \u001b[35m100\u001b[39m\u001b[33m,\u001b[39m y\u001b[33m:\u001b[39m \u001b[35m100\u001b[39m } })\u001b[33m;\u001b[39m\n \u001b[90m 245 |\u001b[39m       \u001b[36mawait\u001b[39m page1\u001b[33m.\u001b[39mmouse\u001b[33m.\u001b[39mup()\u001b[33m;\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts",
-                            "column": 21,
-                            "line": 242
-                          },
-                          "message": "Error: locator.hover: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"1280\" height=\"720\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"1280\" height=\"720\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n\n\n\u001b[0m \u001b[90m 240 |\u001b[39m     \u001b[36mawait\u001b[39m page1\u001b[33m.\u001b[39mclick(\u001b[32m'[data-tool=\"rectangle\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 241 |\u001b[39m     \u001b[36mconst\u001b[39m rect1Promise \u001b[33m=\u001b[39m (\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 242 |\u001b[39m       \u001b[36mawait\u001b[39m canvas1\u001b[33m.\u001b[39mhover({ position\u001b[33m:\u001b[39m { x\u001b[33m:\u001b[39m \u001b[35m50\u001b[39m\u001b[33m,\u001b[39m y\u001b[33m:\u001b[39m \u001b[35m50\u001b[39m } })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 243 |\u001b[39m       \u001b[36mawait\u001b[39m page1\u001b[33m.\u001b[39mmouse\u001b[33m.\u001b[39mdown()\u001b[33m;\u001b[39m\n \u001b[90m 244 |\u001b[39m       \u001b[36mawait\u001b[39m canvas1\u001b[33m.\u001b[39mhover({ position\u001b[33m:\u001b[39m { x\u001b[33m:\u001b[39m \u001b[35m100\u001b[39m\u001b[33m,\u001b[39m y\u001b[33m:\u001b[39m \u001b[35m100\u001b[39m } })\u001b[33m;\u001b[39m\n \u001b[90m 245 |\u001b[39m       \u001b[36mawait\u001b[39m page1\u001b[33m.\u001b[39mmouse\u001b[33m.\u001b[39mup()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts:242:21\u001b[22m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts:246:6\u001b[22m"
-                        },
-                        {
-                          "location": {
-                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts",
-                            "column": 21,
-                            "line": 242
-                          },
-                          "message": "Error: locator.hover: Error: strict mode violation: locator('canvas') resolved to 2 elements:\n    1) <canvas width=\"1280\" height=\"720\" id=\"bg-canvas\"></canvas> aka locator('#bg-canvas')\n    2) <canvas id=\"canvas\" width=\"1280\" height=\"720\"></canvas> aka locator('#canvas')\n\nCall log:\n\u001b[2m  - waiting for locator('canvas')\u001b[22m\n\n\n\u001b[0m \u001b[90m 240 |\u001b[39m     \u001b[36mawait\u001b[39m page1\u001b[33m.\u001b[39mclick(\u001b[32m'[data-tool=\"rectangle\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 241 |\u001b[39m     \u001b[36mconst\u001b[39m rect1Promise \u001b[33m=\u001b[39m (\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 242 |\u001b[39m       \u001b[36mawait\u001b[39m canvas1\u001b[33m.\u001b[39mhover({ position\u001b[33m:\u001b[39m { x\u001b[33m:\u001b[39m \u001b[35m50\u001b[39m\u001b[33m,\u001b[39m y\u001b[33m:\u001b[39m \u001b[35m50\u001b[39m } })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 243 |\u001b[39m       \u001b[36mawait\u001b[39m page1\u001b[33m.\u001b[39mmouse\u001b[33m.\u001b[39mdown()\u001b[33m;\u001b[39m\n \u001b[90m 244 |\u001b[39m       \u001b[36mawait\u001b[39m canvas1\u001b[33m.\u001b[39mhover({ position\u001b[33m:\u001b[39m { x\u001b[33m:\u001b[39m \u001b[35m100\u001b[39m\u001b[33m,\u001b[39m y\u001b[33m:\u001b[39m \u001b[35m100\u001b[39m } })\u001b[33m;\u001b[39m\n \u001b[90m 245 |\u001b[39m       \u001b[36mawait\u001b[39m page1\u001b[33m.\u001b[39mmouse\u001b[33m.\u001b[39mup()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts:242:21\u001b[22m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts:246:6\u001b[22m"
-                        }
-                      ],
+                      "status": "passed",
+                      "duration": 7715,
+                      "errors": [],
                       "stdout": [],
-                      "stderr": [
-                        {
-                          "text": "(node:90987) PromiseRejectionHandledWarning: Promise rejection was handled asynchronously (rejection id: 1)\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
-                        }
-                      ],
+                      "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:15.340Z",
+                      "startTime": "2025-06-29T14:37:55.602Z",
                       "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/multi-tab-sync-Drawing-App-4d325-handle-conflicts-gracefully-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/multi-tab-sync-Drawing-App-4d325-handle-conflicts-gracefully-chromium/test-failed-2.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/multi-tab-sync-Drawing-App-4d325-handle-conflicts-gracefully-chromium/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/multi-tab-sync.spec.ts",
-                        "column": 21,
-                        "line": 242
-                      }
+                      "attachments": []
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "f4980c4bb96007f3a3a6-918d1a76057225b6a8d0",
               "file": "multi-tab-sync.spec.ts",
-              "line": 226,
+              "line": 204,
               "column": 3
             }
           ]
@@ -865,7 +773,7 @@
           "specs": [
             {
               "title": "drawing persists after page reload",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -878,50 +786,18 @@
                     {
                       "workerIndex": 1,
                       "parallelIndex": 1,
-                      "status": "timedOut",
-                      "duration": 32177,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts",
-                            "column": 18,
-                            "line": 30
-                          },
-                          "message": "Error: locator.hover: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#canvas')\u001b[22m\n\u001b[2m    - locator resolved to <canvas id=\"canvas\" width=\"1280\" height=\"720\"></canvas>\u001b[22m\n\u001b[2m  - attempting hover action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and stable\u001b[22m\n\u001b[2m      - element is visible and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <button class=\"tool-btn\" data-action=\"undo\" aria-label=\"Undo (⌘Z)\">…</button> from <div id=\"app\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying hover action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and stable\u001b[22m\n\u001b[2m      - element is visible and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <button class=\"tool-btn\" data-action=\"undo\" aria-label=\"Undo (⌘Z)\">…</button> from <div id=\"app\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying hover action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    56 × waiting for element to be visible and stable\u001b[22m\n\u001b[2m       - element is visible and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <button class=\"tool-btn\" data-action=\"undo\" aria-label=\"Undo (⌘Z)\">…</button> from <div id=\"app\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying hover action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n\u001b[0m \u001b[90m 28 |\u001b[39m     \u001b[36mawait\u001b[39m clickToolAndExpectActive(page\u001b[33m,\u001b[39m \u001b[32m'line'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 29 |\u001b[39m     \u001b[36mconst\u001b[39m canvas \u001b[33m=\u001b[39m getMainCanvas(page)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 30 |\u001b[39m     \u001b[36mawait\u001b[39m canvas\u001b[33m.\u001b[39mhover({ position\u001b[33m:\u001b[39m { x\u001b[33m:\u001b[39m \u001b[35m300\u001b[39m\u001b[33m,\u001b[39m y\u001b[33m:\u001b[39m \u001b[35m50\u001b[39m } })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 31 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mmouse\u001b[33m.\u001b[39mdown()\u001b[33m;\u001b[39m\n \u001b[90m 32 |\u001b[39m     \u001b[36mawait\u001b[39m canvas\u001b[33m.\u001b[39mhover({ position\u001b[33m:\u001b[39m { x\u001b[33m:\u001b[39m \u001b[35m400\u001b[39m\u001b[33m,\u001b[39m y\u001b[33m:\u001b[39m \u001b[35m150\u001b[39m } })\u001b[33m;\u001b[39m\n \u001b[90m 33 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mmouse\u001b[33m.\u001b[39mup()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts:30:18\u001b[22m"
-                        }
-                      ],
+                      "status": "passed",
+                      "duration": 3771,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:13.458Z",
+                      "startTime": "2025-06-29T14:37:51.873Z",
                       "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/persistence-Drawing-Applic-0dbfc--persists-after-page-reload-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/persistence-Drawing-Applic-0dbfc--persists-after-page-reload-chromium/video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/persistence-Drawing-Applic-0dbfc--persists-after-page-reload-chromium/error-context.md"
-                        }
-                      ]
+                      "attachments": []
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "a5ef73a4e2a1baaea746-1073f1fa42f4c8a2a04c",
@@ -942,10 +818,10 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 3,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "timedOut",
-                      "duration": 31219,
+                      "duration": 31278,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -958,15 +834,15 @@
                           "location": {
                             "file": "/Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts",
                             "column": 16,
-                            "line": 76
+                            "line": 79
                           },
-                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"undo\"]')\u001b[22m\n\u001b[2m    - locator resolved to <button disabled class=\"tool-btn\" data-action=\"undo\" aria-label=\"Undo (⌘Z)\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    52 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n\u001b[0m \u001b[90m 74 |\u001b[39m\n \u001b[90m 75 |\u001b[39m     \u001b[90m// After reload, undo should work to remove the circle\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 76 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-action=\"undo\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 77 |\u001b[39m     \n \u001b[90m 78 |\u001b[39m     \u001b[90m// Switch to select and verify circle is gone, rectangle remains\u001b[39m\n \u001b[90m 79 |\u001b[39m     \u001b[36mawait\u001b[39m clickToolAndExpectActive(page\u001b[33m,\u001b[39m \u001b[32m'select'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts:76:16\u001b[22m"
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"undo\"]')\u001b[22m\n\u001b[2m    - locator resolved to <button disabled class=\"tool-btn\" data-action=\"undo\" aria-label=\"Undo (⌘Z)\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    51 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n\u001b[0m \u001b[90m 77 |\u001b[39m\n \u001b[90m 78 |\u001b[39m     \u001b[90m// After reload, undo should work to remove the circle\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 79 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-action=\"undo\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 80 |\u001b[39m     \n \u001b[90m 81 |\u001b[39m     \u001b[90m// Switch to select and verify circle is gone, rectangle remains\u001b[39m\n \u001b[90m 82 |\u001b[39m     \u001b[36mawait\u001b[39m clickToolAndExpectActive(page\u001b[33m,\u001b[39m \u001b[32m'select'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts:79:16\u001b[22m"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:18.066Z",
+                      "startTime": "2025-06-29T14:37:55.652Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -992,12 +868,12 @@
               ],
               "id": "a5ef73a4e2a1baaea746-743e746e4c8b85c142fb",
               "file": "persistence.spec.ts",
-              "line": 58,
+              "line": 61,
               "column": 3
             },
             {
               "title": "app handles IndexedDB not being available gracefully",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -1010,63 +886,23 @@
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 1631,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m1\u001b[39m\nReceived array:  \u001b[31m[\"[IndexedDbStore] IndexedDB initialization failed TypeError: Cannot read properties of null (reading 'open')\u001b[39m\n\u001b[31m    at http://localhost:5173/src/persistence/indexedDbStore.ts?t=1751204985052:26:35\u001b[39m\n\u001b[31m    at new Promise (<anonymous>)\u001b[39m\n\u001b[31m    at IndexedDbStore.initializeDatabase (http://localhost:5173/src/persistence/indexedDbStore.ts?t=1751204985052:24:21)\u001b[39m\n\u001b[31m    at new IndexedDbStore (http://localhost:5173/src/persistence/indexedDbStore.ts?t=1751204985052:10:27)\u001b[39m\n\u001b[31m    at new PersistenceManager (http://localhost:5173/src/persistence/persistenceManager.ts?t=1751204999757:11:18)\u001b[39m\n\u001b[31m    at new DrawingApp (http://localhost:5173/src/main.ts?t=1751205257728:32:24)\u001b[39m\n\u001b[31m    at http://localhost:5173/src/main.ts?t=1751205257728:181:1\"]\u001b[39m",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m1\u001b[39m\nReceived array:  \u001b[31m[\"[IndexedDbStore] IndexedDB initialization failed TypeError: Cannot read properties of null (reading 'open')\u001b[39m\n\u001b[31m    at http://localhost:5173/src/persistence/indexedDbStore.ts?t=1751204985052:26:35\u001b[39m\n\u001b[31m    at new Promise (<anonymous>)\u001b[39m\n\u001b[31m    at IndexedDbStore.initializeDatabase (http://localhost:5173/src/persistence/indexedDbStore.ts?t=1751204985052:24:21)\u001b[39m\n\u001b[31m    at new IndexedDbStore (http://localhost:5173/src/persistence/indexedDbStore.ts?t=1751204985052:10:27)\u001b[39m\n\u001b[31m    at new PersistenceManager (http://localhost:5173/src/persistence/persistenceManager.ts?t=1751204999757:11:18)\u001b[39m\n\u001b[31m    at new DrawingApp (http://localhost:5173/src/main.ts?t=1751205257728:32:24)\u001b[39m\n\u001b[31m    at http://localhost:5173/src/main.ts?t=1751205257728:181:1\"]\u001b[39m\n    at /Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts:132:25",
-                        "location": {
-                          "file": "/Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts",
-                          "column": 25,
-                          "line": 132
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 130 |\u001b[39m       error\u001b[33m.\u001b[39mincludes(\u001b[32m'TypeError'\u001b[39m)\n \u001b[90m 131 |\u001b[39m     )\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 132 |\u001b[39m     expect(fatalErrors)\u001b[33m.\u001b[39mtoHaveLength(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 133 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 134 |\u001b[39m\n \u001b[90m 135 |\u001b[39m   test(\u001b[32m'app recovers from corrupted storage data'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts",
-                            "column": 25,
-                            "line": 132
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m1\u001b[39m\nReceived array:  \u001b[31m[\"[IndexedDbStore] IndexedDB initialization failed TypeError: Cannot read properties of null (reading 'open')\u001b[39m\n\u001b[31m    at http://localhost:5173/src/persistence/indexedDbStore.ts?t=1751204985052:26:35\u001b[39m\n\u001b[31m    at new Promise (<anonymous>)\u001b[39m\n\u001b[31m    at IndexedDbStore.initializeDatabase (http://localhost:5173/src/persistence/indexedDbStore.ts?t=1751204985052:24:21)\u001b[39m\n\u001b[31m    at new IndexedDbStore (http://localhost:5173/src/persistence/indexedDbStore.ts?t=1751204985052:10:27)\u001b[39m\n\u001b[31m    at new PersistenceManager (http://localhost:5173/src/persistence/persistenceManager.ts?t=1751204999757:11:18)\u001b[39m\n\u001b[31m    at new DrawingApp (http://localhost:5173/src/main.ts?t=1751205257728:32:24)\u001b[39m\n\u001b[31m    at http://localhost:5173/src/main.ts?t=1751205257728:181:1\"]\u001b[39m\n\n\u001b[0m \u001b[90m 130 |\u001b[39m       error\u001b[33m.\u001b[39mincludes(\u001b[32m'TypeError'\u001b[39m)\n \u001b[90m 131 |\u001b[39m     )\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 132 |\u001b[39m     expect(fatalErrors)\u001b[33m.\u001b[39mtoHaveLength(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 133 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 134 |\u001b[39m\n \u001b[90m 135 |\u001b[39m   test(\u001b[32m'app recovers from corrupted storage data'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts:132:25\u001b[22m"
-                        }
-                      ],
+                      "status": "passed",
+                      "duration": 1795,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:19.917Z",
+                      "startTime": "2025-06-29T14:37:58.572Z",
                       "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/persistence-Drawing-Applic-c678c--being-available-gracefully-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/persistence-Drawing-Applic-c678c--being-available-gracefully-chromium/video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/hlorella/code/wis/wis/test-results/persistence-Drawing-Applic-c678c--being-available-gracefully-chromium/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts",
-                        "column": 25,
-                        "line": 132
-                      }
+                      "attachments": []
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "a5ef73a4e2a1baaea746-147e90f6cf4227858316",
               "file": "persistence.spec.ts",
-              "line": 94,
+              "line": 97,
               "column": 3
             },
             {
@@ -1082,15 +918,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 6,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3743,
+                      "duration": 4000,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:22.632Z",
+                      "startTime": "2025-06-29T14:38:00.374Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1100,7 +936,7 @@
               ],
               "id": "a5ef73a4e2a1baaea746-1e7d630db3db94aed618",
               "file": "persistence.spec.ts",
-              "line": 135,
+              "line": 138,
               "column": 3
             },
             {
@@ -1116,15 +952,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 6,
-                      "parallelIndex": 0,
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 6182,
+                      "duration": 7381,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:26.619Z",
+                      "startTime": "2025-06-29T14:38:03.338Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1134,7 +970,7 @@
               ],
               "id": "a5ef73a4e2a1baaea746-8af6f231dd8a1053f651",
               "file": "persistence.spec.ts",
-              "line": 172,
+              "line": 175,
               "column": 3
             },
             {
@@ -1150,15 +986,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 6,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3954,
+                      "duration": 4312,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:32.811Z",
+                      "startTime": "2025-06-29T14:38:04.386Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1168,7 +1004,7 @@
               ],
               "id": "a5ef73a4e2a1baaea746-c2b562a28aae3cb4ec30",
               "file": "persistence.spec.ts",
-              "line": 204,
+              "line": 207,
               "column": 3
             },
             {
@@ -1184,10 +1020,10 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 6,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 31356,
+                      "duration": 31279,
                       "error": {
                         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
@@ -1200,15 +1036,15 @@
                           "location": {
                             "file": "/Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts",
                             "column": 18,
-                            "line": 232
+                            "line": 235
                           },
-                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"undo\"]')\u001b[22m\n\u001b[2m    - locator resolved to <button disabled class=\"tool-btn\" data-action=\"undo\" aria-label=\"Undo (⌘Z)\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    56 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n\u001b[0m \u001b[90m 230 |\u001b[39m       \n \u001b[90m 231 |\u001b[39m       \u001b[90m// Rapidly undo/redo\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 232 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-action=\"undo\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 233 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-action=\"redo\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 234 |\u001b[39m     }\n \u001b[90m 235 |\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts:232:18\u001b[22m"
+                          "message": "Error: page.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"undo\"]')\u001b[22m\n\u001b[2m    - locator resolved to <button disabled class=\"tool-btn\" data-action=\"undo\" aria-label=\"Undo (⌘Z)\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    55 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n\u001b[0m \u001b[90m 233 |\u001b[39m       \n \u001b[90m 234 |\u001b[39m       \u001b[90m// Rapidly undo/redo\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 235 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-action=\"undo\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 236 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mclick(\u001b[32m'[data-action=\"redo\"]'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 237 |\u001b[39m     }\n \u001b[90m 238 |\u001b[39m\u001b[0m\n\u001b[2m    at /Users/hlorella/code/wis/wis/tests/e2e/persistence.spec.ts:235:18\u001b[22m"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-29T14:35:36.779Z",
+                      "startTime": "2025-06-29T14:38:08.723Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1234,7 +1070,7 @@
               ],
               "id": "a5ef73a4e2a1baaea746-19fb3be99b5e27229ac8",
               "file": "persistence.spec.ts",
-              "line": 223,
+              "line": 226,
               "column": 3
             }
           ]
@@ -1244,11 +1080,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-06-29T14:35:05.974Z",
-    "duration": 62247.612,
-    "expected": 18,
+    "startTime": "2025-06-29T14:37:44.414Z",
+    "duration": 55659.818,
+    "expected": 22,
     "skipped": 0,
-    "unexpected": 7,
+    "unexpected": 3,
     "flaky": 0
   }
 }

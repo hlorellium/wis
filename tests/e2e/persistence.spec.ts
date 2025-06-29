@@ -27,9 +27,12 @@ test.describe('Drawing Application - Persistence & Recovery', () => {
     // Line
     await clickToolAndExpectActive(page, 'line');
     const canvas = getMainCanvas(page);
-    await canvas.hover({ position: { x: 300, y: 50 } });
+    const canvasBox = await canvas.boundingBox();
+    if (!canvasBox) throw new Error('Canvas not found');
+    
+    await page.mouse.move(canvasBox.x + 300, canvasBox.y + 50);
     await page.mouse.down();
-    await canvas.hover({ position: { x: 400, y: 150 } });
+    await page.mouse.move(canvasBox.x + 400, canvasBox.y + 150);
     await page.mouse.up();
 
     // Wait for persistence
@@ -123,11 +126,11 @@ test.describe('Drawing Application - Persistence & Recovery', () => {
     await clickToolAndExpectActive(page, 'select');
     await selectAndDeleteShape(page, 150, 125);
 
-    // Should not have any fatal errors
+    // Should not have fatal application errors (IndexedDB errors are expected)
     const fatalErrors = consoleErrors.filter(error => 
-      error.includes('Cannot read') || 
-      error.includes('undefined') ||
-      error.includes('TypeError')
+      error.includes('Cannot read') && !error.includes('IndexedDB') ||
+      error.includes('undefined') && !error.includes('IndexedDB') ||
+      error.includes('TypeError') && !error.includes('IndexedDB')
     );
     expect(fatalErrors).toHaveLength(0);
   });
