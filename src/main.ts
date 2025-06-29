@@ -1,4 +1,4 @@
-import { initialState, type State } from './state';
+import { initialState, type State, migrateState } from './state';
 import { createStateProxy } from './stateProxy';
 import { CanvasSetup } from './canvas/setup';
 import { BackgroundRenderer } from './rendering/background';
@@ -45,7 +45,7 @@ class DrawingApp {
 
         // Try to load persisted state
         const persistedState = await this.persistence.loadState();
-        const stateToUse = persistedState || initialState;
+        const stateToUse = persistedState ? migrateState(persistedState) : initialState;
         
         logger.info(persistedState ? 'Restored state from IndexedDB' : 'Using initial state', 'DrawingApp');
 

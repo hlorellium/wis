@@ -132,4 +132,36 @@ export const initialState: State = {
     }
 };
 
+/**
+ * Migrates an old state object to include new properties with default values
+ * This ensures backwards compatibility when loading persisted states
+ */
+export function migrateState(state: any): State {
+    const migrated = { ...state };
+    
+    // Ensure all new style properties exist with defaults
+    if (migrated.fillMode === undefined) {
+        migrated.fillMode = 'stroke';
+    }
+    if (migrated.strokeColor === undefined) {
+        migrated.strokeColor = '#000000';
+    }
+    if (migrated.fillColor === undefined) {
+        migrated.fillColor = '#000000';
+    }
+    if (migrated.strokeStyle === undefined) {
+        migrated.strokeStyle = 'solid';
+    }
+    if (migrated.strokeWidth === undefined) {
+        migrated.strokeWidth = 2;
+    }
+    
+    // Ensure currentColor exists (was added in previous update)
+    if (migrated.currentColor === undefined) {
+        migrated.currentColor = '#000000';
+    }
+    
+    return migrated as State;
+}
+
 export { generateId };

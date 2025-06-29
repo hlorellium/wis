@@ -165,3 +165,24 @@ The architecture is designed for easy extension:
 - Efficient canvas state management
 - No impact on existing rendering performance
 - Style properties only computed when shapes use them
+
+## Bug Fixes Applied
+
+### State Initialization Issues (Fixed)
+- **Problem**: New style properties were undefined when the app loaded, causing errors in color pickers and style controls
+- **Solution**: Added `migrateState()` function to ensure all new properties have default values
+- **Implementation**: 
+  - Created migration function in `src/state.ts`
+  - Updated `src/main.ts` to use migration when loading persisted state
+  - All existing saved states are automatically migrated with proper defaults
+
+### Error Details Fixed
+1. **Color picker error**: "The specified value 'undefined' does not conform to required format #rrggbb"
+   - Fixed by ensuring `strokeColor` and `fillColor` always have valid hex values
+2. **Stroke width error**: "Cannot read properties of undefined (reading 'toString')"
+   - Fixed by ensuring `strokeWidth` always has a numeric value
+
+### Testing
+- All existing tests continue to pass (22/22 ToolManager tests, 30/30 DrawingTools tests)
+- New integration tests added to verify fill/stroke functionality (5/5 tests passing)
+- Backwards compatibility verified with legacy shape handling
