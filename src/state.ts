@@ -2,6 +2,7 @@
 type BaseShape = {
     id: string;
     color: string;
+    zIndex: number; // Layer order - higher values render on top
     // Style properties (optional for backwards compatibility)
     fillMode?: 'stroke' | 'fill' | 'both';
     strokeColor?: string;
@@ -96,10 +97,10 @@ export type State = {
 export const initialState: State = {
     scene: {
         shapes: [
-            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 10, y: 10, width: 20, height: 20 },
-            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 30, y: 30, width: 20, height: 20 },
-            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 50, y: 50, width: 20, height: 20 },
-            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 70, y: 70, width: 20, height: 20 },
+            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 10, y: 10, width: 20, height: 20, zIndex: 1 },
+            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 30, y: 30, width: 20, height: 20, zIndex: 2 },
+            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 50, y: 50, width: 20, height: 20, zIndex: 3 },
+            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 70, y: 70, width: 20, height: 20, zIndex: 4 },
         ]
     },
     view: {
@@ -172,6 +173,17 @@ export function migrateState(state: any): State {
     }
     if (migrated.currentEditing && migrated.currentEditing.originalShapes === undefined) {
         migrated.currentEditing.originalShapes = null;
+    }
+    
+    // Migrate shapes to include zIndex if missing
+    if (migrated.scene && migrated.scene.shapes) {
+        migrated.scene.shapes = migrated.scene.shapes.map((shape: any, index: number) => {
+            if (shape.zIndex === undefined) {
+                // Assign zIndex based on current array order to preserve existing layer order
+                return { ...shape, zIndex: index + 1 };
+            }
+            return shape;
+        });
     }
     
     return migrated as State;

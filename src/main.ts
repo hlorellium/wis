@@ -11,6 +11,7 @@ import { SyncManager } from './sync/syncManager';
 import { PersistenceManager } from './persistence/persistenceManager';
 import { RenderingEventHandler } from './rendering/renderingEventHandler';
 import { PropertyInspector } from './ui/propertyInspector';
+import { LayerOperations } from './commands/layerCommands';
 import { getRequiredElement } from './utils/dom';
 import { logger } from './utils/logger';
 import { eventBus } from './utils/eventBus';
@@ -200,6 +201,15 @@ class DrawingApp {
                 this.history.redo(this.state);
                 this.toolManager.updateHistoryButtons();
             }
+            // Layer shortcuts
+            else if ((e.ctrlKey || e.metaKey) && e.key === ']') {
+                e.preventDefault();
+                this.handleLayerShortcut(e.shiftKey ? 'bring-to-front' : 'bring-forward');
+            }
+            else if ((e.ctrlKey || e.metaKey) && e.key === '[') {
+                e.preventDefault();
+                this.handleLayerShortcut(e.shiftKey ? 'send-to-back' : 'send-backward');
+            }
         });
     }
 
@@ -274,6 +284,31 @@ class DrawingApp {
                 }
             }, 300);
         }, 5000);
+    }
+
+    private handleLayerShortcut(action: 'bring-to-front' | 'bring-forward' | 'send-backward' | 'send-to-back') {
+        if (this.state.selection.length === 0) return;
+
+        let command = null;
+
+        switch (action) {
+            case 'bring-to-front':
+                command = LayerOperations.bringToFront(this.state, this.state.selection);
+                break;
+            case 'bring-forward':
+                command = LayerOperations.bringForward(this.state, this.state.selection);
+                break;
+            case 'send-backward':
+                command = LayerOperations.sendBackward(this.state, this.state.selection);
+                break;
+            case 'send-to-back':
+                command = LayerOperations.sendToBack(this.state, this.state.selection);
+                break;
+        }
+
+        if (command) {
+            this.executor.execute(command, this.state, 'local');
+        }
     }
 
     private render(force: boolean = false) {

@@ -24,8 +24,9 @@ export class Path2DRenderer {
         ctx.translate(state.view.panX, state.view.panY);
         ctx.scale(state.view.zoom, state.view.zoom);
 
-        // Render all shapes using Path2D
-        state.scene.shapes.forEach(shape => {
+        // Render all shapes sorted by zIndex (lowest to highest)
+        const sortedShapes = [...state.scene.shapes].sort((a, b) => a.zIndex - b.zIndex);
+        sortedShapes.forEach(shape => {
             this.renderShape(ctx, shape, state);
         });
 

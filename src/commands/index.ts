@@ -19,6 +19,7 @@ export { DeleteShapeCommand } from './deleteShapeCommand';
 export { MoveShapesCommand } from './moveShapesCommand';
 export { MoveVertexCommand } from './moveVertexCommand';
 export { UpdateShapePropertiesCommand } from './updateShapePropertiesCommand';
+export { ChangeLayerCommand, LayerOperations } from './layerCommands';
 
 export class AddShapeCommand implements Command {
     public readonly id: string;

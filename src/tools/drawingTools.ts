@@ -1,7 +1,7 @@
 import type { State, LineShape, RectangleShape, CircleShape, BezierCurveShape } from '../state';
 import { CoordinateTransformer } from '../canvas/coordinates';
 import { generateId } from '../state';
-import { AddShapeCommand } from '../commands';
+import { AddShapeCommand, LayerOperations } from '../commands';
 import { CommandExecutor } from '../commandExecutor';
 import { PALETTE } from '../constants';
 
@@ -52,12 +52,15 @@ export class DrawingTools {
     }
 
     private initializeDrawing(state: State) {
+        const nextZIndex = LayerOperations.getNextZIndex(state.scene.shapes);
+        
         switch (state.tool) {
             case 'line':
                 state.currentDrawing.shape = {
                     id: generateId(),
                     type: 'line',
                     color: state.currentColor,
+                    zIndex: nextZIndex,
                     strokeColor: state.strokeColor,
                     strokeStyle: state.strokeStyle,
                     strokeWidth: state.strokeWidth,
@@ -73,6 +76,7 @@ export class DrawingTools {
                     id: generateId(),
                     type: 'rectangle',
                     color: state.currentColor,
+                    zIndex: nextZIndex,
                     fillMode: state.fillMode,
                     strokeColor: state.strokeColor,
                     fillColor: state.fillColor,
@@ -90,6 +94,7 @@ export class DrawingTools {
                     id: generateId(),
                     type: 'circle',
                     color: state.currentColor,
+                    zIndex: nextZIndex,
                     fillMode: state.fillMode,
                     strokeColor: state.strokeColor,
                     fillColor: state.fillColor,
@@ -106,6 +111,7 @@ export class DrawingTools {
                     id: generateId(),
                     type: 'bezier',
                     color: state.currentColor,
+                    zIndex: nextZIndex,
                     strokeColor: state.strokeColor,
                     strokeStyle: state.strokeStyle,
                     strokeWidth: state.strokeWidth,

@@ -1,6 +1,7 @@
 import type { State, Shape, RectangleShape, LineShape, CircleShape, BezierCurveShape } from '../state';
 import type { CommandExecutor } from '../commandExecutor';
 import { UpdateShapePropertiesCommand, type ShapePropertyUpdate } from '../commands/updateShapePropertiesCommand';
+import { LayerOperations } from '../commands/layerCommands';
 import { getRequiredElement } from '../utils/dom';
 
 export class PropertyInspector {
@@ -108,6 +109,7 @@ export class PropertyInspector {
             
             ${this.buildPositionSection(shape)}
             ${this.buildDimensionSection(shape)}
+            ${this.buildLayerSection()}
             ${this.buildStyleSection(shape)}
         `;
     }
@@ -119,6 +121,7 @@ export class PropertyInspector {
                 <div class="property-id">${shapes.length} shapes selected</div>
             </div>
             
+            ${this.buildLayerSection()}
             ${this.buildStyleSection(commonProps)}
         `;
     }
@@ -253,6 +256,44 @@ export class PropertyInspector {
         }
     }
 
+    private buildLayerSection(): string {
+        return `
+            <div class="property-section">
+                <label class="property-label">Layer</label>
+                <div class="property-layer-controls">
+                    <button class="layer-btn" data-layer-action="bring-to-front" title="Bring to Front (⇧⌘])">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 3h18v4H3V3zm0 14h18v4H3v-4z" fill="currentColor"/>
+                            <path d="M7 9h10v6H7V9z" fill="currentColor" opacity="0.5"/>
+                        </svg>
+                        To Front
+                    </button>
+                    <button class="layer-btn" data-layer-action="bring-forward" title="Bring Forward (⌘])">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 8h18v4H3V8z" fill="currentColor"/>
+                            <path d="M7 12h10v4H7v-4z" fill="currentColor" opacity="0.5"/>
+                        </svg>
+                        Forward
+                    </button>
+                    <button class="layer-btn" data-layer-action="send-backward" title="Send Backward (⌘[)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M7 8h10v4H7V8z" fill="currentColor" opacity="0.5"/>
+                            <path d="M3 12h18v4H3v-4z" fill="currentColor"/>
+                        </svg>
+                        Backward
+                    </button>
+                    <button class="layer-btn" data-layer-action="send-to-back" title="Send to Back (⇧⌘[)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M7 3h10v6H7V3z" fill="currentColor" opacity="0.5"/>
+                            <path d="M3 17h18v4H3v-4z" fill="currentColor"/>
+                        </svg>
+                        To Back
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
     private buildStyleSection(shape: Shape | any): string {
         const strokeColor = shape.strokeColor || shape.color || '#000000';
         const fillColor = shape.fillColor || shape.color || '#000000';
@@ -357,6 +398,14 @@ export class PropertyInspector {
                 this.debouncedUpdateProperty(e);
             });
         });
+
+        // Bind layer control button events
+        const layerButtons = this.element.querySelectorAll('[data-layer-action]');
+        layerButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                this.handleLayerAction(e);
+            });
+        });
     }
 
     private debouncedUpdateProperty(e: Event): void {
@@ -412,6 +461,38 @@ export class PropertyInspector {
 
         if (updates.length > 0) {
             const command = new UpdateShapePropertiesCommand(updates);
+            this.executor.execute(command, this.state, 'local');
+        }
+    }
+
+    private handleLayerAction(e: Event): void {
+        e.preventDefault();
+        
+        if (!this.state || this.currentSelection.length === 0) return;
+
+        const button = e.target as HTMLButtonElement;
+        const action = button.closest('[data-layer-action]')?.getAttribute('data-layer-action');
+        
+        if (!action) return;
+
+        let command = null;
+
+        switch (action) {
+            case 'bring-to-front':
+                command = LayerOperations.bringToFront(this.state, this.currentSelection);
+                break;
+            case 'bring-forward':
+                command = LayerOperations.bringForward(this.state, this.currentSelection);
+                break;
+            case 'send-backward':
+                command = LayerOperations.sendBackward(this.state, this.currentSelection);
+                break;
+            case 'send-to-back':
+                command = LayerOperations.sendToBack(this.state, this.currentSelection);
+                break;
+        }
+
+        if (command) {
             this.executor.execute(command, this.state, 'local');
         }
     }
