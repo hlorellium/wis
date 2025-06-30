@@ -21,10 +21,7 @@ export class BinaryShapeArray extends Array<BinaryShapeWrapper> {
     push(...items: BinaryShapeWrapper[]): number {
         // Store buffers for efficient access
         items.forEach(item => {
-            // Check if item has getBuffer method (is a BinaryShapeWrapper)
-            if (item && typeof item.getBuffer === 'function') {
-                this.bufferStore.set(item.id, item.getBuffer());
-            }
+            this.bufferStore.set(item.id, item.getBuffer());
         });
         
         // Call parent method which will trigger StateProxy
@@ -47,10 +44,7 @@ export class BinaryShapeArray extends Array<BinaryShapeWrapper> {
         
         // Store buffers for new items
         items.forEach(item => {
-            // Check if item has getBuffer method (is a BinaryShapeWrapper)
-            if (item && typeof item.getBuffer === 'function') {
-                this.bufferStore.set(item.id, item.getBuffer());
-            }
+            this.bufferStore.set(item.id, item.getBuffer());
         });
         
         // Call parent method which will trigger StateProxy
@@ -84,10 +78,7 @@ export class BinaryShapeArray extends Array<BinaryShapeWrapper> {
      */
     unshift(...items: BinaryShapeWrapper[]): number {
         items.forEach(item => {
-            // Check if item has getBuffer method (is a BinaryShapeWrapper)
-            if (item && typeof item.getBuffer === 'function') {
-                this.bufferStore.set(item.id, item.getBuffer());
-            }
+            this.bufferStore.set(item.id, item.getBuffer());
         });
         return super.unshift(...items);
     }
@@ -115,12 +106,7 @@ export class BinaryShapeArray extends Array<BinaryShapeWrapper> {
      * Get all buffers for efficient rendering
      */
     getAllBuffers(): ArrayBuffer[] {
-        return this.map(shape => {
-            if (shape && typeof shape.getBuffer === 'function') {
-                return shape.getBuffer();
-            }
-            return null;
-        }).filter(buffer => buffer !== null) as ArrayBuffer[];
+        return this.map(shape => shape.getBuffer());
     }
 
     /**

@@ -1,22 +1,51 @@
-// Binary shape imports
-import { BinaryShapeWrapper } from './core/binary/binaryShapeWrapper';
-import { BinaryShapeArray } from './core/binary/binaryShapeArray';
-import { ShapeMigration, type LegacyShape } from './core/binary/shapeMigration';
+// Base shape interface with common properties
+type BaseShape = {
+    id: string;
+    color: string;
+    // Style properties (optional for backwards compatibility)
+    fillMode?: 'stroke' | 'fill' | 'both';
+    strokeColor?: string;
+    fillColor?: string;
+    strokeStyle?: 'solid' | 'dotted';
+    strokeWidth?: number;
+};
 
-// Main Shape type is now BinaryShapeWrapper
-export type Shape = BinaryShapeWrapper;
+// Discriminated union types for each shape
+export type RectangleShape = BaseShape & {
+    type: 'rectangle';
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+};
 
-// Legacy types for backward compatibility
-export type { LegacyShape };
-export type RectangleShape = LegacyShape & { type: 'rectangle' };
-export type LineShape = LegacyShape & { type: 'line' };
-export type CircleShape = LegacyShape & { type: 'circle' };
-export type BezierCurveShape = LegacyShape & { type: 'bezier' };
+export type LineShape = BaseShape & {
+    type: 'line';
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+};
 
-// Legacy geometry types
-export type Rectangle = { x: number; y: number; width: number; height: number };
-export type Line = { x1: number; y1: number; x2: number; y2: number };
-export type Circle = { x: number; y: number; radius: number };
+export type CircleShape = BaseShape & {
+    type: 'circle';
+    x: number;
+    y: number;
+    radius: number;
+};
+
+export type BezierCurveShape = BaseShape & {
+    type: 'bezier';
+    points: { x: number; y: number }[]; // [p0, cp1, cp2, p1]
+};
+
+// Main Shape discriminated union
+export type Shape = RectangleShape | LineShape | CircleShape | BezierCurveShape;
+
+// Legacy type exports for backward compatibility (if needed)
+export type Rectangle = Omit<RectangleShape, 'id' | 'color' | 'type'>;
+export type Line = Omit<LineShape, 'id' | 'color' | 'type'>;
+export type Circle = Omit<CircleShape, 'id' | 'color' | 'type'>;
 
 import type { Tool } from './constants';
 import { generateId } from './constants';
@@ -25,7 +54,7 @@ export type { Tool };
 
 export type State = {
     scene: {
-        shapes: BinaryShapeArray;
+        shapes: Shape[];
     },
     view: {
         panX: number;
@@ -64,36 +93,14 @@ export type State = {
     };
 };
 
-// Create initial binary shapes
-const createInitialShapes = (): BinaryShapeArray => {
-    const shapes = new BinaryShapeArray();
-    const defaultStyles = {
-        fillMode: 'stroke' as const,
-        strokeColor: '#f00',
-        fillColor: '#f00', 
-        strokeStyle: 'solid' as const,
-        strokeWidth: 2
-    };
-    
-    // Create 4 initial rectangles using binary format
-    const rects = [
-        { x: 10, y: 10, width: 20, height: 20 },
-        { x: 30, y: 30, width: 20, height: 20 },
-        { x: 50, y: 50, width: 20, height: 20 },
-        { x: 70, y: 70, width: 20, height: 20 }
-    ];
-    
-    for (const rect of rects) {
-        const shape = ShapeMigration.createBinaryShape('rectangle', rect, defaultStyles);
-        shapes.push(shape);
-    }
-    
-    return shapes;
-};
-
 export const initialState: State = {
     scene: {
-        shapes: createInitialShapes()
+        shapes: [
+            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 10, y: 10, width: 20, height: 20 },
+            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 30, y: 30, width: 20, height: 20 },
+            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 50, y: 50, width: 20, height: 20 },
+            { id: generateId(), type: 'rectangle' as const, color: '#f00', x: 70, y: 70, width: 20, height: 20 },
+        ]
     },
     view: {
         panX: 0, panY: 0,   // in CSS px
@@ -165,15 +172,6 @@ export function migrateState(state: any): State {
     }
     if (migrated.currentEditing && migrated.currentEditing.originalShapes === undefined) {
         migrated.currentEditing.originalShapes = null;
-    }
-    
-    // Convert legacy shapes to binary format if needed
-    if (migrated.scene && migrated.scene.shapes) {
-        if (Array.isArray(migrated.scene.shapes) && !(migrated.scene.shapes instanceof BinaryShapeArray)) {
-            // Convert legacy array to binary shapes
-            console.log('Migrating legacy shapes to binary format...');
-            migrated.scene.shapes = ShapeMigration.legacyArrayToBinary(migrated.scene.shapes);
-        }
     }
     
     return migrated as State;

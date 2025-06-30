@@ -1,5 +1,4 @@
-import type { State, Shape } from '../state';
-import { ShapeMigration } from '../core/binary/shapeMigration';
+import type { State, LineShape, RectangleShape, CircleShape, BezierCurveShape } from '../state';
 import { CoordinateTransformer } from '../canvas/coordinates';
 import { generateId } from '../state';
 import { AddShapeCommand } from '../commands';
@@ -53,50 +52,70 @@ export class DrawingTools {
     }
 
     private initializeDrawing(state: State) {
-        const styles = {
-            fillMode: state.fillMode,
-            strokeColor: state.strokeColor,
-            fillColor: state.fillColor,
-            strokeStyle: state.strokeStyle,
-            strokeWidth: state.strokeWidth
-        };
-
         switch (state.tool) {
             case 'line':
-                state.currentDrawing.shape = ShapeMigration.createBinaryShape('line', {
+                state.currentDrawing.shape = {
+                    id: generateId(),
+                    type: 'line',
+                    color: state.currentColor,
+                    strokeColor: state.strokeColor,
+                    strokeStyle: state.strokeStyle,
+                    strokeWidth: state.strokeWidth,
                     x1: this.startWorldX,
                     y1: this.startWorldY,
                     x2: this.startWorldX,
                     y2: this.startWorldY
-                }, styles);
+                } as LineShape;
                 state.currentDrawing.type = 'line';
                 break;
             case 'rectangle':
-                state.currentDrawing.shape = ShapeMigration.createBinaryShape('rectangle', {
+                state.currentDrawing.shape = {
+                    id: generateId(),
+                    type: 'rectangle',
+                    color: state.currentColor,
+                    fillMode: state.fillMode,
+                    strokeColor: state.strokeColor,
+                    fillColor: state.fillColor,
+                    strokeStyle: state.strokeStyle,
+                    strokeWidth: state.strokeWidth,
                     x: this.startWorldX,
                     y: this.startWorldY,
                     width: 0,
                     height: 0
-                }, styles);
+                } as RectangleShape;
                 state.currentDrawing.type = 'rectangle';
                 break;
             case 'circle':
-                state.currentDrawing.shape = ShapeMigration.createBinaryShape('circle', {
+                state.currentDrawing.shape = {
+                    id: generateId(),
+                    type: 'circle',
+                    color: state.currentColor,
+                    fillMode: state.fillMode,
+                    strokeColor: state.strokeColor,
+                    fillColor: state.fillColor,
+                    strokeStyle: state.strokeStyle,
+                    strokeWidth: state.strokeWidth,
                     x: this.startWorldX,
                     y: this.startWorldY,
                     radius: 0
-                }, styles);
+                } as CircleShape;
                 state.currentDrawing.type = 'circle';
                 break;
             case 'curve':
-                state.currentDrawing.shape = ShapeMigration.createBinaryShape('bezier', {
+                state.currentDrawing.shape = {
+                    id: generateId(),
+                    type: 'bezier',
+                    color: state.currentColor,
+                    strokeColor: state.strokeColor,
+                    strokeStyle: state.strokeStyle,
+                    strokeWidth: state.strokeWidth,
                     points: [
                         { x: this.startWorldX, y: this.startWorldY }, // p0
                         { x: this.startWorldX, y: this.startWorldY }, // cp1
                         { x: this.startWorldX, y: this.startWorldY }, // cp2
                         { x: this.startWorldX, y: this.startWorldY }  // p1
                     ]
-                }, styles);
+                } as BezierCurveShape;
                 state.currentDrawing.type = 'curve';
                 break;
         }
@@ -107,24 +126,27 @@ export class DrawingTools {
 
         switch (state.tool) {
             case 'line':
-                state.currentDrawing.shape.x2 = currentX;
-                state.currentDrawing.shape.y2 = currentY;
+                const line = state.currentDrawing.shape as LineShape;
+                line.x2 = currentX;
+                line.y2 = currentY;
                 break;
             case 'rectangle':
-                state.currentDrawing.shape.x = Math.min(this.startWorldX, currentX);
-                state.currentDrawing.shape.y = Math.min(this.startWorldY, currentY);
-                state.currentDrawing.shape.width = Math.abs(currentX - this.startWorldX);
-                state.currentDrawing.shape.height = Math.abs(currentY - this.startWorldY);
+                const rect = state.currentDrawing.shape as RectangleShape;
+                rect.x = Math.min(this.startWorldX, currentX);
+                rect.y = Math.min(this.startWorldY, currentY);
+                rect.width = Math.abs(currentX - this.startWorldX);
+                rect.height = Math.abs(currentY - this.startWorldY);
                 break;
             case 'circle':
+                const circle = state.currentDrawing.shape as CircleShape;
                 const dx = currentX - this.startWorldX;
                 const dy = currentY - this.startWorldY;
-                state.currentDrawing.shape.radius = Math.sqrt(dx * dx + dy * dy);
+                circle.radius = Math.sqrt(dx * dx + dy * dy);
                 break;
             case 'curve':
+                const curve = state.currentDrawing.shape as BezierCurveShape;
                 // Update end point
-                const currentPoints = [...state.currentDrawing.shape.points];
-                currentPoints[3] = { x: currentX, y: currentY };
+                curve.points[3] = { x: currentX, y: currentY };
                 
                 // Calculate direction vector and perpendicular offset for visible curve
                 const vx = currentX - this.startWorldX;
@@ -141,21 +163,19 @@ export class DrawingTools {
                     
                     // Control points at 1/3 and 2/3 along the line, offset perpendicularly
                     const t1 = 1/3, t2 = 2/3;
-                    currentPoints[1] = {
+                    curve.points[1] = {
                         x: this.startWorldX + vx * t1 + px * offset,
                         y: this.startWorldY + vy * t1 + py * offset
                     };
-                    currentPoints[2] = {
+                    curve.points[2] = {
                         x: this.startWorldX + vx * t2 + px * offset,
                         y: this.startWorldY + vy * t2 + py * offset
                     };
                 } else {
                     // Fallback for zero-length case
-                    currentPoints[1] = { x: this.startWorldX, y: this.startWorldY };
-                    currentPoints[2] = { x: currentX, y: currentY };
+                    curve.points[1] = { x: this.startWorldX, y: this.startWorldY };
+                    curve.points[2] = { x: currentX, y: currentY };
                 }
-                
-                state.currentDrawing.shape.points = currentPoints;
                 break;
         }
     }
@@ -171,15 +191,17 @@ export class DrawingTools {
                 shouldAdd = true;
                 break;
             case 'rectangle':
-                shouldAdd = shape.width > 1 || shape.height > 1;
+                const rect = shape as RectangleShape;
+                shouldAdd = rect.width > 1 || rect.height > 1;
                 break;
             case 'circle':
-                shouldAdd = shape.radius > 1;
+                const circle = shape as CircleShape;
+                shouldAdd = circle.radius > 1;
                 break;
             case 'curve':
-                const points = shape.points;
-                const p0 = points[0];
-                const p1 = points[3];
+                const curve = shape as BezierCurveShape;
+                const p0 = curve.points[0];
+                const p1 = curve.points[3];
                 const distance = Math.sqrt((p1.x - p0.x) ** 2 + (p1.y - p0.y) ** 2);
                 shouldAdd = distance > 1;
                 break;
