@@ -126,7 +126,7 @@ describe('EditTool', () => {
     });
 
     describe('group move functionality', () => {
-        it('should start group move and store original positions', () => {
+        it('should start group move and setup preview state', () => {
             const rect1 = createTestRectangle({ id: 'rect1', x: 10, y: 10, width: 20, height: 20 });
             const rect2 = createTestRectangle({ id: 'rect2', x: 40, y: 40, width: 20, height: 20 });
             state.scene.shapes.push(rect1, rect2);
@@ -142,14 +142,14 @@ describe('EditTool', () => {
             expect(state.currentEditing.isDragging).toBe(true);
             expect(state.currentEditing.dragStart).toEqual({ x: 20, y: 20 });
             
-            // Check that original positions are stored
-            const originalPositions = (state.currentEditing as any).originalPositions;
-            expect(originalPositions).toBeDefined();
-            expect(originalPositions['rect1']).toEqual({ x: 10, y: 10, width: 20, height: 20 });
-            expect(originalPositions['rect2']).toEqual({ x: 40, y: 40, width: 20, height: 20 });
+            // Check that preview state is setup
+            expect(state.currentEditing.previewShapes).toBeDefined();
+            expect(state.currentEditing.originalShapes).toBeDefined();
+            expect(state.currentEditing.previewShapes).toHaveLength(2);
+            expect(state.currentEditing.originalShapes).toHaveLength(2);
         });
 
-        it('should update shapes during mouse move', () => {
+        it('should update preview shapes during mouse move', () => {
             const rect = createTestRectangle({ id: 'rect1', x: 10, y: 10, width: 20, height: 20 });
             state.scene.shapes.push(rect);
             state.selection = ['rect1'];
@@ -165,15 +165,12 @@ describe('EditTool', () => {
 
             expect(result).toBe(true);
             
-            // Shape should be moved to original position + delta
-            expect(rect.x).toBe(20); // 10 + (30 - 20)
-            expect(rect.y).toBe(15); // 10 + (25 - 20)
-            expect(rect.width).toBe(20); // unchanged
-            expect(rect.height).toBe(20); // unchanged
-            
-            // Check total delta is stored
-            const totalDelta = (state.currentEditing as any).totalDelta;
-            expect(totalDelta).toEqual({ x: 10, y: 5 });
+            // Scene shapes should be replaced with preview shapes during move
+            const currentRect = state.scene.shapes.find(s => s.id === 'rect1') as any;
+            expect(currentRect.x).toBe(20); // 10 + (30 - 20)
+            expect(currentRect.y).toBe(15); // 10 + (25 - 20)
+            expect(currentRect.width).toBe(20); // unchanged
+            expect(currentRect.height).toBe(20); // unchanged
         });
 
         it('should reset shapes to original positions and apply command on mouse up', () => {
@@ -190,9 +187,10 @@ describe('EditTool', () => {
             const mouseMoveEvent = { clientX: 35, clientY: 30 } as MouseEvent;
             editTool.handleMouseMove(mouseMoveEvent, state);
             
-            // Verify shape was moved during drag
-            expect(rect.x).toBe(25); // 10 + (35 - 20)
-            expect(rect.y).toBe(20); // 10 + (30 - 20)
+            // Verify shape was moved during drag (preview state)
+            const draggedShape = state.scene.shapes.find(s => s.id === 'rect1') as any;
+            expect(draggedShape.x).toBe(25); // 10 + (35 - 20)
+            expect(draggedShape.y).toBe(20); // 10 + (30 - 20)
 
             // Mock command execution to track if it was called
             let commandExecuted = false;
@@ -213,15 +211,16 @@ describe('EditTool', () => {
             expect(executedCommand.dy).toBe(10); // 30 - 20
             
             // Shape should be at final position after command execution
-            expect(rect.x).toBe(25); // 10 + 15
-            expect(rect.y).toBe(20); // 10 + 10
+            const finalShape = state.scene.shapes.find(s => s.id === 'rect1') as any;
+            expect(finalShape.x).toBe(25); // 10 + 15
+            expect(finalShape.y).toBe(20); // 10 + 10
             
             // Editing state should be reset
             expect(state.currentEditing.isDragging).toBe(false);
             expect(state.currentEditing.isGroupMove).toBe(false);
             expect(state.currentEditing.dragStart).toBe(null);
-            expect((state.currentEditing as any).originalPositions).toBe(null);
-            expect((state.currentEditing as any).totalDelta).toBe(null);
+            expect(state.currentEditing.previewShapes).toBe(null);
+            expect(state.currentEditing.originalShapes).toBe(null);
 
             // Restore original executor
             executor.execute = originalExecute;
@@ -242,23 +241,31 @@ describe('EditTool', () => {
             // Move mouse
             editTool.handleMouseMove({ clientX: 30, clientY: 35 } as MouseEvent, state);
             
-            // Check all shapes moved by the same delta
-            expect(rect1.x).toBe(20); // 10 + (30 - 20)
-            expect(rect1.y).toBe(25); // 10 + (35 - 20)
-            expect(rect2.x).toBe(60); // 50 + (30 - 20)
-            expect(rect2.y).toBe(65); // 50 + (35 - 20)
-            expect(circle.x).toBe(110); // 100 + (30 - 20)
-            expect(circle.y).toBe(115); // 100 + (35 - 20)
+            // Check all shapes moved by the same delta (in scene which now has preview shapes)
+            const currentRect1 = state.scene.shapes.find(s => s.id === 'rect1') as any;
+            const currentRect2 = state.scene.shapes.find(s => s.id === 'rect2') as any;
+            const currentCircle = state.scene.shapes.find(s => s.id === 'circle1') as any;
+            
+            expect(currentRect1.x).toBe(20); // 10 + (30 - 20)
+            expect(currentRect1.y).toBe(25); // 10 + (35 - 20)
+            expect(currentRect2.x).toBe(60); // 50 + (30 - 20)
+            expect(currentRect2.y).toBe(65); // 50 + (35 - 20)
+            expect(currentCircle.x).toBe(110); // 100 + (30 - 20)
+            expect(currentCircle.y).toBe(115); // 100 + (35 - 20)
             
             // End drag and verify final positions
             editTool.handleMouseUp(state);
             
-            expect(rect1.x).toBe(20);
-            expect(rect1.y).toBe(25);
-            expect(rect2.x).toBe(60);
-            expect(rect2.y).toBe(65);
-            expect(circle.x).toBe(110);
-            expect(circle.y).toBe(115);
+            const finalRect1 = state.scene.shapes.find(s => s.id === 'rect1') as any;
+            const finalRect2 = state.scene.shapes.find(s => s.id === 'rect2') as any;
+            const finalCircle = state.scene.shapes.find(s => s.id === 'circle1') as any;
+            
+            expect(finalRect1.x).toBe(20);
+            expect(finalRect1.y).toBe(25);
+            expect(finalRect2.x).toBe(60);
+            expect(finalRect2.y).toBe(65);
+            expect(finalCircle.x).toBe(110);
+            expect(finalCircle.y).toBe(115);
         });
 
         it('should not create command when no movement occurs', () => {
@@ -298,15 +305,17 @@ describe('EditTool', () => {
             // Very small movement
             editTool.handleMouseMove({ clientX: 20.5, clientY: 20.3 } as MouseEvent, state);
             
-            // Check shape moved by small delta
-            expect(rect.x).toBe(10.5); // 10 + (20.5 - 20)
-            expect(rect.y).toBe(10.3); // 10 + (20.3 - 20)
+            // Check shape moved by small delta (in scene which now has preview shapes)
+            const currentRect = state.scene.shapes.find(s => s.id === 'rect1') as any;
+            expect(currentRect.x).toBe(10.5); // 10 + (20.5 - 20)
+            expect(currentRect.y).toBe(10.3); // 10 + (20.3 - 20)
             
             editTool.handleMouseUp(state);
             
             // Final position should reflect the small movement
-            expect(rect.x).toBe(10.5);
-            expect(rect.y).toBe(10.3);
+            const finalRect = state.scene.shapes.find(s => s.id === 'rect1') as any;
+            expect(finalRect.x).toBe(10.5);
+            expect(finalRect.y).toBe(10.3);
         });
     });
 
