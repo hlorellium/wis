@@ -11,9 +11,19 @@ export class BinaryShapeArray extends Array<BinaryShapeWrapper> {
         super();
         this.bufferStore = new Map();
         
+        // Bind Map methods to maintain proper context when accessed through Proxy
+        this.mapSet = Map.prototype.set.bind(this.bufferStore);
+        this.mapDelete = Map.prototype.delete.bind(this.bufferStore);
+        this.mapClear = Map.prototype.clear.bind(this.bufferStore);
+        
         // Ensure the array maintains its prototype
         Object.setPrototypeOf(this, BinaryShapeArray.prototype);
     }
+
+    // Bound Map methods
+    private mapSet: (key: string, value: ArrayBuffer) => Map<string, ArrayBuffer>;
+    private mapDelete: (key: string) => boolean;
+    private mapClear: () => void;
 
     /**
      * Override push to trigger StateProxy reactivity
@@ -23,7 +33,7 @@ export class BinaryShapeArray extends Array<BinaryShapeWrapper> {
         items.forEach(item => {
             // Check if item has getBuffer method (is a BinaryShapeWrapper)
             if (item && typeof item.getBuffer === 'function') {
-                this.bufferStore.set(item.id, item.getBuffer());
+                this.mapSet(item.id, item.getBuffer());
             }
         });
         
@@ -40,7 +50,7 @@ export class BinaryShapeArray extends Array<BinaryShapeWrapper> {
             for (let i = start; i < start + deleteCount && i < this.length; i++) {
                 const item = this[i];
                 if (item) {
-                    this.bufferStore.delete(item.id);
+                    this.mapDelete(item.id);
                 }
             }
         }
@@ -49,7 +59,7 @@ export class BinaryShapeArray extends Array<BinaryShapeWrapper> {
         items.forEach(item => {
             // Check if item has getBuffer method (is a BinaryShapeWrapper)
             if (item && typeof item.getBuffer === 'function') {
-                this.bufferStore.set(item.id, item.getBuffer());
+                this.mapSet(item.id, item.getBuffer());
             }
         });
         
@@ -63,7 +73,7 @@ export class BinaryShapeArray extends Array<BinaryShapeWrapper> {
     pop(): BinaryShapeWrapper | undefined {
         const item = super.pop();
         if (item) {
-            this.bufferStore.delete(item.id);
+            this.mapDelete(item.id);
         }
         return item;
     }
@@ -74,7 +84,7 @@ export class BinaryShapeArray extends Array<BinaryShapeWrapper> {
     shift(): BinaryShapeWrapper | undefined {
         const item = super.shift();
         if (item) {
-            this.bufferStore.delete(item.id);
+            this.mapDelete(item.id);
         }
         return item;
     }
@@ -86,7 +96,7 @@ export class BinaryShapeArray extends Array<BinaryShapeWrapper> {
         items.forEach(item => {
             // Check if item has getBuffer method (is a BinaryShapeWrapper)
             if (item && typeof item.getBuffer === 'function') {
-                this.bufferStore.set(item.id, item.getBuffer());
+                this.mapSet(item.id, item.getBuffer());
             }
         });
         return super.unshift(...items);
@@ -173,7 +183,7 @@ export class BinaryShapeArray extends Array<BinaryShapeWrapper> {
      * Clear all shapes
      */
     clear(): void {
-        this.bufferStore.clear();
+        this.mapClear();
         this.length = 0;
     }
 

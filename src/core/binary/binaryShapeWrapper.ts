@@ -13,7 +13,19 @@ export class BinaryShapeWrapper {
         this.buffer = buffer;
         this.view = new DataView(buffer);
         this.id = id;
+        
+        // Bind DataView methods to maintain proper context when accessed through Proxy
+        this.getUint8 = DataView.prototype.getUint8.bind(this.view);
+        this.setUint8 = DataView.prototype.setUint8.bind(this.view);
+        this.getFloat32 = DataView.prototype.getFloat32.bind(this.view);
+        this.setFloat32 = DataView.prototype.setFloat32.bind(this.view);
     }
+
+    // Bound DataView methods
+    private getUint8: (byteOffset: number) => number;
+    private setUint8: (byteOffset: number, value: number) => void;
+    private getFloat32: (byteOffset: number, littleEndian?: boolean) => number;
+    private setFloat32: (byteOffset: number, value: number, littleEndian?: boolean) => void;
 
     /**
      * Get the underlying buffer for performance-critical operations
@@ -26,7 +38,7 @@ export class BinaryShapeWrapper {
      * Shape type (read-only)
      */
     get type(): string {
-        const shapeType = this.view.getUint8(OFFSETS.TYPE);
+        const shapeType = this.getUint8(OFFSETS.TYPE);
         switch (shapeType) {
             case ShapeType.RECTANGLE: return 'rectangle';
             case ShapeType.LINE: return 'line';
@@ -40,7 +52,7 @@ export class BinaryShapeWrapper {
      * Fill mode
      */
     get fillMode(): 'stroke' | 'fill' | 'both' {
-        const flags = this.view.getUint8(OFFSETS.FLAGS);
+        const flags = this.getUint8(OFFSETS.FLAGS);
         const fillMode = flags & 0x3;
         switch (fillMode) {
             case FillMode.STROKE: return 'stroke';
@@ -51,7 +63,7 @@ export class BinaryShapeWrapper {
     }
 
     set fillMode(value: 'stroke' | 'fill' | 'both') {
-        const flags = this.view.getUint8(OFFSETS.FLAGS);
+        const flags = this.getUint8(OFFSETS.FLAGS);
         const strokeStyle = (flags >> 2) & 0x3;
         let fillModeValue: number;
         
@@ -63,7 +75,7 @@ export class BinaryShapeWrapper {
         }
         
         const newFlags = (fillModeValue & 0x3) | ((strokeStyle & 0x3) << 2);
-        this.view.setUint8(OFFSETS.FLAGS, newFlags);
+        this.setUint8(OFFSETS.FLAGS, newFlags);
     }
 
     /**
@@ -252,15 +264,15 @@ export class BinaryShapeWrapper {
      * Radius (circle only)
      */
     get radius(): number {
-        if (this.view.getUint8(OFFSETS.TYPE) === ShapeType.CIRCLE) {
-            return this.view.getFloat32(OFFSETS.GEOMETRY + 8, true);
+        if (this.getUint8(OFFSETS.TYPE) === ShapeType.CIRCLE) {
+            return this.getFloat32(OFFSETS.GEOMETRY + 8, true);
         }
         return 0;
     }
 
     set radius(value: number) {
-        if (this.view.getUint8(OFFSETS.TYPE) === ShapeType.CIRCLE) {
-            this.view.setFloat32(OFFSETS.GEOMETRY + 8, value, true);
+        if (this.getUint8(OFFSETS.TYPE) === ShapeType.CIRCLE) {
+            this.setFloat32(OFFSETS.GEOMETRY + 8, value, true);
         }
     }
 
