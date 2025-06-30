@@ -54,6 +54,7 @@ body {
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
+  max-width: calc(100vw - 320px); /* Leave space for property inspector */
 }
 
 .toolbar {

@@ -88,6 +88,16 @@ export class LayerOperations {
         const maxZIndex = this.getMaxZIndex(shapes);
         const updates: LayerUpdate[] = [];
 
+        // Check if any selected shape is not already at the front
+        const selectedShapes = shapeIds
+            .map(id => shapes.find(s => s.id === id))
+            .filter((shape): shape is Shape => shape !== undefined);
+
+        // If all selected shapes are already at max zIndex, no changes needed
+        if (selectedShapes.every(shape => shape.zIndex === maxZIndex)) {
+            return null;
+        }
+
         shapeIds.forEach((shapeId, index) => {
             const shape = shapes.find(s => s.id === shapeId);
             if (shape) {
@@ -112,6 +122,16 @@ export class LayerOperations {
         const shapes = state.scene.shapes;
         const minZIndex = this.getMinZIndex(shapes);
         const updates: LayerUpdate[] = [];
+
+        // Check if any selected shape is not already at the back
+        const selectedShapes = shapeIds
+            .map(id => shapes.find(s => s.id === id))
+            .filter((shape): shape is Shape => shape !== undefined);
+
+        // If all selected shapes are already at min zIndex, no changes needed
+        if (selectedShapes.every(shape => shape.zIndex === minZIndex)) {
+            return null;
+        }
 
         shapeIds.forEach((shapeId, index) => {
             const shape = shapes.find(s => s.id === shapeId);

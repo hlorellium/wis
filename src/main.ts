@@ -34,6 +34,11 @@ class DrawingApp {
     private propertyInspector!: PropertyInspector;
     private lastRenderedVersion = -1;
 
+    // Getter for debugging
+    get debugState() {
+        return this.state;
+    }
+
     constructor() {
         this.persistence = new PersistenceManager();
         this.initializeAsync();
@@ -334,4 +339,9 @@ class DrawingApp {
 }
 
 // Initialize the application
-new DrawingApp();
+const app = new DrawingApp();
+
+// Expose app for debugging in tests
+if (typeof window !== 'undefined') {
+    (window as any).app = app;
+}

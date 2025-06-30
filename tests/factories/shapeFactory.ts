@@ -10,6 +10,7 @@ export type Point = { x: number; y: number };
 export interface ShapeFactoryOptions {
   id?: string;
   color?: string;
+  zIndex?: number;
 }
 
 export interface RectangleOptions extends ShapeFactoryOptions {
@@ -46,7 +47,8 @@ export function createRectangle(options: RectangleOptions = {}): RectangleShape 
     y = 10,
     width = 100,
     height = 50,
-    color = '#000000'
+    color = '#000000',
+    zIndex = 1
   } = options;
 
   return {
@@ -56,7 +58,8 @@ export function createRectangle(options: RectangleOptions = {}): RectangleShape 
     y,
     width,
     height,
-    color
+    color,
+    zIndex
   };
 }
 
@@ -70,7 +73,8 @@ export function createLine(options: LineOptions = {}): LineShape {
     y1 = 0,
     x2 = 100,
     y2 = 50,
-    color = '#000000'
+    color = '#000000',
+    zIndex = 1
   } = options;
 
   return {
@@ -80,7 +84,8 @@ export function createLine(options: LineOptions = {}): LineShape {
     y1,
     x2,
     y2,
-    color
+    color,
+    zIndex
   };
 }
 
@@ -93,7 +98,8 @@ export function createCircle(options: CircleOptions = {}): CircleShape {
     x = 50,
     y = 50,
     radius = 25,
-    color = '#000000'
+    color = '#000000',
+    zIndex = 1
   } = options;
 
   return {
@@ -102,7 +108,8 @@ export function createCircle(options: CircleOptions = {}): CircleShape {
     x,
     y,
     radius,
-    color
+    color,
+    zIndex
   };
 }
 
@@ -118,14 +125,16 @@ export function createBezierCurve(options: BezierOptions = {}): BezierCurveShape
       { x: 75, y: 100 },  // control point 2
       { x: 100, y: 50 }   // end point
     ],
-    color = '#000000'
+    color = '#000000',
+    zIndex = 1
   } = options;
 
   return {
     id,
     type: 'bezier',
     points,
-    color
+    color,
+    zIndex
   };
 }
 
