@@ -257,12 +257,6 @@ export class ShapeBuffer {
     }
 
     static readColor(buffer: ArrayBuffer, offset: number): string {
-        // Ensure buffer is a valid ArrayBuffer
-        if (!buffer || !(buffer instanceof ArrayBuffer)) {
-            console.warn('ShapeBuffer.readColor: Invalid buffer, returning default color');
-            return '#000000'; // Default to black
-        }
-        
         const view = new DataView(buffer);
         const r = view.getUint8(offset);
         const g = view.getUint8(offset + 1);
