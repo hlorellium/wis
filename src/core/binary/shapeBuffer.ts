@@ -207,6 +207,16 @@ export class ShapeBuffer {
      * Write color as RGBA bytes
      */
     private static writeColor(view: DataView, offset: number, color: string): void {
+        // Handle undefined or null colors
+        if (!color) {
+            // Default to black
+            view.setUint8(offset, 0);     // R
+            view.setUint8(offset + 1, 0); // G
+            view.setUint8(offset + 2, 0); // B
+            view.setUint8(offset + 3, 255); // A
+            return;
+        }
+        
         // Parse hex color (#rrggbb or #rgb)
         let hex = color.replace('#', '');
         if (hex.length === 3) {

@@ -1,5 +1,6 @@
 import type { State, Shape } from '../state';
 import type { SideEffect } from '../utils/eventBus';
+import { ShapeMigration } from '../core/binary/shapeMigration';
 
 export interface CommandMetadata {
     affectedShapeIds: string[];
@@ -26,8 +27,8 @@ export class AddShapeCommand implements Command {
     private readonly shape: Shape;
 
     constructor(shape: Shape, id?: string) {
-        // Clone the shape to remove any proxy wrappers that can't be serialized
-        this.shape = JSON.parse(JSON.stringify(shape));
+        // Store the shape directly (no JSON cloning needed for binary shapes)
+        this.shape = shape;
         this.id = id || crypto.randomUUID();
         this.timestamp = Date.now();
     }
@@ -37,7 +38,7 @@ export class AddShapeCommand implements Command {
     }
 
     invert(state: State): void {
-        state.scene.shapes = state.scene.shapes.filter(sh => sh.id !== this.shape.id);
+        state.scene.shapes.removeById(this.shape.id);
     }
 
     getMetadata(): CommandMetadata {
@@ -63,8 +64,8 @@ export class RemoveShapeCommand implements Command {
     private wasSelected: boolean = false;
 
     constructor(shape: Shape, id?: string) {
-        // Clone the shape to remove any proxy wrappers that can't be serialized
-        this.shape = JSON.parse(JSON.stringify(shape));
+        // Store the shape directly (no JSON cloning needed for binary shapes)
+        this.shape = shape;
         this.id = id || crypto.randomUUID();
         this.timestamp = Date.now();
     }
@@ -74,7 +75,7 @@ export class RemoveShapeCommand implements Command {
         this.wasSelected = state.selection.includes(this.shape.id);
         
         // Remove shape from scene
-        state.scene.shapes = state.scene.shapes.filter(sh => sh.id !== this.shape.id);
+        state.scene.shapes.removeById(this.shape.id);
         
         // Remove from selection if it was selected
         if (this.wasSelected) {

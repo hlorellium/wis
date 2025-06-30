@@ -1,4 +1,4 @@
-import type { Shape, LineShape, RectangleShape, CircleShape, State } from '../state';
+import type { Shape, State } from '../state';
 
 export class ShapeRenderer {
     private lineWidth = 2;
@@ -22,7 +22,7 @@ export class ShapeRenderer {
         }
     }
 
-    renderLine(ctx: CanvasRenderingContext2D, line: LineShape) {
+    renderLine(ctx: CanvasRenderingContext2D, line: Shape) {
         // Use new style properties or fall back to legacy color
         const strokeColor = line.strokeColor || line.color;
         const strokeWidth = line.strokeWidth || this.lineWidth;
@@ -44,7 +44,7 @@ export class ShapeRenderer {
         ctx.stroke();
     }
 
-    renderRectangle(ctx: CanvasRenderingContext2D, rect: RectangleShape) {
+    renderRectangle(ctx: CanvasRenderingContext2D, rect: Shape) {
         // Use new style properties or fall back to legacy behavior
         const fillMode = rect.fillMode || 'fill'; // Legacy rectangles were filled
         const strokeColor = rect.strokeColor || rect.color;
@@ -81,7 +81,7 @@ export class ShapeRenderer {
         }
     }
 
-    renderCircle(ctx: CanvasRenderingContext2D, circle: CircleShape) {
+    renderCircle(ctx: CanvasRenderingContext2D, circle: Shape) {
         // Use new style properties or fall back to legacy behavior
         const fillMode = circle.fillMode || 'stroke'; // Legacy circles were stroked
         const strokeColor = circle.strokeColor || circle.color;
@@ -128,13 +128,13 @@ export class ShapeRenderer {
 
         switch (type) {
             case 'line':
-                this.renderLine(ctx, shape as LineShape);
+                this.renderLine(ctx, shape);
                 break;
             case 'rectangle':
-                this.renderRectangle(ctx, shape as RectangleShape);
+                this.renderRectangle(ctx, shape);
                 break;
             case 'circle':
-                this.renderCircle(ctx, shape as CircleShape);
+                this.renderCircle(ctx, shape);
                 break;
         }
         
@@ -149,21 +149,18 @@ export class ShapeRenderer {
 
         switch (shape.type) {
             case 'rectangle':
-                const rect = shape as RectangleShape;
-                ctx.strokeRect(rect.x - 2, rect.y - 2, rect.width + 4, rect.height + 4);
+                ctx.strokeRect(shape.x - 2, shape.y - 2, shape.width + 4, shape.height + 4);
                 break;
             case 'circle':
-                const circle = shape as CircleShape;
                 ctx.beginPath();
-                ctx.arc(circle.x, circle.y, circle.radius + 3, 0, Math.PI * 2);
+                ctx.arc(shape.x, shape.y, shape.radius + 3, 0, Math.PI * 2);
                 ctx.stroke();
                 break;
             case 'line':
-                const line = shape as LineShape;
                 ctx.lineWidth = 4;
                 ctx.beginPath();
-                ctx.moveTo(line.x1, line.y1);
-                ctx.lineTo(line.x2, line.y2);
+                ctx.moveTo(shape.x1, shape.y1);
+                ctx.lineTo(shape.x2, shape.y2);
                 ctx.stroke();
                 break;
         }
